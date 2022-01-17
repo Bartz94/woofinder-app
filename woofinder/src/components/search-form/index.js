@@ -10,7 +10,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import styled from 'styled-components';
-import { borderRadius } from '@mui/system';
 
 const Wrapper = styled.section`
   display: flex;
@@ -20,7 +19,7 @@ const Wrapper = styled.section`
   font-size: 12em;
 `;
 
-const SearchForm = () => {
+export const SearchForm = () => {
     const [open, setOpen] = React.useState(false);
 
 
@@ -60,5 +59,3 @@ const SearchForm = () => {
         </Wrapper>
     );
 };
-
-export default SearchForm
