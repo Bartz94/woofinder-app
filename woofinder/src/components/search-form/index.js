@@ -1,12 +1,11 @@
 //Bartosz
 import styled from 'styled-components';
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const Wrapper = styled.section`
   display: flex;
@@ -37,11 +36,35 @@ export const SearchForm = () => {
         { name: 'Poznań' },
         { name: 'Szczecin' }
     ];
-
+    console.log(cities.map(city => city.name))
     const [searchedCity, setSearchedCity] = useState('');
-    const handleChange = (event) => {
+
+    const handleCityChange = (event) => {
         setSearchedCity(event.target.value);
     }
+
+
+    const [dogsData, setDogsData] = useState([])
+
+    const fetchdogsData = () => {
+        fetch("https://api.thedogapi.com/v1/breeds")
+            .then((response) => response.json())
+            .then((dogsData) => setDogsData(dogsData))
+            .then((result) => {
+                console.log("Success:", result);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }
+
+    useEffect(() => {
+        fetchdogsData();
+    }, []);
+
+    console.log(dogsData.map(dog => dog.name))
+
+
 
     return (
         <Wrapper>
@@ -52,7 +75,7 @@ export const SearchForm = () => {
                     id="demo-simple-select"
                     value={searchedCity}
                     label="Podaj miasto..."
-                    onChange={handleChange}
+                    onChange={handleCityChange}
                 >
                     {cities.map(city =>
                         <MenuItem value={city.name} key={city.name}>{city.name}</MenuItem>
@@ -64,16 +87,23 @@ export const SearchForm = () => {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={searchedCity}
+                    defaultValue=''
+                    value={dogsData}
                     label="Podaj rasę psa..."
-                    onChange={handleChange}
                 >
-                    {cities.map(city =>
-                        <MenuItem value={city.name} key={city.name}>{city.name}</MenuItem>
+                    {dogsData.map(dog =>
+                        <MenuItem value={dog.name} key={dog.id}>{dog.name}</MenuItem>
                     )}
                 </Select>
             </FormControl>
+            <select
 
+
+            >
+                {dogsData.map(dog =>
+                    <option value={dogsData} key={dog.id}>{dog.name}</option>
+                )}
+            </select>
         </Wrapper >
     );
 };
