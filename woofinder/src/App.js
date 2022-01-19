@@ -5,7 +5,7 @@ import {Top} from './components/topbar'
 function App() {
   return (
     <div className="App">
-      <Top>WOOFinder</Top>
+      <Top></Top>
       <SearchForm></SearchForm>
       <AddWanted></AddWanted>
    </div>
