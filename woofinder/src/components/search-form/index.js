@@ -5,6 +5,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Input from '@mui/material/Input'
+import Button from '@mui/material/Button'
 import { useState, useEffect } from 'react';
 
 const Wrapper = styled.section`
@@ -12,7 +14,7 @@ const Wrapper = styled.section`
   flex-direction: column;
   align-items: center;
   font-size: 12em;
-  margin-top: 20px
+  margin: 0.5em auto;
 `;
 
 export const SearchForm = () => {
@@ -36,7 +38,7 @@ export const SearchForm = () => {
         { name: 'Poznań' },
         { name: 'Szczecin' }
     ];
-    console.log(cities.map(city => city.name))
+
     const [searchedCity, setSearchedCity] = useState('');
 
     const handleCityChange = (event) => {
@@ -50,9 +52,6 @@ export const SearchForm = () => {
         fetch("https://api.thedogapi.com/v1/breeds")
             .then((response) => response.json())
             .then((dogsData) => setDogsData(dogsData))
-            .then((result) => {
-                console.log("Success:", result);
-            })
             .catch((error) => {
                 console.error("Error:", error);
             });
@@ -62,13 +61,15 @@ export const SearchForm = () => {
         fetchdogsData();
     }, []);
 
-    console.log(dogsData.map(dog => dog.name))
+    const [breed, setBreed] = useState('')
 
-
+    const handleBreedChange = (event) => {
+        setBreed(event.target.value);
+    }
 
     return (
         <Wrapper>
-            <FormControl fullWidth sx={{ width: 320, m: 3 }}>
+            <FormControl fullWidth sx={{ width: 350, m: 3 }}>
                 <InputLabel id="demo-simple-select-label">Podaj miasto...</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -82,28 +83,27 @@ export const SearchForm = () => {
                     )}
                 </Select>
             </FormControl>
-            <FormControl fullWidth sx={{ width: 320 }}>
+
+            <FormControl fullWidth sx={{ width: 350, mb: 3 }}>
                 <InputLabel id="demo-simple-select-label">Podaj rasę psa...</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     defaultValue=''
-                    value={dogsData}
+                    value={breed}
                     label="Podaj rasę psa..."
+                    onChange={handleBreedChange}
                 >
                     {dogsData.map(dog =>
                         <MenuItem value={dog.name} key={dog.id}>{dog.name}</MenuItem>
                     )}
                 </Select>
             </FormControl>
-            <select
-
-
-            >
-                {dogsData.map(dog =>
-                    <option value={dogsData} key={dog.id}>{dog.name}</option>
-                )}
-            </select>
+            <FormControl fullWidth sx={{ width: 340, mb: 5 }}>
+                <InputLabel id="demo-simple-select-label">Podaj imię psa...</InputLabel>
+                <Input sx={{ fontSize: '16px' }}></Input>
+            </FormControl>
+            <Button variant='outlined' sx={{ color: 'white', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#7a7d80' }} >Szukaj</Button>
         </Wrapper >
     );
 };
