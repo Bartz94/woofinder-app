@@ -26,15 +26,8 @@ export const Top = () => {
         <>
             <TopBar>
                 <Typography variant="h4" sx={{ color: 'black', fontSize: '3em', fontFamily: 'Segoe UI', fontWeight: 'bold', margin: '30px' }}>WOOFinder</Typography>
-                <Button sx={{my: 4, color:'black'}}>Zaloguj</Button>
-                <Button sx={{my: 4, color:'black'}}>Zarejestruj</Button>
-                <IconButton>
-                <UserPanel/>
-                    <Avatar sx={{color:'black'}}></Avatar>
-                </IconButton>
-                
-                
-            </TopBar>
+                <UserPanel />
+                </TopBar>
 
         </>
     );
