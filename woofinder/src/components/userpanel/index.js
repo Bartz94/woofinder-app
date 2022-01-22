@@ -9,9 +9,14 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
+import Button from '@mui/material/Button';
 import Logout from '@mui/icons-material/Logout';
+import ArticleIcon from '@mui/icons-material/Article';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
+
+
+
 
 export const UserPanel = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -22,11 +27,20 @@ export const UserPanel = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleShowLogForm = () => {
+    console.log("panel logowania")
+
+
+  }
+
+
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Typography sx={{ minWidth: 100 }}>Zaloguj</Typography>
-        <Typography sx={{ minWidth: 100 }}>Zarejestruj</Typography>
+        <Typography sx={{ minWidth: 100 }}><Button onClick={handleShowLogForm} sx={{ color: 'black', textTransform: 'capitalize' }}>Zaloguj</Button></Typography>
+
+        <Typography sx={{ minWidth: 100 }}><Button sx={{ color: 'black', textTransform: 'capitalize' }}>Zarejestruj</Button></Typography>
         <Tooltip title="Panel użytkownika">
           <IconButton
             onClick={handleClick}
@@ -36,7 +50,7 @@ export const UserPanel = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar sx={{ width: 56, height: 56 }} />
           </IconButton>
         </Tooltip>
       </Box>
@@ -53,17 +67,17 @@ export const UserPanel = () => {
             filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
             mt: 1.5,
             '& .MuiAvatar-root': {
-              width: 32,
-              height: 32,
+              width: 56,
+              height: 56,
               ml: -0.5,
-              mr: 1,
+              mr: 25,
             },
             '&:before': {
               content: '""',
               display: 'block',
               position: 'absolute',
               top: 0,
-              right: 14,
+              right: 25,
               width: 10,
               height: 10,
               bgcolor: 'background.paper',
@@ -76,29 +90,32 @@ export const UserPanel = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem>
-          <Avatar /> Profile
+          <Avatar sx={{ my: 2, width: 56, height: 56 }} />
         </MenuItem>
         <MenuItem>
-          <Avatar /> My account
+          <VpnKeyIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />
+          <Button>Zmień hasło</Button>
+        </MenuItem>
+        <MenuItem>
+          <AddAPhotoIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />
+          <Button>Dodaj zdjęcie</Button>
+        </MenuItem>
+        <MenuItem>
+          <ArticleIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />
+          <Button>Dodaj ogłoszenie</Button>
+        </MenuItem>
+        <MenuItem>
+          <Button variant='outlined' sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#E2E2E2' }}>Zamknij ogłoszenie</Button>
+
         </MenuItem>
         <Divider />
         <MenuItem>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
         </MenuItem>
         <MenuItem>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          Logout
+          <Button>Wyloguj się</Button>
         </MenuItem>
       </Menu>
     </React.Fragment>

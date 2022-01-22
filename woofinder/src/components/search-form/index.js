@@ -69,9 +69,9 @@ export const SearchForm = () => {
 
     return (
         <Wrapper>
-            <FormControl fullWidth sx={{ width: 350, m: 3 }}>
+            <FormControl fullWidth sx={{ width: 650, m: 3 }}>
                 <InputLabel id="demo-simple-select-label">Podaj miasto...</InputLabel>
-                <Select
+                <Select className="inputRounded"
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={searchedCity}
@@ -84,7 +84,7 @@ export const SearchForm = () => {
                 </Select>
             </FormControl>
 
-            <FormControl fullWidth sx={{ width: 350, mb: 3 }}>
+            <FormControl fullWidth sx={{ width:650, mb: 3 }}>
                 <InputLabel id="demo-simple-select-label">Podaj rasę psa...</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -99,11 +99,11 @@ export const SearchForm = () => {
                     )}
                 </Select>
             </FormControl>
-            <FormControl fullWidth sx={{ width: 340, mb: 5 }}>
+            <FormControl fullWidth sx={{ width: 650, mb: 5 }}>
                 <InputLabel id="demo-simple-select-label">Podaj imię psa...</InputLabel>
                 <Input sx={{ fontSize: '16px' }}></Input>
             </FormControl>
-            <Button variant='outlined' sx={{ color: 'white', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#7a7d80' }} >Szukaj</Button>
+            <Button variant='outlined' sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#E2E2E2' }} >Szukaj</Button>
         </Wrapper >
     );
 };

@@ -15,19 +15,19 @@ const Container = styled.div`
 `;
 
 
-export const  AddWanted = () => {
+export const AddWanted = () => {
 
-        
+
     return (
-       <>
-           <hr></hr> 
+        <>
+            <hr></hr>
             <Container>
-                <Typography variant="h4" sx={{ mb: 2 }}>CHCESZ ZGŁOSIĆ ZAGINIĘCIE ZWIERZAKA ?</Typography>
+                <Typography variant="h4" sx={{ mb: 2, fontFamily: 'Segoe UI', fontWeight: 'bold' }}>CHCESZ ZGŁOSIĆ ZAGINIĘCIE ZWIERZAKA ?</Typography>
                 <AddFormWanted></AddFormWanted>
             </Container>
-             <hr></hr> 
-            
-       </>
-      );  
+            <hr></hr>
+
+        </>
+    );
 }
- 
+
