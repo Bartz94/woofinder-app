@@ -71,7 +71,7 @@ export const SearchForm = () => {
         <Wrapper>
             <FormControl fullWidth sx={{ width: '40%', m: 3 }}>
                 <InputLabel id="demo-simple-select-label">Podaj miasto...</InputLabel>
-                <Select
+                <Select className="inputRounded"
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     value={searchedCity}

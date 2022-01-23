@@ -11,3 +11,37 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.stylefont{
+text-transform: capitalize;
+}
+
+.containerform{
+  margin:auto;
+  padding: 5px;
+  width: 1200px;
+  height:600px;
+  border:1px solid black;
+  border-radius: 15px;
+  background-color: #ffffff;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+  text-transform: uppercase;
+  font-size: 1.5em;
+}
+
+.title{
+  font-size: 2em;
+  margin-left:80px ;
+
+}
+
+.inputRounded .MuiOutlinedInput-root {
+  border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
+}
