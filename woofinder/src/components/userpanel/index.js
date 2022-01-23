@@ -18,6 +18,8 @@ import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
 
 
+
+
 export const UserPanel = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -27,18 +29,15 @@ export const UserPanel = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+    
 
-  const handleShowLogForm = () => {
-    console.log("panel logowania")
-
-
-  }
+    
 
 
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Typography sx={{ minWidth: 100 }}><Button onClick={handleShowLogForm} sx={{ color: 'black', textTransform: 'capitalize' }}>Zaloguj</Button></Typography>
+        <Typography sx={{ minWidth: 100 }}><Button sx={{ color: 'black', textTransform: 'capitalize' }}>Zaloguj</Button></Typography>
 
         <Typography sx={{ minWidth: 100 }}><Button sx={{ color: 'black', textTransform: 'capitalize' }}>Zarejestruj</Button></Typography>
         <Tooltip title="Panel użytkownika">
