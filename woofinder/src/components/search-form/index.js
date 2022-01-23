@@ -14,7 +14,7 @@ const Wrapper = styled.section`
   flex-direction: column;
   align-items: center;
   font-size: 12em;
-  margin: 0.5em auto;
+  margin-top: 50px;
 `;
 
 export const SearchForm = () => {
@@ -69,7 +69,7 @@ export const SearchForm = () => {
 
     return (
         <Wrapper>
-            <FormControl fullWidth sx={{ width: 650, m: 3 }}>
+            <FormControl fullWidth sx={{ width: '40%', m: 3 }}>
                 <InputLabel id="demo-simple-select-label">Podaj miasto...</InputLabel>
                 <Select className="inputRounded"
                     labelId="demo-simple-select-label"
@@ -77,6 +77,7 @@ export const SearchForm = () => {
                     value={searchedCity}
                     label="Podaj miasto..."
                     onChange={handleCityChange}
+                    sx={{ borderRadius: 25 }}
                 >
                     {cities.map(city =>
                         <MenuItem value={city.name} key={city.name}>{city.name}</MenuItem>
@@ -84,7 +85,7 @@ export const SearchForm = () => {
                 </Select>
             </FormControl>
 
-            <FormControl fullWidth sx={{ width:650, mb: 3 }}>
+            <FormControl fullWidth sx={{ width: '40%', mb: 3 }}>
                 <InputLabel id="demo-simple-select-label">Podaj rasę psa...</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -93,17 +94,18 @@ export const SearchForm = () => {
                     value={breed}
                     label="Podaj rasę psa..."
                     onChange={handleBreedChange}
+                    sx={{ borderRadius: 25 }}
                 >
                     {dogsData.map(dog =>
                         <MenuItem value={dog.name} key={dog.id}>{dog.name}</MenuItem>
                     )}
                 </Select>
             </FormControl>
-            <FormControl fullWidth sx={{ width: 650, mb: 5 }}>
+            <FormControl fullWidth sx={{ width: '40%', mb: 5 }}>
                 <InputLabel id="demo-simple-select-label">Podaj imię psa...</InputLabel>
-                <Input sx={{ fontSize: '16px' }}></Input>
+                <Input sx={{ fontSize: '16px', m: 2 }}></Input>
             </FormControl>
-            <Button variant='outlined' sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#E2E2E2' }} >Szukaj</Button>
+            <Button variant='contained' sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#e2e2e2' }} >Szukaj</Button>
         </Wrapper >
     );
 };

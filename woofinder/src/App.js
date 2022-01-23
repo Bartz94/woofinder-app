@@ -1,24 +1,9 @@
-
-import { AddWanted } from './components/addwanted'
-import {LoginFormPopUp } from './components/login-form';
-import { SearchForm } from './components/search-form'
-import { Top } from './components/topbar'
-import { UserPanel } from './components/userpanel'
-
-
+import MainPage from './content/main-page';
 
 function App() {
   return (
     <div className="App">
-      <Top>
-        <UserPanel></UserPanel>
-      </Top>
-      <SearchForm></SearchForm>
-      <AddWanted></AddWanted>
-      <LoginFormPopUp>
-        
-        
-      </LoginFormPopUp>
+      <MainPage></MainPage>
     </div>
   );
 }
