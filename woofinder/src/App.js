@@ -1,15 +1,9 @@
-import { AddWanted } from './components/addwanted'
-import { SearchForm } from './components/search-form'
-import { Top } from './components/topbar'
-import { Wanted } from './components/wanted'
+import MainPage from './content/main-page';
 
 function App() {
   return (
     <div className="App">
-      <Top></Top>
-      {/* <SearchForm></SearchForm>
-      <AddWanted></AddWanted> */}
-      <Wanted></Wanted>
+      <MainPage></MainPage>
     </div>
   );
 }

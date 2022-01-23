@@ -5,7 +5,6 @@ import { Box } from '@mui/system';
 import { Avatar } from '@mui/material';
 import { Container } from '@mui/material';
 
-
 const InfoSection = styled.div`
     display: flex;
     justify-content: space-between;
