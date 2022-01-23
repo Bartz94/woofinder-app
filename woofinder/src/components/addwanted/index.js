@@ -1,7 +1,8 @@
 //Marcin
 import styled from 'styled-components';
 import Typography from "@mui/material/Typography";
-import Button from '@mui/material/Button';
+import { AddFormWanted } from '../addformwanted';
+
 
 
 const Container = styled.div`
@@ -13,16 +14,19 @@ const Container = styled.div`
       
 `;
 
+
 export const  AddWanted = () => {
 
+        
     return (
        <>
            <hr></hr> 
             <Container>
-                    <Typography variant="h4" sx={{ mb: 2 }}>CHCESZ ZGŁOSIĆ ZAGINIĘCIE ZWIERZAKA ?</Typography>
-                    <Button variant='outlined' sx={{ color: 'white', fontSize: '1em', borderRadius: '20px',backgroundColor:'#7a7d80' }} >Dodaj ogłoszenie</Button>
+                <Typography variant="h4" sx={{ mb: 2 }}>CHCESZ ZGŁOSIĆ ZAGINIĘCIE ZWIERZAKA ?</Typography>
+                <AddFormWanted></AddFormWanted>
             </Container>
-            <hr></hr> 
+             <hr></hr> 
+            
        </>
       );  
 }
