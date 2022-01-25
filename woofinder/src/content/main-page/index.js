@@ -6,9 +6,9 @@ import { WantedList } from '../../components/wanted-list';
 
 const MainPage = () => {
     return <>
-        {/* <Top></Top>
+        <Top></Top>
         <SearchForm></SearchForm>
-        <AddWanted></AddWanted> */}
+        <AddWanted></AddWanted>
         <WantedList></WantedList>
     </>;
 };
