@@ -1,10 +1,10 @@
-import MainPage from './content/main-page';
+import { Content } from "./content";
 
 function App() {
   return (
-    <div className="App">
-      <MainPage></MainPage>
-    </div>
+    <Content>
+  
+    </Content>
   );
 }
 
