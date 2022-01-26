@@ -13,12 +13,6 @@ const InfoSection = styled.div`
     align-items: center;
  `;
 
-const DetailsSection = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    margin: 20px;
- `;
-
 export const WantedList = () => {
     return <>
         <Typography variant='h6' sx={{ alignSelf: 'left' }}>Liczba zaginięć zwierząt:{Math.floor(Math.random() * 100)}</Typography>
@@ -51,22 +45,6 @@ export const WantedList = () => {
                     <Typography>Pokaż więcej</Typography>
                 </div>
             </InfoSection>
-            <DetailsSection style={{ marginBottom: '20px' }}>
-                <Box sx={{
-                    backgroundColor: '#ffff',
-                    backgroundSize: 'cover',
-                    padding: '30px',
-                    borderRadius: '25px',
-                }}>
-                    <Typography sx={{ fontSize: '1.2em', fontWeight: '500', }}>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
-                        it to make a type specimen book.r since the 1500s, when an unknown printer took a galley of type and scrambled
-                        it to make a type specimen book.r since the 1500s, when an unknown printer took a galley of type and scrambled
-                        it to make a type specimen book.r since the 1500s, when an unknown printer took a galley of type and scrambled
-                    </Typography>
-                </Box>
-            </DetailsSection>
         </Container>
     </>;
 };
