@@ -15,7 +15,6 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 
 
-
 const BootstrapDialog = styled(Dialog)`
   background-color: rgba(210, 210, 210, 0.18);
   
@@ -62,7 +61,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -75,7 +74,7 @@ export const LoginForm = () => {
   return (
     <div>
       <Button variant="text" sx={{ color: 'black', textTransform: 'capitalize' }} onClick={handleClickOpen}>
-        Zaloguj 
+        Zarejestruj
       </Button>
       <BootstrapDialog
         onClose={handleClose} maxWidth
@@ -83,7 +82,7 @@ export const LoginForm = () => {
         open={open}
       >
         <BootstrapDialogTitle variant="h4" sx={{ mt: 1, ml: 3, fontFamily: 'Segoe UI', fontWeight: 'bold', textTransform: "uppercase" }} id="customized-dialog-title" onClose={handleClose}>
-          Zaloguj się
+         Nie masz jeszcze konta? Zarejestruj się
         </BootstrapDialogTitle>
         <DialogContentStyle>
           <Avatar sx={{ width: "186px", height: "186px", ml: 22, mt: 10 }} />
@@ -95,8 +94,8 @@ export const LoginForm = () => {
 
         </DialogContentStyle>
         <DialogActions>
-          <Button variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt:-65 , mr:12, textTransform:'capitalize', fontWeight:'bold'}} autoFocus onClick={handleClose}>
-            Zaloguj się
+        <Button variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt:-65 , mr:12, textTransform:'capitalize', fontWeight:'bold'}} autoFocus onClick={handleClose}>
+            Zarejestruj się
           </Button>
         </DialogActions>
       </BootstrapDialog>

@@ -55,7 +55,7 @@ export const AddFormWanted = () => {
 
     return ( 
         <div>
-            <Button variant='contained' sx={{ color: 'white', fontSize: '1em', borderRadius: '20px',backgroundColor:'#7a7d80' }} onClick={handleClickOpen} >Dodaj ogłoszenie</Button>
+            <Button variant='contained' sx={{ color: 'white', fontSize: '1em', borderRadius: '20px',backgroundColor:'#7a7d80',textTransform:'capitalize', fontWeight:'bold' }} onClick={handleClickOpen} >Dodaj ogłoszenie</Button>
       
                 <Dialog open={open} onClose={handleClose} maxWidth>
                     <DialogTitle>

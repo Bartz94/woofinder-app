@@ -105,7 +105,7 @@ export const SearchForm = () => {
                 <InputLabel id="demo-simple-select-label">Podaj imię psa...</InputLabel>
                 <Input sx={{ fontSize: '16px', m: 2 }}></Input>
             </FormControl>
-            <Button variant='contained' sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#e2e2e2' }} >Szukaj</Button>
+            <Button variant='contained' sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#e2e2e2', textTransform:'capitalize', fontWeight:'bold', mb:3 }} >Szukaj</Button>
         </Wrapper >
     );
 };
