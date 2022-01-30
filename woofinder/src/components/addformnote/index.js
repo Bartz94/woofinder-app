@@ -76,12 +76,12 @@ export const LoginForm = () => {
   };
 
   return (
-    <div>
+    <>
       <Button variant="text" sx={{ color: 'black', textTransform: 'capitalize' }} onClick={handleClickOpen}>
         Zaloguj 
       </Button>
       <BootstrapDialog
-        onClose={handleClose} maxWidth
+        onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
@@ -104,7 +104,7 @@ export const LoginForm = () => {
           </Button>
         </DialogActions>
       </BootstrapDialog>
-    </div>
+    </>
   );
 }
 

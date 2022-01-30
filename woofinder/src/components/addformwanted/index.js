@@ -8,8 +8,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import styled from 'styled-components';
 import Avatar from '@mui/material/Avatar';
 import CancelIcon from '@mui/icons-material/Cancel';
-import Typography from "@mui/material/Typography";
-import { Filepicker } from '../filepicker'
 import PropTypes from 'prop-types';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -25,33 +23,33 @@ height:500px;
 overlay: hidden;
 `;
 
-const Wraps = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-`;
+// const Wraps = styled.div`
+//     display: flex;
+//     flex-direction: row;
+//     align-items: center;
+// `;
 
-const Wrapperwanted1 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0.5em auto;
-  width:200px
+// const Wrapperwanted1 = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   margin: 0.5em auto;
+//   width:200px
   
-`;
+// `;
 
-const Wrapperwanted2 = styled.div`
-  display: flex;
-  flex-direction: column;
-  width:350px
-`;
+// const Wrapperwanted2 = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   width:350px
+// `;
 
-const Wrapperwanted3 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: end;
+// const Wrapperwanted3 = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: end;
   
-`;
+// `;
 
 
 const BootstrapDialogTitle = (props) => {

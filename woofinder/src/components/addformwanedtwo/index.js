@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import Avatar from '@mui/material/Avatar';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Typography from "@mui/material/Typography";
-import { Filepicker} from '../filepicker'
+
 
 const Wraps = styled.div`
     display: flex;
@@ -54,10 +54,10 @@ export const AddFormWanted = () => {
     };
 
     return ( 
-        <div>
+        <>
             <Button variant='contained' sx={{ color: 'white', fontSize: '1em', borderRadius: '20px',backgroundColor:'#7a7d80',textTransform:'capitalize', fontWeight:'bold' }} onClick={handleClickOpen} >Dodaj ogłoszenie</Button>
       
-                <Dialog open={open} onClose={handleClose} maxWidth>
+                <Dialog open={open} onClose={handleClose}>
                     <DialogTitle>
                         
                         <Typography variant="h3" sx={{ color: 'black', fontSize: '1.8em', margin: '30px',fontWeight: '900' }}>FORMULARZ ZGŁOSZENIOWY</Typography>
@@ -66,7 +66,7 @@ export const AddFormWanted = () => {
                    <Wraps>
                         <Wrapperwanted1>
                             <Avatar alt="DOG" src="/static/images/avatar/3.jpg" />
-                            <Filepicker></Filepicker>
+                           
                         </Wrapperwanted1>
                         <Wrapperwanted2>  
                             
@@ -100,7 +100,7 @@ export const AddFormWanted = () => {
                     <Button variant='contained' sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px',backgroundColor:'#E8E8E8' }} onClick={handleClose} >Zapisz</Button>
                     </DialogActions>
                 </Dialog>
-    </div>
+    </>
      );
 }
  

@@ -15,7 +15,8 @@ import ArticleIcon from '@mui/icons-material/Article';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import { LoginForm } from '../loginform';
-import { RegisterForm } from '../registryform';
+import { RegisterForm } from '../registerform';
+import { Link } from "react-router-dom"
 
 
 
@@ -42,9 +43,11 @@ export const UserPanel = () => {
   return (
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Typography sx={{ minWidth: 100 }}><LoginForm></LoginForm></Typography>
+        <Typography>
+          <Link to="/login"><LoginForm></LoginForm></Link>
+          </Typography>
 
-        <Typography sx={{ minWidth: 100 }}><RegisterForm></RegisterForm></Typography>
+        <Typography><RegisterForm></RegisterForm></Typography>
         <Tooltip title="Panel użytkownika">
           <IconButton
             onClick={handleClick}
