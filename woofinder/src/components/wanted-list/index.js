@@ -4,16 +4,32 @@ import { db } from '../../firebase-config';
 import { collection, getDocs } from 'firebase/firestore'
 import styled from 'styled-components';
 import { Typography } from '@mui/material';
-import { Box } from '@mui/system';
 import { Avatar } from '@mui/material';
-import { Container } from '@mui/material';
+import PinDropIcon from '@mui/icons-material/PinDrop';
+import EditLocationAltOutlinedIcon from '@mui/icons-material/EditLocationAltOutlined';
+import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 
-const InfoSection = styled.Box`
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 30px;
+ `;
+
+const WantedItem = styled.div`
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    margin-top: 50px;
     align-items: center;
+    margin: 10px 20px;
+    padding: 10px;
+    background-color: #e2e2e2;
+    border-radius: 0 60px 0 0;
+ `;
+
+const WantedItemInfoBox = styled.div`
+    padding: 10px
  `;
 
 export const WantedList = () => {
@@ -31,42 +47,51 @@ export const WantedList = () => {
     }, [])
 
     return <>
-        <Typography variant='h6' sx={{ alignSelf: 'left' }}>Liczba zaginięć zwierząt:{Math.floor(Math.random() * 100)}</Typography>
-
-        {wantedListData.map((wantedList) => {
-            return (
-
-                <Container fixed maxWidth='md' sx={{ marginTop: '20px', backgroundColor: '#f2f2f2', borderRadius: '0 50px 0 0', minHeight: '30vh' }}>
-                    <InfoSection style={{ padding: '10px', margin: '10px' }}>
-                        <Box>
-                            <Avatar src="https://picsum.photos/100/100" alt="dog" sx={{ width: '7em', height: '7em' }} />
-                        </Box>
-                        <Box>
+        <Typography variant='h6' sx={{ alignSelf: 'left' }}>Liczba zaginięć zwierząt:{wantedListData.length}</Typography>
+        <Container>
+            {wantedListData.map((wantedList) => {
+                return (
+                    <WantedItem >
+                        <WantedItemInfoBox>
+                            <Avatar src="https://picsum.photos/100/100" alt="dog" sx={{ width: '6em', height: '6em' }} />
+                        </WantedItemInfoBox>
+                        <WantedItemInfoBox>
                             <Typography sx={{ fontSize: '1.8em', fontWeight: 'bold', margin: '' }}>{wantedList.name}</Typography>
-                        </Box>
-                        <Box>
-                            <Typography sx={{ fontSize: '1em', fontStyle: 'italic', fontWeight: '500', paddingTop: '20px' }}>Cechy zwierzaka:</Typography>
+                        </WantedItemInfoBox>
+                        <WantedItemInfoBox>
+                            <Typography sx={{ fontSize: '1em', fontStyle: 'italic', fontWeight: '500', paddingTop: '10px' }}>Cechy zwierzaka:</Typography>
                             <Typography sx={{
                                 maxWidth: '100px',
-                                maxHeight: '120px',
+                                maxHeight: '100px',
                                 overflow: 'scroll',
                                 overflowY: 'hidden'
                             }}>
                                 Lorem lorem lorem lorem loremLorem lorem loremLorem lorem lorem </Typography>
-                        </Box>
-                        <Box>
-                            <Typography>Zobacz na mapie</Typography>
-                        </Box>
-                        <Box>
-                            <Typography>{wantedList.cityLost}</Typography>
-                        </Box>
-                        <Box>
-                            <Typography>Jeśli widziałeś zwierzaka napisz</Typography>
-                            <Typography>Pokaż więcej</Typography>
-                        </Box>
-                    </InfoSection>
-                </Container>
-            )
-        })}
+                        </WantedItemInfoBox>
+                        <WantedItemInfoBox>
+                            <Typography sx={{ fontSize: '1em', fontStyle: 'italic', fontWeight: '500' }}>
+                                Zobacz na mapie
+                                <PinDropIcon fontSize='large'></PinDropIcon>
+                            </Typography>
+                        </WantedItemInfoBox>
+                        <WantedItemInfoBox>
+                            <Typography sx={{ fontSize: '1.1em', fontWeight: '500' }}>
+                                {wantedList.cityLost}
+                            </Typography>
+                        </WantedItemInfoBox>
+                        <WantedItemInfoBox>
+                            <Typography>
+                                Jeśli widziałeś zwierzaka napisz
+                                <EditLocationAltOutlinedIcon fontSize='large'></EditLocationAltOutlinedIcon>
+                            </Typography>
+                        </WantedItemInfoBox>
+                        <WantedItemInfoBox>
+                            <ExpandMoreOutlinedIcon fontSize='large'></ExpandMoreOutlinedIcon>
+                        </WantedItemInfoBox>
+                    </WantedItem>
+                )
+            })}
+        </Container>
+
     </>;
 };
