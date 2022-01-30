@@ -9,7 +9,21 @@ import styled from 'styled-components';
 import Avatar from '@mui/material/Avatar';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Typography from "@mui/material/Typography";
-import { Filepicker} from '../filepicker'
+import { Filepicker } from '../filepicker'
+import PropTypes from 'prop-types';
+import CloseIcon from '@mui/icons-material/Close';
+
+
+const BootstrapDialog = styled(Dialog)`
+  background-color: rgba(210, 210, 210, 0.18);
+  
+`;
+
+const DialogContentStyle = styled(DialogContent)`
+width:1200px;
+height:500px;
+overlay: hidden;
+`;
 
 const Wraps = styled.div`
     display: flex;
@@ -40,67 +54,92 @@ const Wrapperwanted3 = styled.div`
 `;
 
 
+const BootstrapDialogTitle = (props) => {
+  const { children, onClose, ...other } = props;
+
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <CancelIcon
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: 'black',
+            width: '36px',
+            height: '36px',
+            mr: 3,
+            mt: 3
+
+          }}
+        >
+          <CloseIcon />
+        </CancelIcon>
+      ) : null}
+    </DialogTitle>
+  );
+};
+
+BootstrapDialogTitle.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func.isRequired,
+};
 
 export const AddFormWanted = () => {
 
-    const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-  
-    const handleClose = () => {
-      setOpen(false);
-    };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-    return ( 
-        <div>
-            <Button variant='contained' sx={{ color: 'white', fontSize: '1em', borderRadius: '20px',backgroundColor:'#7a7d80',textTransform:'capitalize', fontWeight:'bold' }} onClick={handleClickOpen} >Dodaj ogłoszenie</Button>
-      
-                <Dialog open={open} onClose={handleClose} maxWidth>
-                    <DialogTitle>
-                        
-                        <Typography variant="h3" sx={{ color: 'black', fontSize: '1.8em', margin: '30px',fontWeight: '900' }}>FORMULARZ ZGŁOSZENIOWY</Typography>
-                        </DialogTitle>
-                    
-                   <Wraps>
-                        <Wrapperwanted1>
-                            <Avatar alt="DOG" src="/static/images/avatar/3.jpg" />
-                            <Filepicker></Filepicker>
-                        </Wrapperwanted1>
-                        <Wrapperwanted2>  
-                            
-                            <DialogContent >
-                                <TextField sx={{fontSize: '0.6em', borderRadius: '10px',border: '1px solid silver' }} autoFocus  id="name" label="Imię psa" type="text" halfWidth  />
-                                <TextField sx={{fontSize: '0.6em', borderRadius: '10px',border: '1px solid silver' }} autoFocus margin="dense" id="breed" label="Rasa" type="text" halfWidth  />
-                                <TextField sx={{fontSize: '0.6em', borderRadius: '10px',border: '1px solid silver' }} autoFocus margin="dense" id="lost_date" label="" type="date" halfWidth />
-                                <TextField sx={{fontSize: '0.6em', borderRadius: '10px',border: '1px solid silver' }} autoFocus margin="dense" id="local" label="Ostatnia lokalizacja pobytu" type="text" halfWidth />
-                                <TextField sx={{fontSize: '0.6em', borderRadius: '10px',border: '1px solid silver' }} autoFocus margin="dense" id="owner" label="Imię właściciela" type="text" halfWidth />
-                                <TextField sx={{fontSize: '0.6em', borderRadius: '10px',border: '1px solid silver' }} autoFocus margin="dense" id="phone" label="Telefon właściciela" type="phone" halfWidth />
-                                <TextField sx={{fontSize: '0.6em', borderRadius: '10px',border: '1px solid silver' }} autoFocus margin="dense" id="address" label="Adres zamieszakania właściciela" type="text" halfWidth />
-                            </DialogContent>
-                           
-                        </Wrapperwanted2>   
-                        <Wrapperwanted3>
-                            <Button sx={{ color: 'black'}} onClick={handleClose} >
-                                <CancelIcon></CancelIcon>
-                            </Button>
-                           
-                            <DialogContent>
-                               <textarea id="description" name="description" rows="20" cols="60" placeholder="opis"></textarea>
-                            </DialogContent>
-                            <DialogContent>
-                               <textarea id="details" name="details" rows="8" cols="60" placeholder="Znaki szczególne/uwagi"></textarea>
-                            </DialogContent>
-                                                     
-                        </Wrapperwanted3>
-                    </Wraps>
-                    <DialogActions>
-                   
-                    <Button variant='contained' sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px',backgroundColor:'#E8E8E8' }} onClick={handleClose} >Zapisz</Button>
-                    </DialogActions>
-                </Dialog>
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      <Button variant="contained" sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#e2e2e2', textTransform: 'capitalize', fontWeight: 'bold', mb: 3 }} onClick={handleClickOpen}>
+        Dodaj ogłoszenie
+      </Button>
+      <BootstrapDialog
+        onClose={handleClose} maxWidth
+        aria-labelledby="customized-dialog-title"
+        open={open}
+      >
+        <BootstrapDialogTitle variant="h4" sx={{ mt: 1, ml: 3, fontFamily: 'Segoe UI', fontWeight: 'bold', textTransform: "uppercase" }} id="customized-dialog-title" onClose={handleClose}>
+          Formularz zgłoszeniowy
+        </BootstrapDialogTitle>
+
+        <DialogContentStyle>
+          <Avatar sx={{ width: "186px", height: "186px", ml: 4, mt: 2 }} />
+          <Button sx={{ ml: 8, mt: 2 }}>Dodaj zdjęcie</Button>
+
+
+
+          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 11, mt: -18 }} id="name" label="Imię psa" type="text" />
+          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 35, mt: -16 }} id="breed" label="Rasa" type="text" />
+          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 35, mt: -10, }} id="lost_date" label="" type="date" />
+          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 35, mt: -4 }} id="local" label="Ostatnia lokalizacja pobytu" type="text" />
+          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 35, mt: 2 }} id="owner" label="Imię właściciela" type="text" />
+          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 35, mt: 2 }} id="phone" label="Telefon właściciela" type="phone" />
+          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 35, mt: 2 }} id="address" label="Adres zamieszakania właściciela" type="text" />
+          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 35, mt: 2 }} id="description" name="description" label="opis"></TextField>
+          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 35, mt: 2 }} id="description" name="description" label="znaki szczególne"></TextField>
+
+
+
+        </DialogContentStyle>
+
+        <DialogActions>
+          <Button variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt: -66, mr: 12, textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleClose}>
+            Zapisz
+          </Button>
+        </DialogActions>
+      </BootstrapDialog>
     </div>
-     );
+  );
 }
- 

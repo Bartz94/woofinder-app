@@ -20,7 +20,7 @@ export const Filepicker = () => {
       if (errors.length) {
         return (
           <div>
-             <Button variant='contained' sx={{ color: 'white', fontSize: '0.7em', borderRadius: '20px',backgroundColor:'#7a7d80',margin:'40px' }} onClick={openFileSelector} >Dodaj zdjęcie</Button>
+             <Button variant='contained' sx={{ color: 'white', fontSize: '0.7em', borderRadius: '20px',backgroundColor:'#7a7d80'}} onClick={openFileSelector} >Dodaj zdjęcie</Button>
           </div>
         );
       }

@@ -10,7 +10,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Avatar, styled } from '@mui/material';
 import { TextField } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { Filepicker } from '../filepicker';
+import { Typography } from '@mui/material';
+
+
+
 
 
 
@@ -23,6 +26,7 @@ const BootstrapDialog = styled(Dialog)`
 const DialogContentStyle = styled(DialogContent)`
 width:1200px;
 height:500px;
+overlay: hidden;
 `;
 
 
@@ -61,7 +65,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export const RegisterForm = () => {
+export const LoginForm = () => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -74,32 +78,29 @@ export const RegisterForm = () => {
   return (
     <div>
       <Button variant="text" sx={{ color: 'black', textTransform: 'capitalize' }} onClick={handleClickOpen}>
-        Zarejestruj
+        Zaloguj 
       </Button>
       <BootstrapDialog
         onClose={handleClose} maxWidth
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <BootstrapDialogTitle variant="h4" sx={{ mt: 1, ml: 3, fontFamily: 'Segoe UI', fontWeight: 'bold', textTransform: "uppercase" }} id="customized-dialog-title" onClose={handleClose}>
-          Zarejestruj się
+        <BootstrapDialogTitle>
+          <Typography variant="h4" sx={{ mt: 1, ml: 3, fontFamily: 'Segoe UI', fontWeight: 'bold', textTransform: "uppercase" }} id="customized-dialog-title" onClose={handleClose}>
+          Zaloguj się</Typography>
         </BootstrapDialogTitle>
         <DialogContentStyle>
           <Avatar sx={{ width: "186px", height: "186px", ml: 22, mt: 10 }} />
-          <Button sx= {{ml:26, mt:1}}>Dodaj zdjęcie</Button>
-    
-          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -28 }} placeholder='Nazwa użytkownika' />
-          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -22 }} placeholder='Email' />
-          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -16 }} placeholder='Telefon' />
-          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -10 }} placeholder='Hasło' />
-          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -4 }} placeholder='Powtórz hasło' />
 
+            <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -20,  }} placeholder='Nazwa użytkownika oraz email' />
+            <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -14 }} placeholder='Hasło' />
+            
 
 
         </DialogContentStyle>
         <DialogActions>
-          <Button variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt: -17, mr: 12, textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleClose}>
-            Zarejestruj się
+          <Button variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt:-66 , mr:12, textTransform:'capitalize', fontWeight:'bold'}} autoFocus onClick={handleClose}>
+            Zaloguj się
           </Button>
         </DialogActions>
       </BootstrapDialog>
