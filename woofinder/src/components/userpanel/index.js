@@ -14,6 +14,11 @@ import Logout from '@mui/icons-material/Logout';
 import ArticleIcon from '@mui/icons-material/Article';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import { LoginForm } from '../loginform';
+import { RegisterForm } from '../registryform';
+
+
+
 
 
 
@@ -29,17 +34,17 @@ export const UserPanel = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-    
 
-    
+
+
 
 
   return (
-    <React.Fragment>
+    <>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Typography sx={{ minWidth: 100 }}><Button sx={{ color: 'black', textTransform: 'capitalize' }}>Zaloguj</Button></Typography>
+        <Typography sx={{ minWidth: 100 }}><LoginForm></LoginForm></Typography>
 
-        <Typography sx={{ minWidth: 100 }}><Button sx={{ color: 'black', textTransform: 'capitalize' }}>Zarejestruj</Button></Typography>
+        <Typography sx={{ minWidth: 100 }}><RegisterForm></RegisterForm></Typography>
         <Tooltip title="Panel użytkownika">
           <IconButton
             onClick={handleClick}
@@ -117,6 +122,6 @@ export const UserPanel = () => {
           <Button>Wyloguj się</Button>
         </MenuItem>
       </Menu>
-    </React.Fragment>
+    </>
   );
 }

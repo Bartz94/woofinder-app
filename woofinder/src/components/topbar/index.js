@@ -10,8 +10,8 @@ const TopBar = styled.div`
     justify-content: center;
     align-content: center;
     height: 120px;
-    background-color:#E2E2E2;
- 
+    background-color: rgba(89, 252, 170, 1);
+background-image: linear-gradient(90deg, rgba(89, 252, 170, 1) 0%, rgba(41, 86, 78, 1) 100%);
 `;
 
 
@@ -24,7 +24,7 @@ export const Top = () => {
             <TopBar>
                 <Typography variant="h4" sx={{ color: 'black', fontSize: '3em', fontFamily: 'Segoe UI', fontWeight: 'bold', margin: '30px' }}>WOOF<span className='stylefont'>inder</span></Typography>
                 <UserPanel />
-                </TopBar>
+            </TopBar>
 
         </>
     );
