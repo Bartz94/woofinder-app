@@ -10,6 +10,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Avatar, styled, Typography } from '@mui/material';
 import { TextField } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 
 
@@ -70,6 +73,12 @@ BootstrapDialogTitle.propTypes = {
 
 export const RegisterForm = () => {
   const [open, setOpen] = React.useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [repassword, setRePassword] = useState('');
+  const [phone, setPhone] = useState('');
+  const [username, setUsername] = useState('');
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -78,7 +87,38 @@ export const RegisterForm = () => {
     setOpen(false);
   };
 
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  }
 
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  }
+
+  const handleRePasswordChange = (e) => {
+    setRePassword(e.target.value);
+  }
+
+
+  const handlePhoneChange = (e) => {
+    setPhone(e.target.value);
+  }
+
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const auth = getAuth();
+
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        navigate('/register');
+      })
+
+  }
 
   return (
     <>
@@ -86,7 +126,7 @@ export const RegisterForm = () => {
         Zarejestruj
       </Button>
       <BootstrapDialog
-        onClose={handleClose} 
+        onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
@@ -96,18 +136,60 @@ export const RegisterForm = () => {
         <DialogContentStyle>
           <Avatar sx={{ width: "186px", height: "186px", ml: 22, mt: 10 }} />
           <Button sx={{ ml: 26, mt: 1 }}>Dodaj zdjęcie</Button>
+          <form onSubmit={handleSubmit}>
+            <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -28 }}
+              label='Nazwa użytkownika'
+              type="text"
+              required
+              id="username"
+              value={username}
+              autoComplete='username'
+              onChange={handleUsernameChange}
+            />
+            <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -22 }}
+              type="email"
+              required
+              id="email"
+              label='Email'
+              value={email}
+              autoComplete='email'
+              onChange={handleEmailChange}
+            />
 
-          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -28 }} placeholder='Nazwa użytkownika' />
-          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -22 }} placeholder='Email' />
-          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -16 }} placeholder='Telefon' />
-          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -10 }} placeholder='Hasło' />
-          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -4 }} placeholder='Powtórz hasło' />
+            <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -16 }}
+              type="phone"
+              required
+              id="phone"
+              label='Telefon'
+              value={phone}
+              autoComplete='phone'
+              onChange={handlePhoneChange}
+            />
+            <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -10 }}
+              required
+              type="password"
+              id="password"
+              label='Hasło'
+              value={password}
+              autoComplete='current-password'
+              onChange={handlePasswordChange}
 
+            />
+            <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -4 }}
+              required
+              type="password"
+              id="password"
+              label='Hasło'
+              value={repassword}
+              autoComplete='current-password'
+              onChange={handleRePasswordChange}
+            />
+          </form>
 
 
         </DialogContentStyle>
         <DialogActions>
-          <Button variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt: -17, mr: 12, textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleClose}>
+          <Button type="submit" variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt: -17, mr: 12, textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleClose}>
             <Typography>
               Zarejestruj się
             </Typography>

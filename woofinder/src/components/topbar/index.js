@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Typography from "@mui/material/Typography";
 import * as React from 'react';
 import { UserPanel } from '../userpanel';
+import { Link } from 'react-router-dom';
 
 
 const TopBar = styled.div`
@@ -22,7 +23,8 @@ export const Top = () => {
     return (
         <>
             <TopBar>
-                <Typography variant="h4" sx={{ color: 'black', fontSize: '3em', fontFamily: 'Segoe UI', fontWeight: 'bold', margin: '30px' }}>WOOF<span className='stylefont'>inder</span></Typography>
+                <Typography variant="h4" sx={{ color: 'black', fontSize: '3em', fontFamily: 'Segoe UI', fontWeight: 'bold', margin: '30px' }}>WOOF<span className='stylefont'>inder</span>
+                </Typography>
                 <UserPanel />
             </TopBar>
 

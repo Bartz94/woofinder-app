@@ -44,10 +44,12 @@ export const UserPanel = () => {
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Typography>
-          <Link to="/login"><LoginForm></LoginForm></Link>
+          <Link to="/login"style={{ textDecoration: 'none' }}><LoginForm></LoginForm></Link>
           </Typography>
 
-        <Typography><RegisterForm></RegisterForm></Typography>
+        <Typography>
+        <Link to="/register" style={{ textDecoration: 'none' }}><RegisterForm></RegisterForm></Link>
+          </Typography>
         <Tooltip title="Panel użytkownika">
           <IconButton
             onClick={handleClick}
