@@ -20,7 +20,6 @@ const Container = styled.div`
 const WantedItem = styled.div`
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
     align-items: center;
     margin: 10px 20px;
     padding: 10px;
@@ -48,25 +47,28 @@ export const WantedList = () => {
 
     return <>
         <Typography variant='h6' sx={{ alignSelf: 'left' }}>Liczba zaginięć zwierząt:{wantedListData.length}</Typography>
-        <Container>
+        <Container >
             {wantedListData.map((wantedList) => {
                 return (
-                    <WantedItem key={wantedList.id}>
+                    <WantedItem key={wantedList.id} style={{ minWidth: '20px' }}>
                         <WantedItemInfoBox>
                             <Avatar src="https://picsum.photos/100/100" alt="dog" sx={{ width: '6em', height: '6em' }} />
                         </WantedItemInfoBox>
                         <WantedItemInfoBox>
-                            <Typography sx={{ fontSize: '1.8em', fontWeight: 'bold', margin: '' }}>{wantedList.name}</Typography>
+                            <Typography sx={{ fontSize: '1.8em', fontWeight: 'bold' }}>{wantedList.name}</Typography>
                         </WantedItemInfoBox>
                         <WantedItemInfoBox>
-                            <Typography sx={{ fontSize: '1em', fontStyle: 'italic', fontWeight: '500', paddingTop: '10px' }}>Cechy zwierzaka:</Typography>
+                            <Typography sx={{ fontSize: '1em', fontStyle: 'italic', fontWeight: '500', paddingTop: '10px' }}>
+                                Cechy zwierzaka:
+                            </Typography>
                             <Typography sx={{
                                 maxWidth: '100px',
                                 maxHeight: '100px',
                                 overflow: 'scroll',
                                 overflowY: 'hidden'
                             }}>
-                                Lorem lorem lorem lorem loremLorem lorem loremLorem lorem lorem </Typography>
+                                Lorem lorem lorem lorem loremLorem lorem loremLorem lorem lorem
+                            </Typography>
                         </WantedItemInfoBox>
                         <WantedItemInfoBox>
                             <Typography sx={{ fontSize: '1em', fontStyle: 'italic', fontWeight: '500' }}>
