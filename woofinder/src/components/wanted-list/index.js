@@ -51,7 +51,7 @@ export const WantedList = () => {
         <Container>
             {wantedListData.map((wantedList) => {
                 return (
-                    <WantedItem >
+                    <WantedItem key={wantedList.id}>
                         <WantedItemInfoBox>
                             <Avatar src="https://picsum.photos/100/100" alt="dog" sx={{ width: '6em', height: '6em' }} />
                         </WantedItemInfoBox>
