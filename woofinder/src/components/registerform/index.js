@@ -13,13 +13,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-
-
-
-
-
-
-
+import { Link } from 'react-router-dom';
 
 
 const BootstrapDialog = styled(Dialog)`
@@ -75,9 +69,6 @@ export const RegisterForm = () => {
   const [open, setOpen] = React.useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [repassword, setRePassword] = useState('');
-  const [phone, setPhone] = useState('');
-  const [username, setUsername] = useState('');
   const navigate = useNavigate();
 
   const handleClickOpen = () => {
@@ -95,18 +86,13 @@ export const RegisterForm = () => {
     setPassword(e.target.value);
   }
 
-  const handleRePasswordChange = (e) => {
-    setRePassword(e.target.value);
-  }
 
 
-  const handlePhoneChange = (e) => {
-    setPhone(e.target.value);
-  }
 
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-  }
+
+
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -115,7 +101,7 @@ export const RegisterForm = () => {
 
     createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
-        navigate('/register');
+        navigate('/');
       })
 
   }
@@ -126,74 +112,43 @@ export const RegisterForm = () => {
         Zarejestruj
       </Button>
       <BootstrapDialog
+        maxWidth="xl"
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
         <BootstrapDialogTitle variant="h4" sx={{ mt: 1, ml: 3, fontFamily: 'Segoe UI', fontWeight: 'bold', textTransform: "uppercase" }} id="customized-dialog-title" onClose={handleClose}>
-          Zarejestruj się
+          <Typography> Zarejestruj się.</Typography>
+
         </BootstrapDialogTitle>
         <DialogContentStyle>
           <Avatar sx={{ width: "186px", height: "186px", ml: 22, mt: 10 }} />
-          <Button sx={{ ml: 26, mt: 1 }}>Dodaj zdjęcie</Button>
           <form onSubmit={handleSubmit}>
-            <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -28 }}
-              label='Nazwa użytkownika'
-              type="text"
-              required
-              id="username"
-              value={username}
-              autoComplete='username'
-              onChange={handleUsernameChange}
-            />
-            <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -22 }}
+            <TextField className="inputRounded"
               type="email"
               required
               id="email"
-              label='Email'
+              sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -20, }} label='Nazwa użytkownika oraz email'
               value={email}
               autoComplete='email'
               onChange={handleEmailChange}
             />
-
-            <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -16 }}
-              type="phone"
-              required
-              id="phone"
-              label='Telefon'
-              value={phone}
-              autoComplete='phone'
-              onChange={handlePhoneChange}
-            />
-            <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -10 }}
+            <TextField className="inputRounded"
               required
               type="password"
+              sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -14 }}
               id="password"
               label='Hasło'
               value={password}
               autoComplete='current-password'
               onChange={handlePasswordChange}
+            />
 
-            />
-            <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -4 }}
-              required
-              type="password"
-              id="password"
-              label='Hasło'
-              value={repassword}
-              autoComplete='current-password'
-              onChange={handleRePasswordChange}
-            />
           </form>
-
-
         </DialogContentStyle>
         <DialogActions>
-          <Button type="submit" variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt: -17, mr: 12, textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleClose}>
-            <Typography>
-              Zarejestruj się
-            </Typography>
-
+          <Button type='submit' variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt: -66, mr: 12, textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleClose}>
+            Zarejestruj
           </Button>
         </DialogActions>
       </BootstrapDialog>

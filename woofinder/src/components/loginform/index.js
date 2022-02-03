@@ -12,7 +12,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Avatar, styled, Typography } from '@mui/material';
 import { TextField } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
-import {signInWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { firebaseConfig } from '../../firebase-config';
 
 
 
@@ -66,7 +67,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export const LoginForm = () => {
+export const LoginForm = (isSignup) => {
   const [open, setOpen] = React.useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -79,7 +80,7 @@ export const LoginForm = () => {
     setOpen(false);
   };
 
- 
+
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -91,14 +92,14 @@ export const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const auth = getAuth();
-  
+    const auth = getAuth(firebaseConfig);
 
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then(()=> {
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
         navigate('/');
-    })
+      })
   }
 
 
@@ -108,41 +109,39 @@ export const LoginForm = () => {
         Zaloguj
       </Button>
       <BootstrapDialog
+        maxWidth="xl"
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
         <BootstrapDialogTitle variant="h4" sx={{ mt: 1, ml: 3, fontFamily: 'Segoe UI', fontWeight: 'bold', textTransform: "uppercase" }} id="customized-dialog-title" onClose={handleClose}>
-          <Typography> Zaloguj się. Nie masz jeszcze konta? </Typography>
-         <Button variant="text" sx={{ fontSize: '0.8em', mt: 1, mr: 12, textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleClose}>
-            Zarejestruj się
-          </Button>
+          <Typography> Zaloguj się.</Typography>
         </BootstrapDialogTitle>
         <DialogContentStyle>
           <Avatar sx={{ width: "186px", height: "186px", ml: 22, mt: 10 }} />
           <form onSubmit={handleSubmit}>
-            <TextField className="inputRounded" 
-            type="email"
-            required
-            id="email"
-            sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -20, }} label='Nazwa użytkownika oraz email'
-            value={email}
-            autoComplete='email'
-            onChange={handleEmailChange} 
+            <TextField className="inputRounded"
+              type="email"
+              required
+              id="email"
+              sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -20, }} label='Nazwa użytkownika oraz email'
+              value={email}
+              autoComplete='email'
+              onChange={handleEmailChange}
             />
-            <TextField className="inputRounded" 
-            required
-            type="password"
-            sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -14 }} 
-            id="password"
-            label='Hasło'
-            value={password} 
-            autoComplete='current-password'
-            onChange={handlePasswordChange} 
+            <TextField className="inputRounded"
+              required
+              type="password"
+              sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -14 }}
+              id="password"
+              label='Hasło'
+              value={password}
+              autoComplete='current-password'
+              onChange={handlePasswordChange}
             />
 
           </form>
-</DialogContentStyle>
+        </DialogContentStyle>
         <DialogActions>
           <Button type='submit' variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt: -66, mr: 12, textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleClose}>
             Zaloguj się

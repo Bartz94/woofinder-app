@@ -17,11 +17,7 @@ const BootstrapDialog = styled(Dialog)`
   
 `;
 
-const DialogContentStyle = styled(DialogContent)`
-width:1200px;
-height:500px;
-overlay: hidden;
-`;
+
 
 // const Wraps = styled.div`
 //     display: flex;
@@ -35,7 +31,7 @@ overlay: hidden;
 //   align-items: center;
 //   margin: 0.5em auto;
 //   width:200px
-  
+
 // `;
 
 // const Wrapperwanted2 = styled.div`
@@ -48,7 +44,7 @@ overlay: hidden;
 //   display: flex;
 //   flex-direction: column;
 //   align-items: end;
-  
+
 // `;
 
 
@@ -104,6 +100,7 @@ export const AddFormWanted = () => {
         Dodaj ogłoszenie
       </Button>
       <BootstrapDialog
+        
         onClose={handleClose} maxWidth
         aria-labelledby="customized-dialog-title"
         open={open}
@@ -112,7 +109,7 @@ export const AddFormWanted = () => {
           Formularz zgłoszeniowy
         </BootstrapDialogTitle>
 
-        <DialogContentStyle>
+        <DialogContent>
           <Avatar sx={{ width: "186px", height: "186px", ml: 4, mt: 2 }} />
           <Button sx={{ ml: 8, mt: 2 }}>Dodaj zdjęcie</Button>
 
@@ -130,7 +127,7 @@ export const AddFormWanted = () => {
 
 
 
-        </DialogContentStyle>
+        </DialogContent>
 
         <DialogActions>
           <Button variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt: -66, mr: 12, textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleClose}>

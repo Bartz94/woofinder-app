@@ -1,4 +1,5 @@
 import MainPage from './content/main-page';
+import { UserContextProvider } from './services/user-context';
 
 
 
@@ -6,9 +7,14 @@ import MainPage from './content/main-page';
 
 function App() {
   return (
-    <div className="App">
-      <MainPage></MainPage>
-    </div>
+    
+     
+        <UserContextProvider>
+        <MainPage></MainPage>
+        </UserContextProvider>
+
+  
+
 
   );
 }
