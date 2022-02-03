@@ -5,7 +5,7 @@ import { collection, getDocs } from 'firebase/firestore'
 import styled from 'styled-components';
 import { Typography } from '@mui/material';
 import { Avatar } from '@mui/material';
-import PinDropIcon from '@mui/icons-material/PinDrop';
+import MapIcon from '@mui/icons-material/Map';
 import EditLocationAltOutlinedIcon from '@mui/icons-material/EditLocationAltOutlined';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 
@@ -14,13 +14,15 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     flex-wrap: wrap;
-    margin: 30px;
  `;
 
 const WantedItem = styled.div`
+
+width: 70%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
     margin: 10px 20px;
     padding: 10px;
     background-color: #e2e2e2;
@@ -28,7 +30,11 @@ const WantedItem = styled.div`
  `;
 
 const WantedItemInfoBox = styled.div`
-    padding: 10px
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
  `;
 
 export const WantedList = () => {
@@ -58,23 +64,33 @@ export const WantedList = () => {
                             <Typography sx={{ fontSize: '1.8em', fontWeight: 'bold' }}>{wantedList.name}</Typography>
                         </WantedItemInfoBox>
                         <WantedItemInfoBox>
-                            <Typography sx={{ fontSize: '1em', fontStyle: 'italic', fontWeight: '500', paddingTop: '10px' }}>
+                            <Typography sx={{ fontSize: '1em', fontStyle: 'italic', fontWeight: '500' }}>
                                 Cechy zwierzaka:
                             </Typography>
                             <Typography sx={{
-                                maxWidth: '100px',
-                                maxHeight: '100px',
+                                maxWidth: '120px',
+                                maxHeight: '120px',
                                 overflow: 'scroll',
-                                overflowY: 'hidden'
+                                "&::-webkit-scrollbar": {
+                                    width: 0
+                                },
+                                borderRadius: '5px',
+
                             }}>
-                                Lorem lorem lorem lorem loremLorem lorem loremLorem lorem lorem
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                                standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to m
+                                ake a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+                                remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lo
+                                rem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of
+                                Lorem Ipsum.
                             </Typography>
                         </WantedItemInfoBox>
                         <WantedItemInfoBox>
                             <Typography sx={{ fontSize: '1em', fontStyle: 'italic', fontWeight: '500' }}>
                                 Zobacz na mapie
-                                <PinDropIcon fontSize='large'></PinDropIcon>
+                                <MapIcon fontSize='large'></MapIcon>
                             </Typography>
+
                         </WantedItemInfoBox>
                         <WantedItemInfoBox>
                             <Typography sx={{ fontSize: '1.1em', fontWeight: '500' }}>
@@ -88,7 +104,7 @@ export const WantedList = () => {
                             </Typography>
                         </WantedItemInfoBox>
                         <WantedItemInfoBox>
-                            <ExpandMoreOutlinedIcon fontSize='large'></ExpandMoreOutlinedIcon>
+                            <ExpandMoreOutlinedIcon fontSize='large' sx={{ margin: 'auto' }}></ExpandMoreOutlinedIcon>
                         </WantedItemInfoBox>
                     </WantedItem>
                 )
