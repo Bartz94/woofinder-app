@@ -61,7 +61,9 @@ export const WantedList = () => {
                             <Avatar src="https://picsum.photos/100/100" alt="dog" sx={{ width: '6em', height: '6em' }} />
                         </WantedItemInfoBox>
                         <WantedItemInfoBox>
-                            <Typography sx={{ fontSize: '1.8em', fontWeight: 'bold' }}>{wantedList.name}</Typography>
+                            <Typography sx={{ fontSize: '1.8em', fontWeight: 'bold' }}>
+                                {wantedList.name ? wantedList.name : 'Nie ma imienia'}
+                            </Typography>
                         </WantedItemInfoBox>
                         <WantedItemInfoBox>
                             <Typography sx={{ fontSize: '1em', fontStyle: 'italic', fontWeight: '500' }}>
@@ -75,7 +77,6 @@ export const WantedList = () => {
                                     width: 0
                                 },
                                 borderRadius: '5px',
-
                             }}>
                                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
                                 standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to m
@@ -90,11 +91,10 @@ export const WantedList = () => {
                                 Zobacz na mapie
                                 <MapIcon fontSize='large'></MapIcon>
                             </Typography>
-
                         </WantedItemInfoBox>
                         <WantedItemInfoBox>
                             <Typography sx={{ fontSize: '1.1em', fontWeight: '500' }}>
-                                {wantedList.cityLost}
+                                {wantedList.cityLost ? wantedList.cityLost : 'Nie ma miasta'}
                             </Typography>
                         </WantedItemInfoBox>
                         <WantedItemInfoBox>
@@ -104,7 +104,7 @@ export const WantedList = () => {
                             </Typography>
                         </WantedItemInfoBox>
                         <WantedItemInfoBox>
-                            <ExpandMoreOutlinedIcon fontSize='large' sx={{ margin: 'auto' }}></ExpandMoreOutlinedIcon>
+                            <ExpandMoreOutlinedIcon fontSize='large' sx={{ padding: 'none' }}></ExpandMoreOutlinedIcon>
                         </WantedItemInfoBox>
                     </WantedItem>
                 )
