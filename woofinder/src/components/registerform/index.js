@@ -101,6 +101,7 @@ export const RegisterForm = () => {
 
     createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
+        handleClose();
         navigate('/');
       })
 
@@ -147,7 +148,7 @@ export const RegisterForm = () => {
           </form>
         </DialogContentStyle>
         <DialogActions>
-          <Button type='submit' variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt: -66, mr: 12, textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleClose}>
+          <Button type='submit' variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt: -66, mr: 12, textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleSubmit}>
             Zarejestruj
           </Button>
         </DialogActions>

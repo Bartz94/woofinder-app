@@ -101,7 +101,7 @@ export const AddFormWanted = () => {
       </Button>
       <BootstrapDialog
         
-        onClose={handleClose} maxWidth
+        onClose={handleClose} maxWidth="lg"
         aria-labelledby="customized-dialog-title"
         open={open}
       >

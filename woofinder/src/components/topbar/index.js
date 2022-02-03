@@ -30,22 +30,24 @@ export const Top = () => {
     return (
         <>
             <TopBar>
-                
+
                 <Typography variant="h4" sx={{ color: 'black', fontSize: '3em', fontFamily: 'Segoe UI', fontWeight: 'bold', margin: '30px' }}>WOOF<span className='stylefont'>inder</span>
                 </Typography>
                 <Typography variant="subtitle1" sx={{ color: 'white', margin: '54px' }}>
                     {user ? `Witaj ${user.email} na naszej stronie` : `Witaj na naszej stronie`}</Typography>
 
 
-                <Button variant="text" sx={{ mt: 2, color: 'white' }} component={Link} to='/register'><RegisterForm /></Button>
+                
                 {
                     user ? (
                         <UserPanel />
 
 
                     ) : (
+                        <>
                         <Button sx={{ mt: 2, color: 'white' }} component={Link} to='/login'><LoginForm /></Button>
-
+<Button variant="text" sx={{ mt: 2, color: 'white' }} component={Link} to='/register'><RegisterForm /></Button>
+</>
                     )
                 }
 

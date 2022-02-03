@@ -92,13 +92,14 @@ export const LoginForm = (isSignup) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const auth = getAuth(firebaseConfig);
-
-
+    const auth = getAuth();
+    console.log(email)
 
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
+
         navigate('/');
+
       })
   }
 
@@ -143,7 +144,7 @@ export const LoginForm = (isSignup) => {
           </form>
         </DialogContentStyle>
         <DialogActions>
-          <Button type='submit' variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt: -66, mr: 12, textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleClose}>
+          <Button type='submit' variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt: -66, mr: 12, textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleSubmit}>
             Zaloguj się
           </Button>
         </DialogActions>
