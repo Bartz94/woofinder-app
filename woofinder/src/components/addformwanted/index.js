@@ -24,11 +24,6 @@ const BootstrapDialog = styled(Dialog)`
   
 `;
 
-const DialogContentStyle = styled(DialogContent)`
-width:1200px;
-height:500px;
-overlay: hidden;
-`;
 
 
 export const AddFormWanted = () => {
@@ -125,12 +120,17 @@ BootstrapDialogTitle.propTypes = {
       <Button variant="contained" sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#e2e2e2', textTransform: 'capitalize', fontWeight: 'bold', mb: 3 }} onClick={handleClickOpen}>
         Dodaj ogłoszenie
       </Button>
-      <BootstrapDialog  onClose={handleClose} maxWidth="1200ox" aria-labelledby="customized-dialog-title" open={open}>
+      <BootstrapDialog
+        
+        onClose={handleClose} maxWidth="lg"
+        aria-labelledby="customized-dialog-title"
+        open={open}
+      >
         <BootstrapDialogTitle variant="h4" sx={{ mt: 1, ml: 3, fontFamily: 'Segoe UI', fontWeight: 'bold', textTransform: "uppercase" }} id="customized-dialog-title" onClose={handleClose}>
           Formularz zgłoszeniowy
         </BootstrapDialogTitle>
 
-        <DialogContentStyle>
+        <DialogContent>
           <Avatar sx={{ width: "186px", height: "186px", ml: 4, mt: 2 }} />
           <Button sx={{ ml: 8, mt: 2 }}>Dodaj zdjęcie</Button>
 
@@ -147,7 +147,7 @@ BootstrapDialogTitle.propTypes = {
 
 
 
-        </DialogContentStyle>
+        </DialogContent>
 
         <DialogActions>
           <Button variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt: -66, mr: 12, textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleAdd}>

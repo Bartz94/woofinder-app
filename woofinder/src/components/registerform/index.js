@@ -1,7 +1,5 @@
 //Jacek
 import * as React from 'react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog';
@@ -12,12 +10,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Avatar, styled, Typography } from '@mui/material';
 import { TextField } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
-import { firebaseConfig } from '../../firebase-config';
-
-
-
-
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 
 const BootstrapDialog = styled(Dialog)`
@@ -28,7 +24,6 @@ const BootstrapDialog = styled(Dialog)`
 const DialogContentStyle = styled(DialogContent)`
 width:1200px;
 height:500px;
-overlay: hidden;
 `;
 
 
@@ -67,7 +62,10 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export const LoginForm = (isSignup) => {
+
+
+
+export const RegisterForm = () => {
   const [open, setOpen] = React.useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -80,8 +78,6 @@ export const LoginForm = (isSignup) => {
     setOpen(false);
   };
 
-
-
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   }
@@ -90,24 +86,31 @@ export const LoginForm = (isSignup) => {
     setPassword(e.target.value);
   }
 
+
+
+
+
+
+
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const auth = getAuth();
-    console.log(email)
 
-    signInWithEmailAndPassword(auth, email, password)
+
+    createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
-
+        handleClose();
         navigate('/');
-
       })
-  }
 
+  }
 
   return (
     <>
       <Button variant="text" sx={{ color: 'black', textTransform: 'capitalize' }} onClick={handleClickOpen}>
-        Zaloguj
+        Zarejestruj
       </Button>
       <BootstrapDialog
         maxWidth="xl"
@@ -116,7 +119,8 @@ export const LoginForm = (isSignup) => {
         open={open}
       >
         <BootstrapDialogTitle variant="h4" sx={{ mt: 1, ml: 3, fontFamily: 'Segoe UI', fontWeight: 'bold', textTransform: "uppercase" }} id="customized-dialog-title" onClose={handleClose}>
-          <Typography> Zaloguj się.</Typography>
+          <Typography> Zarejestruj się.</Typography>
+
         </BootstrapDialogTitle>
         <DialogContentStyle>
           <Avatar sx={{ width: "186px", height: "186px", ml: 22, mt: 10 }} />
@@ -145,7 +149,7 @@ export const LoginForm = (isSignup) => {
         </DialogContentStyle>
         <DialogActions>
           <Button type='submit' variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt: -66, mr: 12, textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleSubmit}>
-            Zaloguj się
+            Zarejestruj
           </Button>
         </DialogActions>
       </BootstrapDialog>

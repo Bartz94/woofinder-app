@@ -15,7 +15,9 @@ import ArticleIcon from '@mui/icons-material/Article';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import { LoginForm } from '../loginform';
-import { RegisterForm } from '../registryform';
+import { RegisterForm } from '../registerform';
+import { Link } from "react-router-dom"
+import { getAuth, signOut} from 'firebase/auth'
 
 
 
@@ -35,16 +37,17 @@ export const UserPanel = () => {
     setAnchorEl(null);
   };
 
-
+const handleSignOutClick = () => {
+  const auth = getAuth();
+  signOut(auth);
+}
 
 
 
   return (
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Typography sx={{ minWidth: 100 }}><LoginForm></LoginForm></Typography>
-
-        <Typography sx={{ minWidth: 100 }}><RegisterForm></RegisterForm></Typography>
+        
         <Tooltip title="Panel użytkownika">
           <IconButton
             onClick={handleClick}
@@ -119,7 +122,7 @@ export const UserPanel = () => {
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          <Button>Wyloguj się</Button>
+          <Button onClick={handleSignOutClick}>Wyloguj się</Button>
         </MenuItem>
       </Menu>
     </>
