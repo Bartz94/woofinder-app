@@ -1,19 +1,21 @@
-//Bartosz//Bartosz
+//Bartosz
 import { useState, useEffect } from 'react'
-
+//import { db } from '../../firebase-config';
+//import { collection, getDocs } from 'firebase/firestore'
 import styled from 'styled-components';
 import { Typography } from '@mui/material';
 import { Avatar } from '@mui/material';
 import MapIcon from '@mui/icons-material/Map';
 import EditLocationAltOutlinedIcon from '@mui/icons-material/EditLocationAltOutlined';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
+import { getFirestore,collection,getDocs} from "https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js";
 import { initializeApp} from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
 import {firebaseConfig} from "../../firebase-config";
-import { getFirestore,collection, getDocs} from "https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js";
-
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
+
+
 
 const Container = styled.div`
     display: flex;

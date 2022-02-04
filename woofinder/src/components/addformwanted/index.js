@@ -137,7 +137,7 @@ BootstrapDialogTitle.propTypes = {
 
           <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 11, mt: -18 }} id="name" name="name" value={name} onChange={handleChange} label="Imię psa" type="text" />
           <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 35, mt: -16 }} id="breed" name="breed" value={breed} onChange={handleChange} label="Rasa" type="text" />
-          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 35, mt: -10, }} id="lost_date" name="lost_date" value={lost_date} onChange={handleChange} label="Data zaginięcia" type="date" />
+          <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 35, mt: -10, }} id="lost_date" name="lost_date" value={lost_date} onChange={handleChange} type="date" />
           <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 35, mt: -4 }} id="local" name="local" value={local} onChange={handleChange} label="Ostatnia lokalizacja pobytu" type="text" />
           <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 35, mt: 2 }} id="owner" name="owner" value={owner} onChange={handleChange} label="Imię właściciela" type="text" />
           <TextField className="inputRounded" sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 35, mt: 2 }} id="phone" name="phone" value={phone} onChange={handleChange} label="Telefon właściciela" type="phone" />

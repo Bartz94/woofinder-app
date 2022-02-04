@@ -45,8 +45,8 @@ export const Top = () => {
 
                     ) : (
                         <>
-                        <Button sx={{ mt: 2, color: 'white' }} component={Link} to='/login'><LoginForm /></Button>
-<Button variant="text" sx={{ mt: 2, color: 'white' }} component={Link} to='/register'><RegisterForm /></Button>
+                        <Button sx={{ mt: 2, color: 'white' }} component={Link} to='/'><LoginForm /></Button>
+                        <Button variant="text" sx={{ mt: 2, color: 'white' }} component={Link} to='/'><RegisterForm /></Button>
 </>
                     )
                 }

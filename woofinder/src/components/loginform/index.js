@@ -1,4 +1,3 @@
-//Jacek
 import * as React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -97,7 +96,8 @@ export const LoginForm = (isSignup) => {
 
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-
+        handleClose();
+        console.log("zalogowano");
         navigate('/');
 
       })
@@ -152,6 +152,7 @@ export const LoginForm = (isSignup) => {
     </>
   );
 }
+
 
 
 
