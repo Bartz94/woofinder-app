@@ -18,6 +18,8 @@ import { LoginForm } from '../loginform';
 import { RegisterForm } from '../registerform';
 import { Link } from "react-router-dom"
 import { getAuth, signOut} from 'firebase/auth'
+import { Profile } from '../../content/profile';
+import ModeIcon from '@mui/icons-material/Mode';
 
 
 
@@ -42,6 +44,9 @@ const handleSignOutClick = () => {
   signOut(auth);
 }
 
+const handleClickAvatarProfile = () => {
+  Profile()
+}
 
 
   return (
@@ -57,7 +62,7 @@ const handleSignOutClick = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 56, height: 56 }} />
+            <Avatar sx={{ width: 56, height: 56 }}  />
           </IconButton>
         </Tooltip>
       </Box>
@@ -98,7 +103,11 @@ const handleSignOutClick = () => {
       >
         <MenuItem>
           <Avatar sx={{ my: 2, width: 56, height: 56 }} />
-        </MenuItem>
+       </MenuItem>
+       <MenuItem>
+       <ModeIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />
+       <Button component={Link} to='/profile' onClick={handleClickAvatarProfile}>Edytuj dane</Button>
+       </MenuItem>
         <MenuItem>
           <VpnKeyIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />
           <Button>Zmień hasło</Button>
