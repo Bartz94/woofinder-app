@@ -20,6 +20,7 @@ import { Link } from "react-router-dom"
 import { getAuth, signOut} from 'firebase/auth'
 import { Profile } from '../../content/profile';
 import ModeIcon from '@mui/icons-material/Mode';
+import { useUserContext } from "../../services/user-context";
 
 
 
@@ -30,6 +31,7 @@ import ModeIcon from '@mui/icons-material/Mode';
 
 
 export const UserPanel = () => {
+  const { avatarUrl } = useUserContext();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -49,6 +51,7 @@ const handleClickAvatarProfile = () => {
 }
 
 
+
   return (
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -62,7 +65,7 @@ const handleClickAvatarProfile = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 56, height: 56 }}  />
+            <Avatar src={avatarUrl} alt="avatar"sx={{ width: 56, height: 56 }}  />
           </IconButton>
         </Tooltip>
       </Box>
@@ -102,7 +105,7 @@ const handleClickAvatarProfile = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem>
-          <Avatar sx={{ my: 2, width: 56, height: 56 }} />
+          <Avatar src={avatarUrl} alt="avatar" sx={{ my: 2, width: 56, height: 56 }} />
        </MenuItem>
        <MenuItem>
        <ModeIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />

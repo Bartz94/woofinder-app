@@ -30,19 +30,12 @@ const Container = styled.div`
 
 
 export const Profile = () => {
-    const user = useUserContext();
-    const [file, setFile] = useState(null);
-    const [avatarUrl, setAvatarUrl] = useState()
 
-    useEffect(() => {
-        if (user) {
-            const storage = getStorage();
-            const storageRef = ref(storage, `avatars/${user.uid}`);
-            getDownloadURL(storageRef).then((url) => {
-                setAvatarUrl(url);
-            });
-        }
-    }, [user]);
+    const { user, avatarUrl, setAvatarUrl } = useUserContext();
+    const [file, setFile] = useState(null);
+  
+
+   
 
 
     const handleChangePhoto = (e) => {
