@@ -1,7 +1,11 @@
 //Bartosz
+import { useLocation } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react'
 import { db } from '../../firebase-config';
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, query, where } from 'firebase/firestore'
+import { useContext } from 'react';
+import { SearchContext } from '../../contexts/search-context';
 import styled from 'styled-components';
 import { Typography } from '@mui/material';
 import { Avatar } from '@mui/material';
@@ -39,16 +43,24 @@ const WantedItemInfoBox = styled.div`
 export const WantedList = () => {
 
     const [wantedListData, setWantedListData] = useState([])
+    const { city, breed, name } = useContext(SearchContext)
+
+    const location = useLocation();
+    console.log(location)
+
     const wantedListCollectionRef = collection(db, "Wanted")
+
+    const q = query(wantedListCollectionRef, where("name", "==", name), where("cityLost", "==", city), where("breed", "==", breed));
 
     useEffect(() => {
 
         const getWantedList = async () => {
-            const data = await getDocs(wantedListCollectionRef);
+            const data = await getDocs(q);
             setWantedListData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
         };
         getWantedList()
     }, [])
+
 
     return <>
         <Typography variant='h6' sx={{ alignSelf: 'left' }}>Liczba zaginięć zwierząt:{wantedListData.length}</Typography>
