@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Top } from "../../components/topbar"
 import { UserContextProvider } from "../../services/user-context"
 import styled from 'styled-components'
@@ -6,7 +6,8 @@ import { Avatar } from "@mui/material";
 import { Button } from "@mui/material";
 import AddAPhoto from "@mui/icons-material/AddAPhoto";
 import { ButtonGroup } from "@mui/material";
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { useUserContext } from "../../services/user-context";
 
 
 
@@ -29,8 +30,20 @@ const Container = styled.div`
 
 
 export const Profile = () => {
-
+    const user = useUserContext();
     const [file, setFile] = useState(null);
+    const [avatarUrl, setAvatarUrl] = useState()
+
+    useEffect(() => {
+        if (user) {
+            const storage = getStorage();
+            const storageRef = ref(storage, `avatars/${user.uid}`);
+            getDownloadURL(storageRef).then((url) => {
+                setAvatarUrl(url);
+            });
+        }
+    }, [user]);
+
 
     const handleChangePhoto = (e) => {
 
@@ -43,11 +56,14 @@ export const Profile = () => {
 
     const handleSavePhoto = (e) => {
         const storage = getStorage();
-        const storageRef = ref(storage, `avatars/`);
+        const storageRef = ref(storage, `avatars/${user.uid}`);
 
         uploadBytes(storageRef, file).then((snapshot) => {
-            console.log('Uploaded a blob or file')
-            console.log(snapshot);
+            getDownloadURL(storageRef).then((url) => {
+                setAvatarUrl(url);
+                setFile(null);
+            })
+
 
         });
 
@@ -60,7 +76,7 @@ export const Profile = () => {
                 <Top></Top>
                 <Container>
                     <Title>Panel użytkownika</Title>
-                    <Avatar src="" alt="profile" sx={{ height: "186px", width: "186px" }} ></Avatar>
+                    <Avatar src={avatarUrl} alt="profile" sx={{ height: "186px", width: "186px" }} ></Avatar>
                     <Button sx={{ mt: 2 }}
                         variant="contained"
                         component="label"
