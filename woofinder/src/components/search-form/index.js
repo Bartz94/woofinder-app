@@ -1,6 +1,5 @@
 //Bartosz
 import styled from 'styled-components';
-import * as React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -8,8 +7,6 @@ import Select from '@mui/material/Select';
 import Input from '@mui/material/Input'
 import Button from '@mui/material/Button'
 import { useState, useEffect } from 'react';
-import { useContext } from 'react';
-import { SearchContext } from '../../contexts/search-context';
 import { Link } from 'react-router-dom';
 
 const Wrapper = styled.section`
@@ -42,10 +39,6 @@ export const SearchForm = () => {
         { name: 'Szczecin' }
     ];
 
-
-    const { city, breed, name, setCity, setBreed, setName } = useContext(SearchContext)
-
-
     const [dogsData, setDogsData] = useState([]);
 
     const fetchdogsData = () => {
@@ -60,6 +53,10 @@ export const SearchForm = () => {
     useEffect(() => {
         fetchdogsData();
     }, []);
+
+    const [city, setCity] = useState('');
+    const [breed, setBreed] = useState('');
+    const [name, setName] = useState('');
 
     const handleCityChange = (event) => {
         setCity(event.target.value);
@@ -113,7 +110,7 @@ export const SearchForm = () => {
                 variant='contained'
                 sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#e2e2e2' }} >
 
-                <Link to={`/wanted-page?cityf=${city}&breedf=${breed}&namef=${name}`}>Szukaj</Link>
+                <Link to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}>Szukaj</Link>
             </Button>
 
         </Wrapper >
