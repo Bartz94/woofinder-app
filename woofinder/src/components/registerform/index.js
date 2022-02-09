@@ -124,6 +124,7 @@ export const RegisterForm = () => {
         </BootstrapDialogTitle>
         <DialogContentStyle>
           <Avatar sx={{ width: "186px", height: "186px", ml: 22, mt: 10 }} />
+          <input type ="file" />
           <form onSubmit={handleSubmit}>
             <TextField className="inputRounded"
               type="email"

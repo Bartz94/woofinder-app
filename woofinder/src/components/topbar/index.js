@@ -3,8 +3,8 @@ import Typography from "@mui/material/Typography";
 import * as React from 'react';
 import { UserPanel } from '../userpanel';
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
-import { UserContext } from '../../services/user-context';
+
+import { useUserContext } from '../../services/user-context';
 import { LoginForm } from '../loginform';
 import { RegisterForm } from '../registerform';
 import { Button } from '@mui/material';
@@ -25,7 +25,7 @@ background-image: linear-gradient(90deg, rgba(89, 252, 170, 1) 0%, rgba(41, 86, 
 
 
 export const Top = () => {
-    const user = useContext(UserContext)
+    const { user } = useUserContext()
 
     return (
         <>

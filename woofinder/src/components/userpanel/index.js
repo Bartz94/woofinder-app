@@ -18,6 +18,9 @@ import { LoginForm } from '../loginform';
 import { RegisterForm } from '../registerform';
 import { Link } from "react-router-dom"
 import { getAuth, signOut} from 'firebase/auth'
+import { Profile } from '../../content/profile';
+import ModeIcon from '@mui/icons-material/Mode';
+import { useUserContext } from "../../services/user-context";
 
 
 
@@ -28,6 +31,7 @@ import { getAuth, signOut} from 'firebase/auth'
 
 
 export const UserPanel = () => {
+  const { avatarUrl } = useUserContext();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -40,6 +44,10 @@ export const UserPanel = () => {
 const handleSignOutClick = () => {
   const auth = getAuth();
   signOut(auth);
+}
+
+const handleClickAvatarProfile = () => {
+  Profile()
 }
 
 
@@ -57,7 +65,7 @@ const handleSignOutClick = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 56, height: 56 }} />
+            <Avatar src={avatarUrl} alt="avatar"sx={{ width: 56, height: 56 }}  />
           </IconButton>
         </Tooltip>
       </Box>
@@ -97,8 +105,12 @@ const handleSignOutClick = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem>
-          <Avatar sx={{ my: 2, width: 56, height: 56 }} />
-        </MenuItem>
+          <Avatar src={avatarUrl} alt="avatar" sx={{ my: 2, width: 56, height: 56 }} />
+       </MenuItem>
+       <MenuItem>
+       <ModeIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />
+       <Button component={Link} to='/profile' onClick={handleClickAvatarProfile}>Edytuj dane</Button>
+       </MenuItem>
         <MenuItem>
           <VpnKeyIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />
           <Button>Zmień hasło</Button>
