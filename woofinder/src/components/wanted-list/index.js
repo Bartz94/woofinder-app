@@ -1,6 +1,6 @@
 //Bartosz
 import { useLocation } from 'react-router-dom'
-import { useSearchParams } from 'react-router-dom';
+import queryString from 'query-string'
 import { useState, useEffect } from 'react'
 import { db } from '../../firebase-config';
 import { collection, getDocs, query, where } from 'firebase/firestore'
@@ -45,8 +45,9 @@ export const WantedList = () => {
     const [wantedListData, setWantedListData] = useState([])
     const { city, breed, name } = useContext(SearchContext)
 
-    const location = useLocation();
-    console.log(location)
+    const { search } = useLocation();
+    const { cityf, breedf, namef } = queryString.parse(search)
+    console.log(cityf, breedf)
 
     const wantedListCollectionRef = collection(db, "Wanted")
 

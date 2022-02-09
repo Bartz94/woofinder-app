@@ -1,13 +1,16 @@
 import MainPage from './content/main-page';
 import { UserContextProvider } from './services/user-context';
 import { Content } from './content';
+import { SearchContextProvider } from './contexts/search-context';
 
 function App() {
   return (
-    <UserContextProvider>
-      <Content>
-      </Content>
-    </UserContextProvider>
+    <SearchContextProvider>
+      <UserContextProvider>
+        <Content>
+        </Content>
+      </UserContextProvider>
+    </SearchContextProvider>
 
   );
 }

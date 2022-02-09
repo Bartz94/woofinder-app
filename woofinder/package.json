@@ -18,6 +18,7 @@
     "react-scripts": "5.0.0",
     "styled-components": "^5.3.3",
     "use-file-picker": "^1.4.1",
+    "use-query-string": "^2.4.1",
     "web-vitals": "^2.1.2"
   },
   "scripts": {
