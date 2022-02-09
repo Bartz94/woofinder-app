@@ -8,6 +8,8 @@ import Select from '@mui/material/Select';
 import Input from '@mui/material/Input'
 import Button from '@mui/material/Button'
 import { useState, useEffect } from 'react';
+import { useContext } from 'react';
+import { SearchContext } from '../../contexts/search-context';
 import { Link } from 'react-router-dom';
 
 const Wrapper = styled.section`
@@ -40,14 +42,11 @@ export const SearchForm = () => {
         { name: 'Szczecin' }
     ];
 
-    const [searchedCity, setSearchedCity] = useState('');
 
-    const handleCityChange = (event) => {
-        setSearchedCity(event.target.value);
-    }
+    const { city, breed, name, setCity, setBreed, setName } = useContext(SearchContext)
 
 
-    const [dogsData, setDogsData] = useState([])
+    const [dogsData, setDogsData] = useState([]);
 
     const fetchdogsData = () => {
         fetch("https://api.thedogapi.com/v1/breeds")
@@ -62,22 +61,17 @@ export const SearchForm = () => {
         fetchdogsData();
     }, []);
 
-    const [breed, setBreed] = useState('')
+    const handleCityChange = (event) => {
+        setCity(event.target.value);
+    }
 
     const handleBreedChange = (event) => {
         setBreed(event.target.value);
     }
 
-    const [dogName, setDogName] = useState('')
 
     const handleDogNameChange = (event) => {
-        setDogName(event.target.value);
-    }
-
-    const handleSearchButton = (event) => {
-        console.log(searchedCity)
-        console.log(breed)
-        console.log(dogName)
+        setName(event.target.value);
     }
 
     return (
@@ -86,7 +80,7 @@ export const SearchForm = () => {
                 <InputLabel >Podaj miasto...</InputLabel>
                 <Select className="inputRounded"
                     id="demo-simple-select"
-                    value={searchedCity}
+                    value={city}
                     label="Podaj miasto..."
                     onChange={handleCityChange}
                     sx={{ borderRadius: 25 }}
@@ -113,14 +107,15 @@ export const SearchForm = () => {
             </FormControl>
             <FormControl fullWidth sx={{ width: '40%', mb: 5 }}>
                 <InputLabel >Podaj imię psa...</InputLabel>
-                <Input onChange={handleDogNameChange} sx={{ fontSize: '16px', m: 2 }}></Input>
+                <Input value={name} onChange={handleDogNameChange} sx={{ fontSize: '16px', m: 2 }}></Input>
             </FormControl>
             <Button
-                onClick={handleSearchButton}
                 variant='contained'
                 sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#e2e2e2' }} >
-                <Link to="/wanted-page">Szukaj</Link>
+
+                <Link to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}>siema</Link>
             </Button>
+
         </Wrapper >
     );
 };
