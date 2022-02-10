@@ -109,8 +109,9 @@ export const SearchForm = () => {
             <Button
                 variant='contained'
                 sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#e2e2e2' }} >
-
-                <Link to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}>Szukaj</Link>
+                <Link to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}>
+                    Szukaj
+                </Link>
             </Button>
 
         </Wrapper >
