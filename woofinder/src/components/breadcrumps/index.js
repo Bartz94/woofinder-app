@@ -46,7 +46,7 @@ export const Breadcrumbs = () => {
     return (
         <>
             <BreadContainer>
-                <Local>Jesteś na: stronie:</Local>
+                <Local>Jesteś na stronie :</Local>
                 {breadcrumbs.map(({
                     match,
                     breadcrumb

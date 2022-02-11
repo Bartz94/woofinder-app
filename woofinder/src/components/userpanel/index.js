@@ -109,19 +109,14 @@ const handleClickAvatarProfile = () => {
        </MenuItem>
        <MenuItem>
        <ModeIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />
-       <Button component={Link} to='/profile' onClick={handleClickAvatarProfile}>Edytuj dane</Button>
+       <Button sx={{color:"#64C2A7"}} component={Link} to='/profile' onClick={handleClickAvatarProfile}>Edytuj dane</Button>
        </MenuItem>
         <MenuItem>
-          <VpnKeyIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />
-          <Button>Zmień hasło</Button>
-        </MenuItem>
-       
-        <MenuItem>
           <ArticleIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />
-          <Button>Dodaj ogłoszenie</Button>
+          <Button sx={{color:"#64C2A7"}} >Dodaj ogłoszenie</Button>
         </MenuItem>
         <MenuItem>
-          <Button variant='outlined' sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#E2E2E2' }}>Zamknij ogłoszenie</Button>
+          <button className='close-button' variant='text' sx={{ color: 'white', fontSize: '16px', border: 'none ', borderRadius: '45px', padding:'15px',  }}>Zamknij ogłoszenie</button>
 
         </MenuItem>
         <Divider />
@@ -131,7 +126,7 @@ const handleClickAvatarProfile = () => {
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          <Button onClick={handleSignOutClick}>Wyloguj się</Button>
+          <Button sx={{color:"#64C2A7"}} onClick={handleSignOutClick}>Wyloguj się</Button>
         </MenuItem>
       </Menu>
     </>

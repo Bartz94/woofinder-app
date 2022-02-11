@@ -56,3 +56,17 @@ text-transform: capitalize;
   -o-border-radius: 25px;
 }
 
+.close-button{
+  background-color: #64C2A7;
+  color:white;
+  width: 250px;
+  height:35px;
+  border:none;
+  text-transform: uppercase;
+  
+}
+
+.close-button:hover{
+  background-color: black;
+  color: white;
+}
