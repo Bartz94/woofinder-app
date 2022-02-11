@@ -115,10 +115,7 @@ const handleClickAvatarProfile = () => {
           <VpnKeyIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />
           <Button>Zmień hasło</Button>
         </MenuItem>
-        <MenuItem>
-          <AddAPhotoIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />
-          <Button>Dodaj zdjęcie</Button>
-        </MenuItem>
+       
         <MenuItem>
           <ArticleIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />
           <Button>Dodaj ogłoszenie</Button>

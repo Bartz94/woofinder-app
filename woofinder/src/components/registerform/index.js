@@ -13,7 +13,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+
 
 
 const BootstrapDialog = styled(Dialog)`
@@ -124,7 +124,6 @@ export const RegisterForm = () => {
         </BootstrapDialogTitle>
         <DialogContentStyle>
           <Avatar sx={{ width: "186px", height: "186px", ml: 22, mt: 10 }} />
-          <input type ="file" />
           <form onSubmit={handleSubmit}>
             <TextField className="inputRounded"
               type="email"
