@@ -90,7 +90,7 @@ export const WantedList = () => {
     }, [wantedListCollectionRef])
 
     return <>
-        <Typography variant='h6' sx={{ marginLeft: '412px', mt: 2 }}>Liczba zaginięć zwierząt:{wantedListData.length}</Typography>
+        <Typography variant='h6' sx={{ marginLeft: '300px', mt: 2 }}>Liczba zaginięć zwierząt:{wantedListData.length}</Typography>
         <Container >
             {wantedListData.map((wantedList) => {
                 return (
