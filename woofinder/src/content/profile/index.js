@@ -8,6 +8,7 @@ import AddAPhoto from "@mui/icons-material/AddAPhoto";
 import { ButtonGroup } from "@mui/material";
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useUserContext } from "../../services/user-context";
+import { Breadcrumbs } from "../../components/breadcrumps";
 
 
 
@@ -67,6 +68,7 @@ export const Profile = () => {
         <>
             <UserContextProvider>
                 <Top></Top>
+                <Breadcrumbs></Breadcrumbs>
                 <Container>
                     <Title>Panel użytkownika</Title>
                     <Avatar src={avatarUrl} alt="profile" sx={{ height: "186px", width: "186px" }} ></Avatar>
