@@ -47,11 +47,11 @@ export const WantedList = () => {
 
     const { search } = useLocation();
     const { city, breed, name } = queryString.parse(search);
-
+    console.log({ city, breed, name })
 
     const wantedListCollectionRef = collection(db, "Wanted")
 
-    const q = query(wantedListCollectionRef, where("name", "==", name), where("cityLost", "==", city), where("breed", "==", breed));
+    const q = query(wantedListCollectionRef, where("name", "==", name), where("citylost", "==", city), where("breed", "==", breed));
 
     useEffect(() => {
 
@@ -62,13 +62,13 @@ export const WantedList = () => {
         };
         getWantedList()
         setIsLoading(false);
-    }, [q])
+    }, [])
 
 
     if (isLoading) {
         return (
             <Container>
-                <CircularProgress></CircularProgress>
+                <CircularProgress />
             </Container>
         )
     }
@@ -117,7 +117,7 @@ export const WantedList = () => {
                                 </WantedItemInfoBox>
                                 <WantedItemInfoBox>
                                     <Typography sx={{ fontSize: '1.1em', fontWeight: '500' }}>
-                                        {wantedList.cityLost ? wantedList.cityLost : 'Nie ma miasta'}
+                                        {wantedList.citylost ? wantedList.citylost : 'Nie ma miasta'}
                                     </Typography>
                                 </WantedItemInfoBox>
                                 <WantedItemInfoBox>
