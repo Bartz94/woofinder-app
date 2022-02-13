@@ -4,7 +4,6 @@ import queryString from 'query-string'
 import { useState, useEffect } from 'react'
 import { db } from '../../firebase-config';
 import { collection, getDocs, query, where } from 'firebase/firestore'
-import { Button } from '@mui/material';
 import { CircularProgress } from '@mui/material';
 import styled from 'styled-components';
 import { Button, Typography } from '@mui/material';
@@ -138,7 +137,7 @@ export const WantedList = () => {
                         </WantedItemInfoBox>
                         <WantedItemInfoBox>
                             <Typography sx={{ fontSize: '1.1em', fontWeight: '500' }}>
-                                {wantedList.cityLost ? wantedList.cityLost : '---'}
+                                {wantedList.citylost ? wantedList.citylost : '---'}
                             </Typography>
                         </WantedItemInfoBox>
 
