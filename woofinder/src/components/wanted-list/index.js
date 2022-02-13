@@ -62,7 +62,7 @@ export const WantedList = () => {
         };
         getWantedList()
         setIsLoading(false);
-    }, [])
+    }, [q])
 
 
     if (isLoading) {
