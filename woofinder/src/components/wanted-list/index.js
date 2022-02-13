@@ -1,7 +1,10 @@
 //Bartosz
+import { Link, useLocation } from 'react-router-dom'
+import queryString from 'query-string'
 import { useState, useEffect } from 'react'
 import { db } from '../../firebase-config';
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, query, where } from 'firebase/firestore'
+import { CircularProgress } from '@mui/material';
 import styled from 'styled-components';
 import { Button, Typography } from '@mui/material';
 import { Avatar } from '@mui/material';
@@ -77,17 +80,26 @@ margin-top:25px;
 
 export const WantedList = () => {
 
-    const [wantedListData, setWantedListData] = useState([])
+    const [wantedListData, setWantedListData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const { search } = useLocation();
+    const { city, breed, name } = queryString.parse(search);
+    console.log({ city, breed, name })
+
     const wantedListCollectionRef = collection(db, "Wanted")
+
+    const q = query(wantedListCollectionRef, where("name", "==", name), where("citylost", "==", city), where("breed", "==", breed));
 
     useEffect(() => {
 
         const getWantedList = async () => {
-            const data = await getDocs(wantedListCollectionRef);
+            setIsLoading(true);
+            const data = await getDocs(q);
             setWantedListData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
         };
         getWantedList()
-    }, [wantedListCollectionRef])
+    }, [])
 
     return <>
         <Typography variant='h6' sx={{ marginLeft: '300px', mt: 2 }}>Liczba zaginięć zwierząt:{wantedListData.length}</Typography>
@@ -99,7 +111,7 @@ export const WantedList = () => {
                             <Avatar src="https://picsum.photos/100/100" alt="dog" sx={{ width: '6em', height: '6em', marginLeft: "15px" }} />
                         </WantedItemInfoBox>
                         <WantedItemInfoBox>
-                            <Typography sx={{fontSize:'25px', fontWeight:'bold'}}>
+                            <Typography sx={{ fontSize: '25px', fontWeight: 'bold' }}>
                                 {wantedList.name ? wantedList.name : '---'}
                             </Typography>
                         </WantedItemInfoBox>
@@ -125,7 +137,7 @@ export const WantedList = () => {
                         </WantedItemInfoBox>
                         <WantedItemInfoBox>
                             <Typography sx={{ fontSize: '1.1em', fontWeight: '500' }}>
-                                {wantedList.cityLost ? wantedList.cityLost : '---'}
+                                {wantedList.citylost ? wantedList.citylost : '---'}
                             </Typography>
                         </WantedItemInfoBox>
 
@@ -152,6 +164,6 @@ export const WantedList = () => {
                 )
             })}
         </Container>
+    </>
 
-    </>;
 };
