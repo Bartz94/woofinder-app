@@ -1,10 +1,9 @@
 //Bartosz
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import queryString from 'query-string'
 import { useState, useEffect } from 'react'
 import { db } from '../../firebase-config';
 import { collection, getDocs, query, where } from 'firebase/firestore'
-import { CircularProgress } from '@mui/material';
 import styled from 'styled-components';
 import { Button, Typography } from '@mui/material';
 import { Avatar } from '@mui/material';
