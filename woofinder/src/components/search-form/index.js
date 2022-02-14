@@ -8,6 +8,9 @@ import Input from '@mui/material/Input'
 import Button from '@mui/material/Button'
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+
 
 const Wrapper = styled.section`
   display: flex;
@@ -18,26 +21,51 @@ const Wrapper = styled.section`
 `;
 
 export const SearchForm = () => {
-    const cities = [
-        { name: 'Wrocław' },
-        { name: 'Bydgoszcz' },
-        { name: 'Toruń' },
-        { name: 'Lublin' },
-        { name: 'Zielona Góra' },
-        { name: 'Gorzów Wielkopolski' },
-        { name: 'Łódź' },
-        { name: 'Kraków' },
-        { name: 'Warszawa' },
-        { name: 'Opole' },
-        { name: 'Rzeszów' },
-        { name: 'Białystok' },
-        { name: 'Gdańsk' },
-        { name: 'Katowice' },
-        { name: 'Kielce' },
-        { name: 'Olsztyn' },
-        { name: 'Poznań' },
-        { name: 'Szczecin' }
-    ];
+    const [cityData, setCityData] = useState([]);
+    const [isPending, setIsPending] = useState(false);
+
+    const getCityData = () => {
+        fetch('miasta_.json'
+            , {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }
+        )
+            .then(function (res) {
+                return res.json();
+            })
+            .catch((error) => {
+                console.error(`Error at fetch ${error}`);
+            })
+            .then(function (citiesData) {
+                setCityData(citiesData)
+                setIsPending(true);
+            })
+            .catch((error) => {
+                console.error(`Error at setting data to the state ${error}`);
+            });
+    }
+
+    useEffect(() => {
+        getCityData()
+    }, [])
+
+
+    // const reduceCityData = () => {
+    //     cityData.map((city) => {
+    //         console.log(city.cities)
+    //     })
+    // }
+    // reduceCityData()
+    const newArrOfTextSimples = cityData.map(item => item?.cities.map(item => item.text_simple))
+    console.log(newArrOfTextSimples)
+    // 
+    const cityText = newArrOfTextSimples.map(item => item.map(item => item.toString()))
+    // console.log(cityText)
+    const testData = cityData
+    // console.log(testData[0].cities[0].text_simple)
 
     const [dogsData, setDogsData] = useState([]);
 
@@ -74,37 +102,48 @@ export const SearchForm = () => {
     return (
         <Wrapper>
             <FormControl fullWidth sx={{ width: '40%', m: 3 }}>
-                <InputLabel >Podaj miasto...</InputLabel>
-                <Select className="inputRounded"
+                {/* <Select className="inputRounded"
                     id="demo-simple-select"
                     value={city}
                     label="Podaj miasto..."
                     onChange={handleCityChange}
                     sx={{ borderRadius: 25 }}
                 >
-                    {cities.map(city =>
-                        <MenuItem value={city.name} key={city.name}>{city.name}</MenuItem>
-                    )}
-                </Select>
+
+                </Select> */}
+                {/* <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    options={newArrOfTextSimples}
+                    sx={{ width: 300 }}
+                    renderInput={(params) => <TextField {...params} label="Movie" />}
+                /> */}
+                <Autocomplete
+                    options={newArrOfTextSimples}
+                    renderInput={(params) => <TextField
+                        {...params}
+                        value={city}
+                        label="Podaj miasto..."
+                        onChange={handleCityChange}
+                        sx={{ borderRadius: 25 }} />}
+                />
             </FormControl>
             <FormControl fullWidth sx={{ width: '40%', mb: 3 }}>
-                <InputLabel >Podaj rasę psa...</InputLabel>
-                <Select
-                    id="demo-simple-select"
-                    defaultValue=''
+                <TextField
                     value={breed}
                     label="Podaj rasę psa..."
                     onChange={handleBreedChange}
-                    sx={{ borderRadius: 25 }}
                 >
                     {dogsData.map(dog =>
                         <MenuItem value={dog.name} key={dog.id}>{dog.name}</MenuItem>
                     )}
-                </Select>
+                </TextField>
             </FormControl>
             <FormControl fullWidth sx={{ width: '40%', mb: 5 }}>
-                <InputLabel >Podaj imię psa...</InputLabel>
-                <Input value={name} onChange={handleDogNameChange} sx={{ fontSize: '16px', m: 2 }}></Input>
+                <TextField
+                    value={name}
+                    label="Podaj imię psa..."
+                    onChange={handleDogNameChange} />
             </FormControl>
             <Button
                 variant='contained'
