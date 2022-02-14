@@ -106,13 +106,12 @@ export const SearchForm = () => {
                 <InputLabel >Podaj imię psa...</InputLabel>
                 <Input value={name} onChange={handleDogNameChange} sx={{ fontSize: '16px', m: 2 }}></Input>
             </FormControl>
-            <Button
-                variant='contained'
-                sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#e2e2e2' }} >
-                <Link to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}>
+            <button className='search-button'
+                >
+                <Link to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`} style={{color:"black", textTransform:"capitalize", textDecoration:"none", fontWeight:"bold", fontSize:"16px"}}>
                     Szukaj
                 </Link>
-            </Button>
+            </button>
 
         </Wrapper >
     );
