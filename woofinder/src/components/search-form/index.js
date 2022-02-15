@@ -1,15 +1,13 @@
 //Bartosz
 import styled from 'styled-components';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Input from '@mui/material/Input'
 import Button from '@mui/material/Button'
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import { createFilterOptions } from '@mui/material/Autocomplete';
 
 
 const Wrapper = styled.section`
@@ -24,6 +22,7 @@ export const SearchForm = () => {
     const [cityData, setCityData] = useState([]);
     const [isPending, setIsPending] = useState(false);
 
+    //fetching data from ./public/*.json
     const getCityData = () => {
         fetch('miasta_.json'
             , {
@@ -49,22 +48,26 @@ export const SearchForm = () => {
     }
 
     useEffect(() => {
+        console.log('CITY EFFECT')
+
         getCityData()
     }, [])
 
 
-    // const reduceCityData = () => {
-    //     cityData.map((city) => {
-    //         console.log(city.cities)
-    //     })
-    // }
-    // reduceCityData()
+    //Limiting showed city suggestions in Autocomplete MUI Component
+    const OPTIONS_LIMIT = 1150;
+    const filterOptions = createFilterOptions({
+        limit: OPTIONS_LIMIT
+    });
+
+    //./public/data.json variant
+    // const newArrayOfCities = cityData.map(item => item.Name)    
+
     const newArrOfTextSimples = cityData.map(item => item?.cities.map(item => item.text_simple))
     console.log(newArrOfTextSimples)
-    // 
-    const cityText = newArrOfTextSimples.map(item => item.map(item => item.toString()))
-    // console.log(cityText)
-    const testData = cityData
+
+    //test data
+    // const testData = cityData
     // console.log(testData[0].cities[0].text_simple)
 
     const [dogsData, setDogsData] = useState([]);
@@ -79,6 +82,7 @@ export const SearchForm = () => {
     }
 
     useEffect(() => {
+        console.log('DOG EFFECT')
         fetchdogsData();
     }, []);
 
@@ -87,6 +91,7 @@ export const SearchForm = () => {
     const [name, setName] = useState('');
 
     const handleCityChange = (event) => {
+        console.log(event.target.value);
         setCity(event.target.value);
     }
 
@@ -101,31 +106,18 @@ export const SearchForm = () => {
 
     return (
         <Wrapper>
-            <FormControl fullWidth sx={{ width: '40%', m: 3 }}>
-                {/* <Select className="inputRounded"
-                    id="demo-simple-select"
-                    value={city}
-                    label="Podaj miasto..."
-                    onChange={handleCityChange}
-                    sx={{ borderRadius: 25 }}
-                >
-
-                </Select> */}
-                {/* <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    options={newArrOfTextSimples}
-                    sx={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} label="Movie" />}
-                /> */}
+            <FormControl fullWidth sx={{ width: '40%', height: "0.4em" }}>
                 <Autocomplete
+                    filterOptions={filterOptions}
                     options={newArrOfTextSimples}
+                    //getOptionLabel CLUE
+                    // getOptionLabel={cityData.map(item => item?.cities.map(item => item.text_simple))}
                     renderInput={(params) => <TextField
                         {...params}
                         value={city}
                         label="Podaj miasto..."
                         onChange={handleCityChange}
-                        sx={{ borderRadius: 25 }} />}
+                    />}
                 />
             </FormControl>
             <FormControl fullWidth sx={{ width: '40%', mb: 3 }}>
@@ -147,12 +139,11 @@ export const SearchForm = () => {
             </FormControl>
             <Button
                 variant='contained'
-                sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#e2e2e2' }} >
-                <Link to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}>
+                sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#e2e2e2', mb: 4 }} >
+                <Link underline='hover' to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}>
                     Szukaj
                 </Link>
             </Button>
-
         </Wrapper >
     );
 };
