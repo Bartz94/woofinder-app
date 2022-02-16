@@ -13,7 +13,7 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3em;
+  margin-top: 4em;
 
 `;
 const TextFieldStyled = styled(TextField)`
@@ -119,7 +119,7 @@ export const SearchForm = () => {
 
     return (
         <Wrapper>
-            <FormControl fullWidth required sx={{ maxWidth: '900px', m: 3 }}>
+            <FormControl fullWidth required sx={{ maxWidth: '900px' }}>
                 <Autocomplete
                     freeSolo
                     filterOptions={filterOptions}
