@@ -24,9 +24,6 @@ const BootstrapDialog = styled(Dialog)`
   
 `;
 
-
-
-
 const ContainerForm = styled.div`
 display:flex;
 flex-direction:column;
@@ -34,10 +31,21 @@ justify-content:space-evenly;
 align-items:center;
 `;
 
-
 export const AddFormWanted = () => {
 
   const [open, setOpen] = React.useState(false);
+  const [nameErrorsForm, setNameErrorsForm] = React.useState(false)
+  const [breedErrorsForm, setBreedErrorsForm] = React.useState(false)
+  const [lostDateErrorsForm, setLostDateErrorsForm] = React.useState(false)
+  const [cityErrorsForm, setCityErrorsForm] = React.useState(false)
+  const [phoneErrorsForm, setPhoneErrorsForm] = React.useState(false)
+  const [ownerErrorsForm, setOwnerErrorsForm] = React.useState(false)
+  const [descriptionErrorsForm, setDescriptionErrorsForm] = React.useState(false)
+  const [detailsErrorsForm, setDetailsErrorsForm] = React.useState(false)
+  const [adressErrorsForm, setAdressErrorsForm] = React.useState(false)
+
+
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -53,6 +61,8 @@ export const AddFormWanted = () => {
       [e.target.name]: e.target.value
     })
   }
+
+  
 
   const [formData, setFormData] = useState({
     address: '',
@@ -70,7 +80,35 @@ export const AddFormWanted = () => {
 
   const { name, address, breed, citylost, local, lost_date, phone, owner, description, details } = formData;
 
-  const handleAdd = async () => {
+  const handleAdd = async (e) => {
+    e.preventDefault()
+    setNameErrorsForm(false)
+    setBreedErrorsForm(false)
+    setCityErrorsForm(false)
+    setLostDateErrorsForm(false)
+    setOwnerErrorsForm(false)
+    setPhoneErrorsForm(false)
+    setDetailsErrorsForm(false)
+    setDescriptionErrorsForm(false)
+    setAdressErrorsForm(false)
+
+
+    if (name === "") {
+      e.stopPropagation()
+      setNameErrorsForm(true)
+      setBreedErrorsForm(true)
+      setCityErrorsForm(true)
+      setLostDateErrorsForm(true)
+      setOwnerErrorsForm(true)
+      setPhoneErrorsForm(true)
+      setDetailsErrorsForm(true)
+      setDescriptionErrorsForm(true)
+      setAdressErrorsForm(true)
+    }
+    if(name === "true") {
+      e.preventDefault();
+    }
+
 
     await addDoc(collection(db, "Wanted"), {
       address: address,
@@ -85,7 +123,7 @@ export const AddFormWanted = () => {
       description: description,
       details: details
     });
-    setOpen(false);
+    
   }
 
 
@@ -142,23 +180,128 @@ export const AddFormWanted = () => {
 
           <DialogContent>
 
-            <Avatar sx={{ width: "186px", height: "186px", mt:2, mb:2, ml:60}} />
+            <Avatar sx={{ width: "186px", height: "186px", mt: 2, mb: 2, ml: 60 }} />
 
-            <label>Imię psa</label>
-            <TextField id="name" name="name" value={name} onChange={handleChange}  type="text" fullWidth sx={{ mb: 2 }} />
-            <TextField id="breed" name="breed" value={breed} onChange={handleChange} label="Rasa" type="text" fullWidth sx={{ mb: 2 }} />
-            <TextField id="lost_date" name="lost_date" value={lost_date} onChange={handleChange} label="Data zaginięcia" type="date" fullWidth sx={{ mb: 2 }} />
-            <TextField id="local" name="local" value={local} onChange={handleChange} label="Ostatnia lokalizacja pobytu" type="text" fullWidth sx={{ mb: 2 }} />
-            <TextField id="owner" name="owner" value={owner} onChange={handleChange} label="Imię właściciela" type="text" fullWidth sx={{ mb: 2 }} />
-            <TextField id="phone" name="phone" value={phone} onChange={handleChange} label="Telefon właściciela" type="phone" fullWidth sx={{ mb: 2 }} />
-            <TextField id="address" name="address" value={address} onChange={handleChange} label="Adres zamieszakania właściciela" type="text" fullWidth sx={{ mb: 2 }} />
-            <TextField id="description" name="description" value={description} onChange={handleChange} label="opis" fullWidth multiline rows={4} sx={{ mb: 2 }} />
-            <TextField id="details" name="details" value={details} onChange={handleChange} label="znaki szczególne" fullWidth sx={{ mb: 2 }} />
-            <DialogActions>
-              <button className='search-button' variant="contained" sx={{ color: 'black', borderRadius: '20px', backgroundColor: '#E2E2E2', textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleAdd}>
-                Zapisz
-              </button>
-            </DialogActions>
+            <form onChange={handleAdd}>
+              <label>Imię psa</label>
+              <TextField
+                id="name"
+                name="name"
+                value={name}
+                onChange={handleChange}
+                type="text"
+                fullWidth
+                error={nameErrorsForm}
+                helperText="Uzupełnij pola"
+                sx={{ mb: 2 }}
+              />
+              <label>Rasa</label>
+              <TextField 
+              id="breed" 
+              name="breed" 
+              value={breed} 
+              onChange={handleChange} 
+              type="text" 
+              fullWidth 
+              error={breedErrorsForm}
+              helperText="Uzupełnij pola"
+              sx={{ mb: 2 }} 
+              />
+              <label>Data zaginięcia</label>
+              <TextField 
+              id="lost_date" 
+              name="lost_date" 
+              value={lost_date} 
+              onChange={handleChange} 
+              type="date" 
+              error={lostDateErrorsForm}
+              helperText="Uzupełnij pola"
+              fullWidth 
+              sx={{ mb: 2 }} />
+
+              <label>Ostatnia lokalizacja pobytu</label>
+              <TextField 
+              id="local" 
+              name="local" 
+              value={local} 
+              onChange={handleChange} 
+              type="text" 
+              fullWidth 
+              error={cityErrorsForm}
+              helperText="Uzupełnij pola"
+              sx={{ mb: 2 }} />
+
+              <label>Imię właściciela</label>
+              <TextField 
+              id="owner" 
+              name="owner" 
+              value={owner} 
+              onChange={handleChange} 
+              type="text"
+              error={ownerErrorsForm}
+              helperText="Uzupełnij pola"
+              fullWidth 
+              sx={{ mb: 2 }} />
+
+              <label>Telefon właściciela</label>
+              <TextField 
+              id="phone" 
+              name="phone" 
+              value={phone} 
+              onChange={handleChange} 
+              type="phone"
+              error={phoneErrorsForm}
+              helperText="Uzupełnij pola" 
+              fullWidth 
+              sx={{ mb: 2 }} />
+
+              <label>Adres zamieszakania</label>
+              <TextField 
+              id="address" 
+              name="address" 
+              value={address} 
+              onChange={handleChange} 
+              type="text"
+              error={adressErrorsForm} 
+              helperText="Uzupełnij pola"
+              fullWidth 
+              sx={{ mb: 2 }} />
+
+              <label>Opis</label>
+              <TextField 
+              id="description" 
+              name="description" 
+              value={description} 
+              onChange={handleChange} 
+              fullWidth
+              error={descriptionErrorsForm}
+              helperText="Uzupełnij pola"  
+              multiline rows={4} 
+              sx={{ mb: 2 }} />
+
+              <label>Znaki szczególne</label>
+              <TextField 
+              id="details" 
+              name="details" 
+              value={details} 
+              onChange={handleChange}
+              error={detailsErrorsForm}
+              helperText="Uzupełnij pola"  
+              fullWidth 
+              sx={{ mb: 2 }} />
+
+              <DialogActions>
+                <button 
+                className='search-button' 
+                variant="contained" 
+                sx={{ color: 'black', borderRadius: '20px', backgroundColor: '#E2E2E2', textTransform: 'capitalize', fontWeight: 'bold' }} 
+                autoFocus onClick={handleAdd}>
+                  Zapisz
+                </button>
+              </DialogActions>
+
+            </form>
+
           </DialogContent>
         </ContainerForm>
       </BootstrapDialog>
