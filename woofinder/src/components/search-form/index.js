@@ -1,6 +1,5 @@
 //Bartosz
 import styled from 'styled-components';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button'
 import { useState, useEffect } from 'react';
@@ -14,17 +13,26 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 12em;
-  margin-top: 50px;
+  margin-top: 3em;
+
+`;
+const TextFieldStyled = styled(TextField)`
+  fieldset {
+    border-radius: 25px;
+  }
+`;
+
+const LinkStyled = styled(Link)`
+    color:black;
+    text-decoration: none;
 `;
 
 export const SearchForm = () => {
     const [cityData, setCityData] = useState([]);
-    const [isPending, setIsPending] = useState(false);
 
-    //fetching data from ./public/*.json
+    //fetching data from ./public/city-data.json
     const getCityData = () => {
-        fetch('miasta_.json'
+        fetch('city-data.json'
             , {
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,9 +46,8 @@ export const SearchForm = () => {
             .catch((error) => {
                 console.error(`Error at fetch ${error}`);
             })
-            .then(function (citiesData) {
-                setCityData(citiesData)
-                setIsPending(true);
+            .then(function (dogsData) {
+                setCityData(dogsData)
             })
             .catch((error) => {
                 console.error(`Error at setting data to the state ${error}`);
@@ -48,102 +55,118 @@ export const SearchForm = () => {
     }
 
     useEffect(() => {
-        console.log('CITY EFFECT')
-
         getCityData()
     }, [])
 
-
-    //Limiting showed city suggestions in Autocomplete MUI Component
-    const OPTIONS_LIMIT = 1150;
-    const filterOptions = createFilterOptions({
-        limit: OPTIONS_LIMIT
-    });
-
-    //./public/data.json variant
-    // const newArrayOfCities = cityData.map(item => item.Name)    
-
-    const newArrOfTextSimples = cityData.map(item => item?.cities.map(item => item.text_simple))
-    console.log(newArrOfTextSimples)
-
-    //test data
-    // const testData = cityData
-    // console.log(testData[0].cities[0].text_simple)
+    //getting only city names to an array
+    const arrayOfCityNames = cityData.map(city => city.name)
 
     const [dogsData, setDogsData] = useState([]);
-
+    //fetching data from ./public/dogs-data.json
     const fetchdogsData = () => {
-        fetch("https://api.thedogapi.com/v1/breeds")
-            .then((response) => response.json())
-            .then((dogsData) => setDogsData(dogsData))
+        fetch('dogs-data.json'
+            , {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }
+        )
+            .then(function (res) {
+                return res.json();
+            })
             .catch((error) => {
-                console.error("Error:", error);
+                console.error(`Error at fetch ${error}`);
+            })
+            .then(function (dogsData) {
+                setDogsData(dogsData)
+            })
+            .catch((error) => {
+                console.error(`Error at setting data to the state ${error}`);
             });
     }
 
     useEffect(() => {
-        console.log('DOG EFFECT')
         fetchdogsData();
     }, []);
 
+
+    //getting only dog names to an array
+    const dogNamesArray = dogsData.map(dog => dog.name)
+
+    //creating states to contain values from search inputs
     const [city, setCity] = useState('');
     const [breed, setBreed] = useState('');
     const [name, setName] = useState('');
 
+
+    //creating function to capture a values to the state
     const handleCityChange = (event) => {
-        console.log(event.target.value);
         setCity(event.target.value);
     }
-
     const handleBreedChange = (event) => {
         setBreed(event.target.value);
     }
-
-
     const handleDogNameChange = (event) => {
         setName(event.target.value);
     }
 
+    //Limiting showed city suggestions in Autocomplete MUI Component
+    const OPTIONS_LIMIT = 10;
+    const filterOptions = createFilterOptions({
+        limit: OPTIONS_LIMIT
+    });
+
     return (
         <Wrapper>
-            <FormControl fullWidth sx={{ width: '40%', height: "0.4em" }}>
+            <FormControl fullWidth required sx={{ maxWidth: '900px', m: 3 }}>
                 <Autocomplete
+                    freeSolo
                     filterOptions={filterOptions}
-                    options={newArrOfTextSimples}
-                    //getOptionLabel CLUE
-                    // getOptionLabel={cityData.map(item => item?.cities.map(item => item.text_simple))}
-                    renderInput={(params) => <TextField
+                    onChange={(event, newValue) => {
+                        setCity(newValue);
+                    }}
+                    options={arrayOfCityNames}
+                    renderInput={(params) => <TextFieldStyled
                         {...params}
-                        value={city}
+
                         label="Podaj miasto..."
+
                         onChange={handleCityChange}
                     />}
                 />
-            </FormControl>
-            <FormControl fullWidth sx={{ width: '40%', mb: 3 }}>
-                <TextField
-                    value={breed}
-                    label="Podaj rasę psa..."
-                    onChange={handleBreedChange}
-                >
-                    {dogsData.map(dog =>
-                        <MenuItem value={dog.name} key={dog.id}>{dog.name}</MenuItem>
-                    )}
-                </TextField>
-            </FormControl>
-            <FormControl fullWidth sx={{ width: '40%', mb: 5 }}>
-                <TextField
+                <Autocomplete
+                    freeSolo
+                    filterOptions={filterOptions}
+                    onChange={(event, newValue) => { setBreed(newValue) }}
+                    options={dogNamesArray}
+                    sx={{ margin: '2em 0' }}
+                    renderInput={(params) => <TextFieldStyled
+                        {...params}
+                        label="Podaj rasę psa..."
+                        onChange={handleBreedChange}
+                    />}
+                />
+                <TextFieldStyled
                     value={name}
                     label="Podaj imię psa..."
                     onChange={handleDogNameChange} />
+                <Button
+                    sx={{
+                        color: 'black',
+                        fontSize: '16px',
+                        border: 'none ',
+                        borderRadius: '20px',
+                        backgroundColor: '#e2e2e2',
+                        margin: '2em auto'
+                    }}
+                    variant='contained'
+                >
+                    <LinkStyled to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}>
+                        Szukaj
+                    </LinkStyled>
+                </Button>
             </FormControl>
-            <Button
-                variant='contained'
-                sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#e2e2e2', mb: 4 }} >
-                <Link underline='hover' to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}>
-                    Szukaj
-                </Link>
-            </Button>
         </Wrapper >
     );
 };
