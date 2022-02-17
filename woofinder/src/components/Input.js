@@ -1,5 +1,14 @@
 import "./input.css"
 import { TextField } from '@mui/material'
+import styled from "styled-components";
+
+const SpecLabel = styled.label`
+color:red;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content: flex-end;
+`;
 
 
 export const FormInput = (props) => {
@@ -7,7 +16,7 @@ export const FormInput = (props) => {
 
     return (
         <div className='formInput'>
-            <label>{label}</label>
+            <SpecLabel>{label}</SpecLabel>
             <input {...inputProps} onChange={onChange} />
         </div>
     )
