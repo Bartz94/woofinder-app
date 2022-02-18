@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import { useState, useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -13,7 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
 import { firebaseConfig } from "../../firebase-config";
-import FormValidate from '../addformvalidate-wanted';
+import { FormInput } from '../Input';
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
@@ -31,11 +29,44 @@ justify-content:space-evenly;
 align-items:center;
 `;
 
+const FormWrapper = styled.form`
+display:flex;
+flex-direction:column;
+
+
+`;
+
+const SpecLabel = styled.label`
+margin-bottom:15px;
+margin-top:15px;
+font-weight:bold;
+color:black;
+
+
+`;
+
+
+
+
 export const AddFormWanted = () => {
+  const initialValues = {
+    address: '',
+    breed: '',
+    citylost: '',
+    local: '',
+    lost_date: '',
+    name: '',
+    owner: '',
+    phone: '',
+    photolink: '',
+    description: '',
+    details: ''
+  };
+  const [formData, setFormData] = useState(initialValues)
+  const [formErrors, setFormErrors] = useState({})
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const [open, setOpen] = React.useState(false);
- 
-
 
 
 
@@ -56,44 +87,61 @@ export const AddFormWanted = () => {
 
 
 
-  const [formData, setFormData] = useState({
-    address: '',
-    breed: '',
-    citylost: '',
-    local: '',
-    lost_date: '',
-    name: '',
-    owner: '',
-    phone: '',
-    photolink: '',
-    description: '',
-    details: ''
-  });
 
-  const { name, address, breed, citylost, local, lost_date, phone, owner, description, details } = formData;
+
+  const { name, address, breed, citylost, local, lost_date,
+    phone, owner, description, details } = formData;
 
   const handleAdd = async (e) => {
-    e.preventDefault()
-    
+    e.preventDefault();
+    setFormErrors(validate(formData));
+    setIsSubmit(true);
 
 
-  
-await addDoc(collection(db, "Wanted"), {
-        address: address,
-        breed: breed,
-        citylost: citylost,
-        coordinates: local,
-        dateofmissing: lost_date,
-        name: name,
-        ownername: owner,
-        phone: phone,
-        photolink: "link",
-        description: description,
-        details: details
-      });
-    }
+
+    await addDoc(collection(db, "Wanted"), {
+      address: address,
+      breed: breed,
+      citylost: citylost,
+      coordinates: local,
+      dateofmissing: lost_date,
+      name: name,
+      ownername: owner,
+      phone: phone,
+      photolink: "link",
+      description: description,
+      details: details
+    });
     // setOpen(false);
-  
+  }
+
+  useEffect(() => {
+    console.log(formErrors)
+    if (Object.keys(formErrors).lenght === 0 && isSubmit) {
+      console.log(formData);
+    }
+  }, [formErrors]);
+
+  const validate = (values) => {
+    const errors = {}
+    const regex = "_[a-zA-Z0-9]+";
+
+    if (!formData.name) {
+      errors.name = "Imię psa jest wymagane";
+    }
+    if (!formData.breed) {
+      errors.breed = "Rasa psa jest wymagana";
+    }
+    if (!formData.lost_date) {
+      errors.lost_date = "Data jest wymagana";
+    }
+    return errors;
+
+  };
+
+
+
+
 
 
   const BootstrapDialogTitle = (props) => {
@@ -149,10 +197,44 @@ await addDoc(collection(db, "Wanted"), {
 
           <DialogContent>
 
-            
+
             <ContainerForm>
-            <Avatar sx={{ width: "186px", height: "186px"}} />
-              <FormValidate/>
+              <Avatar sx={{ width: "186px", height: "186px" }} />
+              <pre>{JSON.stringify(formData, undefined, 2)}</pre>
+              <FormWrapper noValidate onSubmit={handleAdd}>
+                <SpecLabel>Imię psa</SpecLabel>
+                <FormInput type="text name=" name placeholder="Imię psa" />
+
+                <SpecLabel>Rasa psa</SpecLabel>
+                <FormInput type="text" name="name" placeholder="Rasa psa" />
+
+                <SpecLabel>Data zaginięcia</SpecLabel>
+                <FormInput type="date" name="lost_date"
+                />
+
+                <SpecLabel>Ostatnia lokalizacja psa</SpecLabel>
+                <FormInput type="text" name="citylost" placeholder="Ostatnia lokalizacja psa" />
+
+                <SpecLabel>Imię właściciela</SpecLabel>
+                <FormInput type="text" name="owner" placeholder="Imię właściciela" />
+
+                <SpecLabel>Telefon</SpecLabel>
+                <FormInput type="number" name="phone" placeholder="Telefon" />
+
+                <SpecLabel>Adres</SpecLabel>
+                <FormInput type="text" name="address" placeholder="Adres" />
+
+                <SpecLabel>Opis</SpecLabel>
+                <FormInput type="text" name="description" placeholder="Opis" />
+
+                <SpecLabel>Znaki szczególne</SpecLabel>
+                <FormInput type="text" name="details" placeholder="Znaki szczególne" />
+
+
+                <button onClick={handleAdd} className="search-button">Dodaj ogłoszenie</button>
+              </FormWrapper>
+
+
             </ContainerForm>
 
           </DialogContent>
@@ -161,3 +243,4 @@ await addDoc(collection(db, "Wanted"), {
     </div >
   );
 }
+
