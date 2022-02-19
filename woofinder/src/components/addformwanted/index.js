@@ -12,6 +12,8 @@ import { getFirestore, collection, addDoc } from "https://www.gstatic.com/fireba
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
 import { firebaseConfig } from "../../firebase-config";
 import { FormInput } from '../Input';
+import { Alert } from '@mui/material';
+import { AlertTitle } from '@mui/material';
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
@@ -43,6 +45,10 @@ font-weight:bold;
 color:black;
 
 
+`;
+
+const Comunicate = styled.p`
+color:red;
 `;
 
 
@@ -80,10 +86,9 @@ export const AddFormWanted = () => {
   };
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+    const { name, value } = e.target;
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+    console.log(formData);
   }
 
 
@@ -94,8 +99,6 @@ export const AddFormWanted = () => {
     e.preventDefault();
     setFormErrors(validate(formData));
     setIsSubmit(true);
-
-
 
     await addDoc(collection(db, "Wanted"), {
       address: address,
@@ -110,28 +113,39 @@ export const AddFormWanted = () => {
       description: description,
       details: details
     });
-    // setOpen(false);
-  }
 
+    setOpen(false);
+
+  }
   useEffect(() => {
-    console.log(formErrors)
-    if (Object.keys(formErrors).lenght === 0 && isSubmit) {
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
       console.log(formData);
     }
-  }, [formErrors]);
-
+  }, [formErrors])
   const validate = (values) => {
     const errors = {};
-    const regex = "_[a-zA-Z0-9]+";
+    const regex = "^[a-zA-Z]+$";
 
-    if (!formData.name) {
+    if (!values.name) {
       errors.name = "Imię psa jest wymagane";
     }
-    if (!formData.breed) {
+    if (!values.breed) {
       errors.breed = "Rasa psa jest wymagana";
     }
-    if (!formData.lost_date) {
+    if (!values.lost_date) {
       errors.lost_date = "Data jest wymagana";
+    }
+    if (!values.citylost) {
+      errors.citylost = "Miejscowość jest wymagana";
+    }
+    if (!values.owner) {
+      errors.owner = "Imię właściciela jest wymagane";
+    }
+    if (!values.phone) {
+      errors.phone = "Telefon jest wymagany";
+    }
+    if (!values.address) {
+      errors.address = "Adres jest wymagany";
     }
     return errors;
 
@@ -178,6 +192,7 @@ export const AddFormWanted = () => {
   };
 
   return (
+
     <div>
       <button className="search-button" onClick={handleClickOpen}>
         Dodaj ogłoszenie
@@ -189,6 +204,7 @@ export const AddFormWanted = () => {
         open={open}
       >
         <ContainerForm>
+
           <BootstrapDialogTitle variant="h4" sx={{ fontFamily: 'Segoe UI', fontWeight: 'bold', textTransform: "uppercase" }} id="customized-dialog-title" onClose={handleClose}>
             Formularz zgłoszeniowy
           </BootstrapDialogTitle>
@@ -196,34 +212,48 @@ export const AddFormWanted = () => {
           <DialogContent>
 
 
+
             <ContainerForm>
               <Avatar sx={{ width: "186px", height: "186px" }} />
-              <pre>{JSON.stringify(formData, undefined, 2)}</pre>
               <FormWrapper noValidate onSubmit={handleAdd}>
+
                 <SpecLabel>Imię psa</SpecLabel>
-                <FormInput type="text" name="name" placeholder="Imię psa" value={formData.name}
+                <FormInput type="text" name="name" placeholder="Imię psa" required value={formData.name}
                   onChange={handleChange} />
+                <Comunicate>{formErrors.name}</Comunicate>
 
                 <SpecLabel>Rasa psa</SpecLabel>
+
                 <FormInput type="text" name="breed" placeholder="Rasa psa" value={formData.breed}
                   onChange={handleChange} />
+                <Comunicate>{formErrors.breed}</Comunicate>
 
                 <SpecLabel>Data zaginięcia</SpecLabel>
+
                 <FormInput type="date" name="lost_date" value={formData.lost_date} onChange={handleChange}
                 />
+                <Comunicate>{formErrors.lost_date}</Comunicate>
 
                 <SpecLabel>Ostatnia lokalizacja psa</SpecLabel>
                 <FormInput type="text" name="citylost" placeholder="Ostatnia lokalizacja psa" value={formData.citylost} onChange={handleChange} />
+                <Comunicate>{formErrors.citylost}</Comunicate>
+
+                {Object.keys(formErrors).length === 0 && isSubmit ? (<Alert severity="success"><AlertTitle>Success</AlertTitle>Ogłoszenie zostało dodane</Alert>) : (
+                  <Alert Alert severity="info"><p>Aby dodać ogłoszenie musisz uzupełnić formularz</p></Alert>
+                )}
 
                 <SpecLabel>Imię właściciela</SpecLabel>
                 <FormInput type="text" name="owner" placeholder="Imię właściciela" value={formData.owner} onChange={handleChange} />
+                <Comunicate>{formErrors.owner}</Comunicate>
 
                 <SpecLabel>Telefon</SpecLabel>
                 <FormInput type="number" name="phone" placeholder="Telefon" value={formData.phone} onChange={handleChange} />
+                <Comunicate>{formErrors.phone}</Comunicate>
 
                 <SpecLabel>Adres</SpecLabel>
                 <FormInput type="text" name="address" placeholder="Adres" value={formData.address}
                   onChange={handleChange} />
+                <Comunicate>{formErrors.address}</Comunicate>
 
                 <SpecLabel>Opis</SpecLabel>
                 <FormInput type="text" name="description" placeholder="Opis" value={formData.description} onChange={handleChange} />

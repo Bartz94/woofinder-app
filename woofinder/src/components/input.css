@@ -29,3 +29,14 @@ input:invalid[focused="true"]{
 input:invalid[focused="true"]~.error{
     display: block;
 }
+
+.success{
+    background-color:aquamarine;
+    width: 400px;
+    height:200px;
+    border-radius:25px;
+    -webkit-border-radius:25px;
+    -moz-border-radius:25px;
+    -ms-border-radius:25px;
+    -o-border-radius:25px;
+}

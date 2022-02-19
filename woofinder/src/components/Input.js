@@ -21,7 +21,7 @@ export const FormInput = (props) => {
 
   
     const [focused, setFocused ] = useState(false);
-    const {label, errorMessage, onChange, id,...inputProps }
+    const {label,onChange, id,...inputProps }
      = props;
     
 
