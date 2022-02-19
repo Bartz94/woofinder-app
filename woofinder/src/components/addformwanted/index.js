@@ -62,6 +62,7 @@ export const AddFormWanted = () => {
     description: '',
     details: ''
   };
+
   const [formData, setFormData] = useState(initialValues)
   const [formErrors, setFormErrors] = useState({})
   const [isSubmit, setIsSubmit] = useState(false);
@@ -84,9 +85,6 @@ export const AddFormWanted = () => {
       [e.target.name]: e.target.value
     })
   }
-
-
-
 
 
   const { name, address, breed, citylost, local, lost_date,
@@ -123,7 +121,7 @@ export const AddFormWanted = () => {
   }, [formErrors]);
 
   const validate = (values) => {
-    const errors = {}
+    const errors = {};
     const regex = "_[a-zA-Z0-9]+";
 
     if (!formData.name) {
@@ -203,32 +201,36 @@ export const AddFormWanted = () => {
               <pre>{JSON.stringify(formData, undefined, 2)}</pre>
               <FormWrapper noValidate onSubmit={handleAdd}>
                 <SpecLabel>Imię psa</SpecLabel>
-                <FormInput type="text name=" name placeholder="Imię psa" />
+                <FormInput type="text" name="name" placeholder="Imię psa" value={formData.name}
+                  onChange={handleChange} />
 
                 <SpecLabel>Rasa psa</SpecLabel>
-                <FormInput type="text" name="name" placeholder="Rasa psa" />
+                <FormInput type="text" name="breed" placeholder="Rasa psa" value={formData.breed}
+                  onChange={handleChange} />
 
                 <SpecLabel>Data zaginięcia</SpecLabel>
-                <FormInput type="date" name="lost_date"
+                <FormInput type="date" name="lost_date" value={formData.lost_date} onChange={handleChange}
                 />
 
                 <SpecLabel>Ostatnia lokalizacja psa</SpecLabel>
-                <FormInput type="text" name="citylost" placeholder="Ostatnia lokalizacja psa" />
+                <FormInput type="text" name="citylost" placeholder="Ostatnia lokalizacja psa" value={formData.citylost} onChange={handleChange} />
 
                 <SpecLabel>Imię właściciela</SpecLabel>
-                <FormInput type="text" name="owner" placeholder="Imię właściciela" />
+                <FormInput type="text" name="owner" placeholder="Imię właściciela" value={formData.owner} onChange={handleChange} />
 
                 <SpecLabel>Telefon</SpecLabel>
-                <FormInput type="number" name="phone" placeholder="Telefon" />
+                <FormInput type="number" name="phone" placeholder="Telefon" value={formData.phone} onChange={handleChange} />
 
                 <SpecLabel>Adres</SpecLabel>
-                <FormInput type="text" name="address" placeholder="Adres" />
+                <FormInput type="text" name="address" placeholder="Adres" value={formData.address}
+                  onChange={handleChange} />
 
                 <SpecLabel>Opis</SpecLabel>
-                <FormInput type="text" name="description" placeholder="Opis" />
+                <FormInput type="text" name="description" placeholder="Opis" value={formData.description} onChange={handleChange} />
 
                 <SpecLabel>Znaki szczególne</SpecLabel>
-                <FormInput type="text" name="details" placeholder="Znaki szczególne" />
+                <FormInput type="text" name="details" placeholder="Znaki szczególne" value={formData.details}
+                  onChange={handleChange} />
 
 
                 <button onClick={handleAdd} className="search-button">Dodaj ogłoszenie</button>
