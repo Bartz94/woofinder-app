@@ -12,7 +12,7 @@ import { getFirestore, collection, addDoc } from "https://www.gstatic.com/fireba
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
 import { firebaseConfig } from "../../firebase-config";
 import { FormInput } from '../Input';
-import { Alert } from '@mui/material';
+import { Alert, Snackbar } from '@mui/material';
 import { AlertTitle } from '@mui/material';
 
 const app = initializeApp(firebaseConfig);
@@ -238,7 +238,13 @@ export const AddFormWanted = () => {
                 <FormInput type="text" name="citylost" placeholder="Ostatnia lokalizacja psa" value={formData.citylost} onChange={handleChange} />
                 <Comunicate>{formErrors.citylost}</Comunicate>
 
-                {Object.keys(formErrors).length === 0 && isSubmit ? (<Alert severity="success"><AlertTitle>Success</AlertTitle>Ogłoszenie zostało dodane</Alert>) : (
+                {Object.keys(formErrors).length === 0 && isSubmit ? 
+                (
+                  <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}
+                  >
+                <Alert severity="success" sx={{ width: '100%' }}><AlertTitle>Success</AlertTitle>Ogłoszenie zostało dodane</Alert>
+                </Snackbar>
+                ) : (
                   <Alert Alert severity="info"><p>Aby dodać ogłoszenie musisz uzupełnić formularz</p></Alert>
                 )}
 
