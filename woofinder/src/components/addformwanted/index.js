@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
@@ -12,8 +13,10 @@ import { getFirestore, collection, addDoc } from "https://www.gstatic.com/fireba
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
 import { firebaseConfig } from "../../firebase-config";
 import { FormInput } from '../Input';
-import { Alert, Snackbar } from '@mui/material';
-import { AlertTitle } from '@mui/material';
+import Snackbar from '@mui/material/Snackbar';
+import AlertTitle from '@mui/material/AlertTitle';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
@@ -69,12 +72,15 @@ export const AddFormWanted = () => {
     details: ''
   };
 
-  const [formData, setFormData] = useState(initialValues)
+ const [formData, setFormData] = useState(initialValues)
   const [formErrors, setFormErrors] = useState({})
   const [isSubmit, setIsSubmit] = useState(false);
 
-  const [open, setOpen] = React.useState(false);
+  
+  
 
+  const [open, setOpen] = React.useState(false);
+  
 
 
   const handleClickOpen = () => {
@@ -86,7 +92,6 @@ export const AddFormWanted = () => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
     setFormData({ ...formData, [e.target.name]: e.target.value })
     console.log(formData);
   }
@@ -99,6 +104,10 @@ export const AddFormWanted = () => {
     e.preventDefault();
     setFormErrors(validate(formData));
     setIsSubmit(true);
+    
+   
+ 
+  
 
     await addDoc(collection(db, "Wanted"), {
       address: address,
@@ -113,8 +122,8 @@ export const AddFormWanted = () => {
       description: description,
       details: details
     });
-
-    setOpen(false);
+    setOpen(true);
+   
 
   }
   useEffect(() => {
@@ -124,30 +133,39 @@ export const AddFormWanted = () => {
   }, [formErrors])
   const validate = (values) => {
     const errors = {};
-    const regex = "^[a-zA-Z]+$";
+
+
 
     if (!values.name) {
       errors.name = "Imię psa jest wymagane";
+
     }
     if (!values.breed) {
       errors.breed = "Rasa psa jest wymagana";
+
     }
     if (!values.lost_date) {
       errors.lost_date = "Data jest wymagana";
+
     }
     if (!values.citylost) {
       errors.citylost = "Miejscowość jest wymagana";
+
     }
     if (!values.owner) {
       errors.owner = "Imię właściciela jest wymagane";
+
     }
     if (!values.phone) {
       errors.phone = "Telefon jest wymagany";
+
     }
     if (!values.address) {
       errors.address = "Adres jest wymagany";
+
     }
     return errors;
+
 
   };
 
@@ -205,6 +223,21 @@ export const AddFormWanted = () => {
       >
         <ContainerForm>
 
+          {Object.keys(formErrors).length === 0 && isSubmit ?
+            (
+              <Stack sx={{ width: '100%' }} spacing={2}>
+                <Snackbar open={open}
+                >
+                  <Alert
+                    onClose={() => { handleClose() }}
+                    severity="success"
+                    sx={{ width: '100%' }}><AlertTitle>Success</AlertTitle>Ogłoszenie zostało dodane</Alert>
+                </Snackbar>
+              </Stack>
+            ) : (
+              <Alert severity="info"><p>Aby dodać ogłoszenie musisz uzupełnić formularz</p></Alert>
+            )}
+
           <BootstrapDialogTitle variant="h4" sx={{ fontFamily: 'Segoe UI', fontWeight: 'bold', textTransform: "uppercase" }} id="customized-dialog-title" onClose={handleClose}>
             Formularz zgłoszeniowy
           </BootstrapDialogTitle>
@@ -218,8 +251,9 @@ export const AddFormWanted = () => {
               <FormWrapper noValidate onSubmit={handleAdd}>
 
                 <SpecLabel>Imię psa</SpecLabel>
-                <FormInput type="text" name="name" placeholder="Imię psa" required value={formData.name}
-                  onChange={handleChange} />
+                <FormInput type="text" name="name" placeholder="Imię psa" required value={formData.name} 
+                  onChange={handleChange}
+                />
                 <Comunicate>{formErrors.name}</Comunicate>
 
                 <SpecLabel>Rasa psa</SpecLabel>
@@ -238,15 +272,6 @@ export const AddFormWanted = () => {
                 <FormInput type="text" name="citylost" placeholder="Ostatnia lokalizacja psa" value={formData.citylost} onChange={handleChange} />
                 <Comunicate>{formErrors.citylost}</Comunicate>
 
-                {Object.keys(formErrors).length === 0 && isSubmit ? 
-                (
-                  <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}
-                  >
-                <Alert severity="success" sx={{ width: '100%' }}><AlertTitle>Success</AlertTitle>Ogłoszenie zostało dodane</Alert>
-                </Snackbar>
-                ) : (
-                  <Alert Alert severity="info"><p>Aby dodać ogłoszenie musisz uzupełnić formularz</p></Alert>
-                )}
 
                 <SpecLabel>Imię właściciela</SpecLabel>
                 <FormInput type="text" name="owner" placeholder="Imię właściciela" value={formData.owner} onChange={handleChange} />

@@ -4,7 +4,7 @@
 input{
     display: flex;
     padding: 15px;
-    margin: 10px 0px;
+    margin: 5px 0px;
     width:600px;
     border-radius:25px ;
     -webkit-border-radius:25px ;
@@ -17,7 +17,7 @@ input{
 .error{
     font-size: 12px;
     padding: 3px;
-    color:red;
+    color:rgb(255, 0, 0);
     display: none;
 }
 
@@ -26,17 +26,7 @@ input:invalid[focused="true"]{
 }
 
 
-input:invalid[focused="true"]~.error{
+input:invalid ~.error{
     display: block;
 }
 
-.success{
-    background-color:aquamarine;
-    width: 400px;
-    height:200px;
-    border-radius:25px;
-    -webkit-border-radius:25px;
-    -moz-border-radius:25px;
-    -ms-border-radius:25px;
-    -o-border-radius:25px;
-}
