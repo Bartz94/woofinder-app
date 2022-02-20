@@ -161,10 +161,10 @@ export const SearchForm = () => {
                         margin: '2em auto'
                     }}
                     variant='contained'
+                    component={Link}
+                    to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}
                 >
-                    <LinkStyled to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}>
-                        Szukaj
-                    </LinkStyled>
+                    SZUKAJ
                 </Button>
             </FormControl>
         </Wrapper >

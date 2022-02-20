@@ -19,7 +19,7 @@ const Container = styled.div`
  `;
 
 const WantedItem = styled.div`
-width: 70%;
+    width: 70%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -38,44 +38,38 @@ const WantedItemInfoBox = styled.div`
  `;
 
 const ContainerEdit = styled.div`
-
-display:flex;
-justify-content:space-evenly;
-background-color:none;
-border:3px dotted black;
-border-radius:25px;
-margin-left:60px;
-width:220px;
-height:80px;
-
+    display:flex;
+    justify-content:space-evenly;
+    background-color:none;
+    border:3px dotted black;
+    border-radius:25px;
+    margin-left:60px;
+    width:220px;
+    height:80px;
 `;
 
 const Circle = styled.div`
- display:flex;
- align-items:center;
- justify-content:center;
- background-color:#64C2A7;
- color:white;
- border-radius:175px;
- width: 50px;
- height:50px;
- margin-top:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background-color:#64C2A7;
+    color:white;
+    border-radius:175px;
+    width: 50px;
+    height:50px;
+    margin-top:10px;
  `;
 
 const Question = styled.p`
-font-weight:bold;
- width:120px;
- margin:5px;
+    font-weight:bold;
+    width:120px;
+    margin:5px;
 `;
 
 const Specyfic = styled.div`
-width:100%;
-margin-top:25px;
+    width:100%;
+    margin-top:25px;
 `;
-
-
-
-
 
 export const WantedList = () => {
 
@@ -86,9 +80,24 @@ export const WantedList = () => {
     const { city, breed, name } = queryString.parse(search);
     console.log({ city, breed, name })
 
-    const wantedListCollectionRef = collection(db, "Wanted")
+    const wantedListCollectionRef = collection(db, "Wanted");
 
-    const q = query(wantedListCollectionRef, where("name", "==", name), where("citylost", "==", city), where("breed", "==", breed));
+    let nameToUpperCase = ''
+    let skip = 0;
+    if (typeof name[0] !== 'undefined' && name[0] !== '') {
+        nameToUpperCase = name[0].toUpperCase() + name.substring(1)
+        skip = 0;
+    }
+    else {
+        skip = 1;
+    }
+
+    console.log(nameToUpperCase)
+    const q = query(wantedListCollectionRef,
+        where("citylost", "==", city),
+        where("breed", "==", breed),
+        where("name", "==", name),
+    );
 
     useEffect(() => {
 
@@ -100,69 +109,85 @@ export const WantedList = () => {
         getWantedList()
     }, [])
 
-    return <>
-        <Typography variant='h6' sx={{ marginLeft: '300px', mt: 2 }}>Liczba zaginięć zwierząt:{wantedListData.length}</Typography>
-        <Container >
-            {wantedListData.map((wantedList) => {
-                return (
-                    <WantedItem key={wantedList.id} style={{ minWidth: '20px' }}>
-                        <WantedItemInfoBox>
-                            <Avatar src="https://picsum.photos/100/100" alt="dog" sx={{ width: '6em', height: '6em', marginLeft: "15px" }} />
-                        </WantedItemInfoBox>
-                        <WantedItemInfoBox>
-                            <Typography sx={{ fontSize: '25px', fontWeight: 'bold' }}>
-                                {wantedList.name ? wantedList.name : '---'}
-                            </Typography>
-                        </WantedItemInfoBox>
-                        <WantedItemInfoBox>
-                            <Specyfic>
-                                <Typography sx={{ fontSize: '1em', fontStyle: 'italic', fontWeight: '500', mb: 1 }}>
-                                    Cechy zwierzaka:
+    if (city === '' && breed === '' && name === '') {
+        return (
+            <Container style={{ margin: '5em' }}>
+                <Typography variant='h4'>Wypełnij formularz!</Typography>
+                <Button sx={{ color: '#3D9C75' }}>Powrót do strony głownej</Button>
+            </Container>)
+    }
+    else if (!wantedListData.length) {
+        return (
+            <Container style={{ margin: '5em' }}>
+                <Typography variant='h4'>Nie znaleziono takiego pieska!</Typography>
+                <Button sx={{ color: '#3D9C75' }}>Powrót do strony głownej</Button>
+            </Container>)
+    }
+    else {
+        return <>
+            <Typography variant='h6' sx={{ marginLeft: '300px', mt: 2 }}>Liczba zaginięć zwierząt:{wantedListData.length}</Typography>
+            <Container >
+                {wantedListData.map((wantedList) => {
+                    return (
+                        <WantedItem key={wantedList.id} style={{ minWidth: '20px' }}>
+                            <WantedItemInfoBox>
+                                <Avatar src="https://picsum.photos/100/100" alt="dog" sx={{ width: '6em', height: '6em', marginLeft: "15px" }} />
+                            </WantedItemInfoBox>
+                            <WantedItemInfoBox>
+                                <Typography sx={{ fontSize: '25px', fontWeight: 'bold' }}>
+                                    {wantedList.name ? wantedList.name : '---'}
                                 </Typography>
-                                <Typography sx={{
-                                    maxWidth: '120px',
-                                    maxHeight: '120px',
-                                    overflow: 'scroll',
-                                    "&::-webkit-scrollbar": {
-                                        width: 0
-                                    },
-                                    borderRadius: '5px',
-                                }}>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
+                            </WantedItemInfoBox>
+                            <WantedItemInfoBox>
+                                <Specyfic>
+                                    <Typography sx={{ fontSize: '1em', fontStyle: 'italic', fontWeight: '500', mb: 1 }}>
+                                        Cechy zwierzaka:
+                                    </Typography>
+                                    <Typography sx={{
+                                        maxWidth: '120px',
+                                        maxHeight: '120px',
+                                        overflow: 'scroll',
+                                        "&::-webkit-scrollbar": {
+                                            width: 0
+                                        },
+                                        borderRadius: '5px',
+                                    }}>
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                                        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
+                                    </Typography>
+                                </Specyfic>
+
+                            </WantedItemInfoBox>
+                            <WantedItemInfoBox>
+                                <Typography sx={{ fontSize: '1.1em', fontWeight: '500' }}>
+                                    {wantedList.citylost ? wantedList.citylost : '---'}
                                 </Typography>
-                            </Specyfic>
+                            </WantedItemInfoBox>
 
-                        </WantedItemInfoBox>
-                        <WantedItemInfoBox>
-                            <Typography sx={{ fontSize: '1.1em', fontWeight: '500' }}>
-                                {wantedList.citylost ? wantedList.citylost : '---'}
-                            </Typography>
-                        </WantedItemInfoBox>
+                            <WantedItemInfoBox>
+                                <Button sx={{ color: "#64C2A7" }} variant="text">
+                                    {<PlaceIcon fontSize="large" />}
+                                    Zobacz na mapie</Button>
+                            </WantedItemInfoBox>
+                            <WantedItemInfoBox>
+                                <ContainerEdit>
+                                    <Question>
+                                        Jeśli widziałeś zwierzaka napisz
+                                    </Question>
+                                    <Circle>
+                                        <EditIcon fontSize='large' />
+                                    </Circle>
+                                </ContainerEdit>
 
-                        <WantedItemInfoBox>
-                            <Button sx={{ color: "#64C2A7" }} variant="text">
-                                {<PlaceIcon fontSize="large" />}
-                                Zobacz na mapie</Button>
-                        </WantedItemInfoBox>
-                        <WantedItemInfoBox>
-                            <ContainerEdit>
-                                <Question>
-                                    Jeśli widziałeś zwierzaka napisz
-                                </Question>
-                                <Circle>
-                                    <EditIcon fontSize='large' />
-                                </Circle>
-                            </ContainerEdit>
-
-                        </WantedItemInfoBox>
-                        <WantedItemInfoBox>
-                            <ExpandMoreOutlinedIcon fontSize='large' sx={{ padding: 'none' }}></ExpandMoreOutlinedIcon>
-                        </WantedItemInfoBox>
-                    </WantedItem>
-                )
-            })}
-        </Container>
-    </>
+                            </WantedItemInfoBox>
+                            <WantedItemInfoBox>
+                                <ExpandMoreOutlinedIcon fontSize='large' sx={{ padding: 'none' }}></ExpandMoreOutlinedIcon>
+                            </WantedItemInfoBox>
+                        </WantedItem>
+                    )
+                })}
+            </Container>
+        </>
+    }
 
 };
