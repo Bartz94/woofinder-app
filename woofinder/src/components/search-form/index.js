@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button'
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { createFilterOptions } from '@mui/material/Autocomplete';
-
+import { useNavigate } from "react-router-dom";
+import Alert from '@mui/material/Alert';
 
 const Wrapper = styled.section`
   display: flex;
@@ -20,11 +20,6 @@ const TextFieldStyled = styled(TextField)`
   fieldset {
     border-radius: 25px;
   }
-`;
-
-const LinkStyled = styled(Link)`
-    color:black;
-    text-decoration: none;
 `;
 
 export const SearchForm = () => {
@@ -92,7 +87,7 @@ export const SearchForm = () => {
 
 
     //getting only dog names to an array
-    const dogNamesArray = dogsData.map(dog => dog.name)
+    const dogNamesArray = dogsData.map(dog => dog.name);
 
     //creating states to contain values from search inputs
     const [city, setCity] = useState('');
@@ -100,16 +95,34 @@ export const SearchForm = () => {
     const [name, setName] = useState('');
 
 
-    //creating function to capture a values to the state
+    //creating function to capture values to the state
     const handleCityChange = (event) => {
         setCity(event.target.value);
-    }
+    };
+
     const handleBreedChange = (event) => {
         setBreed(event.target.value);
-    }
+    };
+
     const handleDogNameChange = (event) => {
         setName(event.target.value);
-    }
+    };
+
+    const navigate = useNavigate()
+    const handleButton = (event) => {
+        if (city !== '' && breed !== '' && name !== '') {
+            navigate(`/wanted-page?city=${city}&breed=${breed}&name=${name}`)
+
+        }
+        else if (city === '' || breed === '' || name === '') {
+            setError(true);
+        }
+    };
+
+    const [errors, setError] = useState(false);
+    console.log(errors)
+
+
 
     //Limiting showed city suggestions in Autocomplete MUI Component
     const OPTIONS_LIMIT = 10;
@@ -119,7 +132,11 @@ export const SearchForm = () => {
 
     return (
         <Wrapper>
-            <FormControl fullWidth required sx={{ maxWidth: '900px' }}>
+            <FormControl fullWidth required sx={{ maxWidth: '900px' }} >
+                {/* <Alert Alert severity="error" >
+                    <AlertTitle>Error</AlertTitle>
+                    This is an error alert — <strong>check it out!</strong>
+                </Alert > */}
                 <Autocomplete
                     freeSolo
                     filterOptions={filterOptions}
@@ -158,14 +175,24 @@ export const SearchForm = () => {
                         border: 'none ',
                         borderRadius: '20px',
                         backgroundColor: '#e2e2e2',
-                        margin: '2em auto'
+                        margin: '2em auto',
                     }}
                     variant='contained'
-                    component={Link}
-                    to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}
+                    onClick={handleButton}
+                // component={Link}
+                // to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}
                 >
                     SZUKAJ
                 </Button>
+                {errors ?
+                    <>
+                        <Alert variant="outlined" severity="error">
+
+                            Błąd wyszukiwania — wprowadź wszystkie dane!
+                        </Alert>
+                    </>
+                    : ''
+                }
             </FormControl>
         </Wrapper >
     );
