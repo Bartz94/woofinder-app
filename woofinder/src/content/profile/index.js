@@ -30,13 +30,15 @@ const Container = styled.div`
 
 
 
+
+
 export const Profile = () => {
 
     const { user, avatarUrl, setAvatarUrl } = useUserContext();
     const [file, setFile] = useState(null);
-  
 
-   
+
+
 
 
     const handleChangePhoto = (e) => {
@@ -72,8 +74,7 @@ export const Profile = () => {
                 <Container>
                     <Title>Panel użytkownika</Title>
                     <Avatar src={avatarUrl} alt="profile" sx={{ height: "186px", width: "186px" }} ></Avatar>
-                    <Button sx={{ mt: 2 }}
-                        variant="contained"
+                    <Button className="close-button" sx={{ mt: 2, backgroundColor: "#e2e2e2", color: "black" }}
                         component="label"
                     >
                         <AddAPhoto />

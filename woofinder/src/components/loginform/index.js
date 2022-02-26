@@ -1,16 +1,19 @@
 //Jacek
 import * as React from 'react';
 import { useState } from 'react';
+import { BiErrorCircle } from 'react-icons/bi';
+
+import { useFormik, Field } from 'formik'
+import * as Yup from 'yup'
+import { fontWeight } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
 import CloseIcon from '@mui/icons-material/Close';
-import { Avatar, styled, Typography } from '@mui/material';
-import { TextField } from '@mui/material';
+import { styled, Typography } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { firebaseConfig } from '../../firebase-config';
@@ -26,9 +29,9 @@ const BootstrapDialog = styled(Dialog)`
 `;
 
 const DialogContentStyle = styled(DialogContent)`
-width:1200px;
+background-image: linear-gradient(90deg, rgba(89, 252, 170, 1) 0%, rgba(41, 86, 78, 1) 100%);
+width:500px;
 height:500px;
-overlay: hidden;
 `;
 
 
@@ -45,8 +48,8 @@ const BootstrapDialogTitle = (props) => {
           onClick={onClose}
           sx={{
             position: 'absolute',
-            right: 8,
-            top: 8,
+            left: 475,
+            bottom: 545,
             color: 'black',
             width: '36px',
             height: '36px',
@@ -69,9 +72,22 @@ BootstrapDialogTitle.propTypes = {
 
 export const LoginForm = (isSignup) => {
   const [open, setOpen] = React.useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const navigate = useNavigate();
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email('Email musi być prawdziwy').max(255).required("Podaj email"),
+      password: Yup.string().max(18).required('Podaj hasło'),
+    }),
+    onSubmit: (values) => {
+
+    }
+  })
+  console.log(formik.errors);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -80,26 +96,14 @@ export const LoginForm = (isSignup) => {
     setOpen(false);
   };
 
-
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  }
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  }
-
-  const handleSubmit = (e) => {
+  const handleButtonSubmit = (e) => {
     e.preventDefault();
     const auth = getAuth();
-    console.log(email)
+    console.log(formik.values.email)
 
-    signInWithEmailAndPassword(auth, email, password)
+    signInWithEmailAndPassword(auth, formik.values.email, formik.values.password)
       .then(() => {
-
         navigate('/');
-
       })
   }
 
@@ -110,44 +114,54 @@ export const LoginForm = (isSignup) => {
         Zaloguj
       </Button>
       <BootstrapDialog
-        maxWidth="xl"
+        maxWidth="sm"
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
         <BootstrapDialogTitle variant="h4" sx={{ mt: 1, ml: 3, fontFamily: 'Segoe UI', fontWeight: 'bold', textTransform: "uppercase" }} id="customized-dialog-title" onClose={handleClose}>
-          <Typography> Zaloguj się.</Typography>
+          <Typography sx={{ fontSize: "26px", fontWeight: "bold", textTransform: 'capitalize' }}> Zaloguj się.</Typography>
         </BootstrapDialogTitle>
         <DialogContentStyle>
-          <Avatar sx={{ width: "186px", height: "186px", ml: 22, mt: 10 }} />
-          <form onSubmit={handleSubmit}>
-            <TextField className="inputRounded"
-              type="email"
-              required
-              id="email"
-              sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -20, }} label='Nazwa użytkownika oraz email'
-              value={email}
-              autoComplete='email'
-              onChange={handleEmailChange}
-            />
-            <TextField className="inputRounded"
-              required
-              type="password"
-              sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -14 }}
-              id="password"
-              label='Hasło'
-              value={password}
-              autoComplete='current-password'
-              onChange={handlePasswordChange}
-            />
+          <form onSubmit={formik.handleSubmit}>
+            <div className="input-content">
+              <label className='labelform'>Email</label>
+              <input className="inputRounded"
+                type="email"
+                id="email"
+                name="email"
+                placeholder='email'
+                value={formik.values.email}
+                autoComplete='email'
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                required
+              />
+              {formik.touched.email && formik.errors.email ? <p className='error'>{formik.errors.email}<BiErrorCircle
+                style={{ width: "20px", height: "20px" }} /></p> : null}
+              <label className='labelform'>Hasło</label>
+              <input className="inputRounded"
+                required
+                type="password"
+                id="password"
+                name="password"
+                placeholder='hasło'
+                value={formik.values.password}
+                autoComplete='current-password'
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.password && formik.errors.password ? <p className='error'>{formik.errors.password}<BiErrorCircle
+                style={{ width: "20px", height: "20px" }} /></p> : null}
 
+              <button className='form-button' type='submit' onClick={handleButtonSubmit}>Zaloguj
+              </button>
+            </div>
           </form>
         </DialogContentStyle>
-        <DialogActions>
-          <Button type='submit' variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt: -66, mr: 12, textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleSubmit}>
-            Zaloguj się
-          </Button>
-        </DialogActions>
+
+
+
       </BootstrapDialog>
     </>
   );

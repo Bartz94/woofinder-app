@@ -70,3 +70,132 @@ text-transform: capitalize;
   background-color: black;
   color: white;
 }
+
+.input-content{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 80px;
+}
+
+.labelform{
+  color:white;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin:0px;
+  font-size: 16px;
+
+  
+}
+
+
+input {
+  margin-top:5px;
+  padding: 15px 20px;
+  width: 300px;
+  border: 1px solid white;
+  border-radius:25px;
+  -webkit-border-radius:25px;
+  -moz-border-radius:25px;
+  -ms-border-radius:25px;
+  -o-border-radius:25px;
+  background-color: #ffffff00;
+}
+
+
+
+.form-button{
+  margin-top: 30px;
+  background-color:#E2E2E2;
+  color:black;
+  width: 150px;
+  padding: 15px 20px;
+  height: 50px;
+  font-weight: bold;
+  border-radius:35px;
+  -webkit-border-radius:35px;
+  -moz-border-radius:35px;
+  -ms-border-radius:35px;
+  -o-border-radius:35px;
+  border: none;
+  transition: 1s;
+  -webkit-transition: 1s;
+  -moz-transition: 1s;
+  -ms-transition: 1s;
+  -o-transition: 1s;
+}
+
+.form-button:hover{
+  margin-top: 30px;
+  background-color:#292929;
+  color:rgb(255, 255, 255);
+  letter-spacing: 1px;
+  font-size: 15px;
+  width: 150px;
+  padding: 15px 20px;
+  height: 50px;
+  font-weight: bold;
+  border-radius:35px;
+  -webkit-border-radius:35px;
+  -moz-border-radius:35px;
+  -ms-border-radius:35px;
+  -o-border-radius:35px;
+  border: 1px solid white;
+}
+
+
+
+.error {
+  text-align: center;
+  background-color:aliceblue;
+  width: 300px;
+  padding: 10px;
+  color:rgb(170, 0, 0);
+  font-weight: bold;
+  font-size: 12px;
+  border-radius:35px ;
+  -webkit-border-radius:35px ;
+  -moz-border-radius:35px ;
+  -ms-border-radius:35px ;
+  -o-border-radius:35px ;
+}
+
+.profile-button{
+  margin-top: 30px;
+  background-color:#E2E2E2;
+  color:black;
+  width: 70px;
+  padding: 15px 20px;
+  height: 50px;
+  font-weight: bold;
+  border-radius:35px;
+  -webkit-border-radius:35px;
+  -moz-border-radius:35px;
+  -ms-border-radius:35px;
+  -o-border-radius:35px;
+  border: none;
+  transition: 1s;
+  -webkit-transition: 1s;
+  -moz-transition: 1s;
+  -ms-transition: 1s;
+  -o-transition: 1s;
+}
+
+.profile-button:hover{
+  margin-top: 30px;
+  background-color:#292929;
+  color:rgb(255, 255, 255);
+  letter-spacing: 1px;
+  font-size: 15px;
+  width: 70px;
+  padding: 15px 20px;
+  height: 50px;
+  font-weight: bold;
+  border-radius:35px;
+  -webkit-border-radius:35px;
+  -moz-border-radius:35px;
+  -ms-border-radius:35px;
+  -o-border-radius:35px;
+  border: 1px solid white;
+}
