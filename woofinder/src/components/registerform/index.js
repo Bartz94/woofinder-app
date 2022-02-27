@@ -6,15 +6,14 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import CloseIcon from '@mui/icons-material/Close';
-import { Avatar, styled, Typography } from '@mui/material';
+import { styled, Typography } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { BiErrorCircle } from 'react-icons/bi';
 
-import { useFormik, Field } from 'formik'
+import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { fontWeight } from '@mui/system';
 
 
 

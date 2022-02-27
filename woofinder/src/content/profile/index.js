@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { Top } from "../../components/topbar"
 import { UserContextProvider } from "../../services/user-context"
 import styled from 'styled-components'
@@ -9,6 +9,11 @@ import { ButtonGroup } from "@mui/material";
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useUserContext } from "../../services/user-context";
 import { Breadcrumbs } from "../../components/breadcrumps";
+import {FormUpdatePassword}  from '../../components/updatepassword'
+
+
+
+
 
 
 
@@ -30,12 +35,11 @@ const Container = styled.div`
 
 
 
-
-
 export const Profile = () => {
 
     const { user, avatarUrl, setAvatarUrl } = useUserContext();
     const [file, setFile] = useState(null);
+    
 
 
 
@@ -59,11 +63,10 @@ export const Profile = () => {
                 setAvatarUrl(url);
                 setFile(null);
             })
-
-
         });
 
     }
+
 
 
     return (
@@ -74,7 +77,7 @@ export const Profile = () => {
                 <Container>
                     <Title>Panel użytkownika</Title>
                     <Avatar src={avatarUrl} alt="profile" sx={{ height: "186px", width: "186px" }} ></Avatar>
-                    <Button className="close-button" sx={{ mt: 2, backgroundColor: "#e2e2e2", color: "black" }}
+                    <Button sx={{ mt: 2, backgroundColor: "#e2e2e2", color: "black" }}
                         component="label"
                     >
                         <AddAPhoto />
@@ -92,6 +95,8 @@ export const Profile = () => {
                             <Button sx={{ mt: 2 }} variant="contained" color="inherit" onClick={handleCancelPhoto}>Nie zapisuj</Button>
                         </ButtonGroup>
                     )}
+                    <FormUpdatePassword/>
+
                 </Container>
             </UserContextProvider>
         </>

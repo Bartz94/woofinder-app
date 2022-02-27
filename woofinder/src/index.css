@@ -103,6 +103,10 @@ input {
   background-color: #ffffff00;
 }
 
+.profile-input{
+  border: 1px solid #000000;
+  border-radius:25px;
+}
 
 
 .form-button{
@@ -185,17 +189,4 @@ input {
 .profile-button:hover{
   margin-top: 30px;
   background-color:#292929;
-  color:rgb(255, 255, 255);
-  letter-spacing: 1px;
-  font-size: 15px;
-  width: 70px;
-  padding: 15px 20px;
-  height: 50px;
-  font-weight: bold;
-  border-radius:35px;
-  -webkit-border-radius:35px;
-  -moz-border-radius:35px;
-  -ms-border-radius:35px;
-  -o-border-radius:35px;
-  border: 1px solid white;
 }
