@@ -27,12 +27,15 @@ const BootstrapDialog = styled(Dialog)`
   
 `;
 
-const ContainerForm = styled.div`
-display:flex;
-flex-direction:column;
-justify-content:space-evenly;
-align-items:center;
+const DialogContentStyle = styled(DialogContent)`
+background-image: linear-gradient(90deg, rgba(89, 252, 170, 1) 0%, rgba(41, 86, 78, 1) 100%);
+width:500px;
+height:500px;
 `;
+
+
+
+
 
 const FormWrapper = styled.form`
 display:flex;
@@ -217,7 +220,7 @@ export const AddFormWanted = () => {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <ContainerForm>
+       
 
           {Object.keys(formErrors).length === 0 && isSubmit ?
             (
@@ -237,11 +240,7 @@ export const AddFormWanted = () => {
           <BootstrapDialogTitle variant="h4" sx={{ fontFamily: 'Segoe UI', fontWeight: 'bold', textTransform: "uppercase" }} id="customized-dialog-title" onClose={handleClose}>
             Formularz zgłoszeniowy
           </BootstrapDialogTitle>
-
-          <DialogContent>
-
-
-
+          <DialogContentStyle>
             <ContainerForm>
               <Avatar sx={{ width: "186px", height: "186px" }} />
               <FormWrapper noValidate onSubmit={handleAdd}>
@@ -296,8 +295,8 @@ export const AddFormWanted = () => {
 
             </ContainerForm>
 
-          </DialogContent>
-        </ContainerForm>
+          </DialogContentStyle>
+    
       </BootstrapDialog>
     </div >
   );
