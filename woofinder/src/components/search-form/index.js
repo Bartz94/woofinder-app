@@ -95,7 +95,7 @@ export const SearchForm = () => {
     const [name, setName] = useState('');
 
 
-    //creating function to capture values to the state
+    //creating function to capture values of a states
     const handleCityChange = (event) => {
         setCity(event.target.value);
     };
@@ -120,10 +120,6 @@ export const SearchForm = () => {
     };
 
     const [errors, setError] = useState(false);
-    console.log(errors)
-
-
-
     //Limiting showed city suggestions in Autocomplete MUI Component
     const OPTIONS_LIMIT = 10;
     const filterOptions = createFilterOptions({
