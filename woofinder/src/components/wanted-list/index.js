@@ -10,6 +10,9 @@ import { Avatar } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import PlaceIcon from '@mui/icons-material/Place';
+import { Link } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
+import { InsertEmoticonOutlined } from '@mui/icons-material';
 
 const Container = styled.div`
     display: flex;
@@ -74,60 +77,75 @@ const Specyfic = styled.div`
 export const WantedList = () => {
 
     const [wantedListData, setWantedListData] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const { search } = useLocation();
     const { city, breed, name } = queryString.parse(search);
-    console.log({ city, breed, name })
 
     const wantedListCollectionRef = collection(db, "Wanted");
 
-    let nameToUpperCase = ''
-    let skip = 0;
-    if (typeof name[0] !== 'undefined' && name[0] !== '') {
-        nameToUpperCase = name[0].toUpperCase() + name.substring(1)
-        skip = 0;
-    }
-    else {
-        skip = 1;
-    }
+    // let nameToUpperCase = ''
+    // let skip = 0;
+    // if (typeof name[0] !== 'undefined' && name[0] !== '') {
+    //     nameToUpperCase = name[0].toUpperCase() + name.substring(1)
+    //     skip = 0;
+    // }
+    // else {
+    //     skip = 1;
+    // }
+    const cityToUpperCase = city[0].toUpperCase() + city.substring(1);
+    const breedToUpperCase = breed[0].toUpperCase() + breed.substring(1);
+    const nameToUpperCase = name[0].toUpperCase() + name.substring(1);
 
-    console.log(nameToUpperCase)
+    const cityToLowerCase = city[0].toLowerCase() + city.substring(1);
+    const breedToLowerCase = breed[0].toLowerCase() + breed.substring(1);
+    const nameToLowerCase = name[0].toLowerCase() + name.substring(1);
+
     const q = query(wantedListCollectionRef,
-        where("citylost", "==", city),
-        where("breed", "==", breed),
-        where("name", "==", name),
+        where("citylost", "in", [city, cityToUpperCase]),
     );
+    console.log(wantedListData)
 
     useEffect(() => {
-
         const getWantedList = async () => {
-            setIsLoading(true);
-            const data = await getDocs(q);
+            const data = await getDocs(wantedListCollectionRef);
             setWantedListData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
         };
+        setIsLoading(false);
         getWantedList()
     }, [])
+    console.log(isLoading)
 
-    if (city === '' && breed === '' && name === '') {
+    const filteredWantedList = wantedListData.filter(item =>
+        item.citylost === (city || cityToUpperCase || cityToLowerCase) &&
+        item.breed === (breed || breedToUpperCase || breedToLowerCase) &&
+        item.name === (name || breedToUpperCase || nameToLowerCase)
+    );
+
+    console.log(filteredWantedList)
+
+    if (!wantedListData.length && !isLoading) {
         return (
-            <Container style={{ margin: '5em' }}>
-                <Typography variant='h4'>Wypełnij formularz!</Typography>
-                <Button sx={{ color: '#3D9C75' }}>Powrót do strony głownej</Button>
-            </Container>)
-    }
-    else if (!wantedListData.length) {
-        return (
-            <Container style={{ margin: '5em' }}>
+            <Container>
                 <Typography variant='h4'>Nie znaleziono takiego pieska!</Typography>
-                <Button sx={{ color: '#3D9C75' }}>Powrót do strony głownej</Button>
+                <Typography variant='caption'>Upewnij się, czy wszystko dobrze wpisałeś</Typography>
+                <Button component={Link} to='/' sx={{ color: '#3D9C75' }}>Powrót do strony głownej</Button>
             </Container>)
+
+    }
+    else if (!wantedListData.length && isLoading) {
+        return (
+            <Container style={{ margin: '5em' }}>
+                <CircularProgress></CircularProgress>
+            </Container>
+        )
+
     }
     else {
         return <>
             <Typography variant='h6' sx={{ marginLeft: '300px', mt: 2 }}>Liczba zaginięć zwierząt:{wantedListData.length}</Typography>
             <Container >
-                {wantedListData.map((wantedList) => {
+                {filteredWantedList.map((wantedList) => {
                     return (
                         <WantedItem key={wantedList.id} style={{ minWidth: '20px' }}>
                             <WantedItemInfoBox>
@@ -156,14 +174,12 @@ export const WantedList = () => {
                                         standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
                                     </Typography>
                                 </Specyfic>
-
                             </WantedItemInfoBox>
                             <WantedItemInfoBox>
                                 <Typography sx={{ fontSize: '1.1em', fontWeight: '500' }}>
                                     {wantedList.citylost ? wantedList.citylost : '---'}
                                 </Typography>
                             </WantedItemInfoBox>
-
                             <WantedItemInfoBox>
                                 <Button sx={{ color: "#64C2A7" }} variant="text">
                                     {<PlaceIcon fontSize="large" />}
@@ -178,7 +194,6 @@ export const WantedList = () => {
                                         <EditIcon fontSize='large' />
                                     </Circle>
                                 </ContainerEdit>
-
                             </WantedItemInfoBox>
                             <WantedItemInfoBox>
                                 <ExpandMoreOutlinedIcon fontSize='large' sx={{ padding: 'none' }}></ExpandMoreOutlinedIcon>
