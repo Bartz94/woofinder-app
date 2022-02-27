@@ -117,14 +117,15 @@ export const WantedList = () => {
     console.log(isLoading)
 
     const filteredWantedList = wantedListData.filter(item =>
-        item.citylost === (city || cityToUpperCase || cityToLowerCase) &&
-        item.breed === (breed || breedToUpperCase || breedToLowerCase) &&
-        item.name === (name || breedToUpperCase || nameToLowerCase)
+        (item.citylost === city || item.citylost === cityToLowerCase || item.citylost === cityToUpperCase) &&
+        (item.breed === breed || item.breed === breedToLowerCase || item.breed === breedToUpperCase) &&
+        (item.name === name || item.name === nameToLowerCase || item.name === nameToUpperCase)
     );
+    console.log(name, nameToLowerCase, nameToUpperCase)
 
     console.log(filteredWantedList)
 
-    if (!wantedListData.length && !isLoading) {
+    if (!filteredWantedList.length && !isLoading) {
         return (
             <Container>
                 <Typography variant='h4'>Nie znaleziono takiego pieska!</Typography>
@@ -133,7 +134,7 @@ export const WantedList = () => {
             </Container>)
 
     }
-    else if (!wantedListData.length && isLoading) {
+    else if (!filteredWantedList.length && isLoading) {
         return (
             <Container style={{ margin: '5em' }}>
                 <CircularProgress></CircularProgress>
@@ -143,7 +144,7 @@ export const WantedList = () => {
     }
     else {
         return <>
-            <Typography variant='h6' sx={{ marginLeft: '300px', mt: 2 }}>Liczba zaginięć zwierząt:{wantedListData.length}</Typography>
+            <Typography variant='h6' sx={{ marginLeft: '300px', mt: 2 }}>Liczba zaginięć zwierząt: {wantedListData.length}</Typography>
             <Container >
                 {filteredWantedList.map((wantedList) => {
                     return (
