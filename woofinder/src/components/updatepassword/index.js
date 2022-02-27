@@ -22,17 +22,17 @@ export const FormUpdatePassword = () => {
 
     const handleUpdatePassword = (e) => {
 
-        const auth = getAuth();
-        const user = auth.currentUser;
-        const newPassword = getASecureRandomPassword();
+        // const auth = getAuth();
+        // const user = auth.currentUser;
+        // // const newPassword = getASecureRandomPassword();
 
 
-        updatePassword(user, newPassword)
-            .then(() => {
-                console.log("update password");
-            }).catch((error) => {
+        // updatePassword(user, newPassword)
+        //     .then(() => {
+        //         console.log("update password");
+        //     }).catch((error) => {
 
-            })
+        //     })
 
         }
 

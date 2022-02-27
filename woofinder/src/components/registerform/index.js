@@ -158,9 +158,7 @@ export const RegisterForm = () => {
             </div>
           </form>
         </DialogContentStyle>
-        
-
-      </BootstrapDialog>
+        </BootstrapDialog>
     </>
   );
 }
