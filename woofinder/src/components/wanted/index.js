@@ -1,96 +1,159 @@
 //Bartosz
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import queryString from 'query-string'
+import { useState, useEffect } from 'react'
+import { db } from '../../firebase-config';
+import { collection, getDocs } from 'firebase/firestore'
 import styled from 'styled-components';
-import { Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import { Button, Typography } from '@mui/material';
 import { Avatar } from '@mui/material';
-import { Container } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
+import PlaceIcon from '@mui/icons-material/Place';
+import { Link } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
 
-const InfoSection = styled.div`
+const Container = styled.div`
     display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-top: 50px;
+    flex-direction: column;
     align-items: center;
- `;
-
-const DetailsSection = styled.div`
-    display: flex;
     flex-wrap: wrap;
-    margin: 20px;
  `;
 
-const FooterSection = styled.div`
+const WantedItem = styled.div`
+    width: 70%;
     display: flex;
-    justify-content: space-between;
-    margin: 50px 25px;
- `;
-
-const ContactWrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    align-items: center;
     flex-wrap: wrap;
-    margin-bottom: 40px;
+    margin: 10px 20px;
+    padding: 10px;
+    background-color: #e2e2e2;
+    border-radius: 0 50px 0 0;
  `;
+
+const WantedItemInfoBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+ `;
+
+const ContainerEdit = styled.div`
+    display:flex;
+    justify-content:space-evenly;
+    background-color:none;
+    border:3px dotted black;
+    border-radius:25px;
+    margin-left:60px;
+    width:220px;
+    height:80px;
+`;
+
+const Circle = styled.div`
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background-color:#64C2A7;
+    color:white;
+    border-radius:175px;
+    width: 50px;
+    height:50px;
+    margin-top:10px;
+ `;
+
+const Question = styled.p`
+    font-weight:bold;
+    width:120px;
+    margin:5px;
+`;
+
+const Specyfic = styled.div`
+    width:100%;
+    margin-top:25px;
+`;
+
 
 
 export const Wanted = () => {
+    const [wantedListData, setWantedListData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const { search } = useLocation();
+    const { city, breed, name, uid } = queryString.parse(search);
+
+    const wantedListCollectionRef = collection(db, "Wanted");
+    let params = useParams();
+    console.log(params)
+    useEffect(() => {
+        const getWantedList = async () => {
+            const data = await getDocs(wantedListCollectionRef);
+            setWantedListData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        };
+        setIsLoading(false);
+        getWantedList()
+    }, [])
+
+    const filteredWantedList = wantedListData.filter(item =>
+        item.id === params.id
+    );
+
     return <>
-        <Typography variant='h6' sx={{ alignSelf: 'left' }}>Liczba zaginięć zwierząt:{Math.floor(Math.random() * 100)}</Typography>
-        <Container fixed maxWidth='lg' sx={{ marginTop: '20px', backgroundColor: '#f2f2f2', borderRadius: '0 50px 0 0', minHeight: '50vh' }}>
-            <InfoSection style={{ padding: '10px', margin: '10px' }}>
-                <div>
-                    <Avatar src="https://picsum.photos/100/100" alt="dog" sx={{ width: '7em', height: '7em' }} />
-                </div>
-                <div>
-                    <Typography sx={{ fontSize: '1.8em', fontWeight: 'bold', margin: '' }}>Lulek</Typography>
-                </div>
-                <Box>
-                    <Typography sx={{ fontSize: '1em', fontStyle: 'italic', fontWeight: '500', paddingTop: '20px' }}>Cechy zwierzaka:</Typography>
-                    <Typography sx={{
-                        maxWidth: '100px',
-                        maxHeight: '120px',
-                        overflow: 'scroll',
-                        overflowY: 'hidden'
-                    }}>
-                        Lorem lorem lorem lorem loremLorem lorem loremLorem lorem lorem </Typography>
-                </Box>
-                <div>
-                    <Typography>Zobacz na mapie</Typography>
-                </div>
-                <div>
-                    <Typography>Warszawa</Typography>
-                </div>
-                <div>
-                    <Typography>Jeśli widziałeś zwierzaka napisz</Typography>
-                    <Typography>Pokaż więcej</Typography>
-                </div>
-            </InfoSection>
-            <DetailsSection style={{ marginBottom: '20px' }}>
-                <Box sx={{
-                    backgroundColor: '#ffff',
-                    backgroundSize: 'cover',
-                    padding: '30px',
-                    borderRadius: '25px',
-                }}>
-                    <Typography sx={{ fontSize: '1.2em', fontWeight: '500', }}>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
-                        it to make a type specimen book.r since the 1500s, when an unknown printer took a galley of type and scrambled
-                        it to make a type specimen book.r since the 1500s, when an unknown printer took a galley of type and scrambled
-                        it to make a type specimen book.r since the 1500s, when an unknown printer took a galley of type and scrambled
-                    </Typography>
-                </Box>
-            </DetailsSection>
-            <FooterSection>
-                <ContactWrapper>
-                    <Typography>Skontaktuj się z właścicielem</Typography>
-                    <Typography sx={{ marginLeft: '3em', fontWeight: '600' }}>500 000 400</Typography>
-                </ContactWrapper>
-                <ContactWrapper>
-                    <Typography>link do ogłoszenia:</Typography>
-                    <Typography sx={{ marginLeft: '3em' }}>kopiuj</Typography>
-                </ContactWrapper>
-            </FooterSection>
+        <Typography variant='h6' sx={{ marginLeft: '300px', mt: 2 }}>Liczba zaginięć zwierząt: {wantedListData.length}</Typography>
+        <Container >
+            {filteredWantedList.map((wantedList) => {
+                return (
+                    <WantedItem key={wantedList.id} style={{ minWidth: '20px' }}>
+                        <WantedItemInfoBox>
+                            <Avatar src="https://picsum.photos/100/100" alt="dog" sx={{ width: '6em', height: '6em', marginLeft: "15px" }} />
+                        </WantedItemInfoBox>
+                        <WantedItemInfoBox>
+                            <Typography sx={{ fontSize: '25px', fontWeight: 'bold' }}>
+                                {wantedList.name ? wantedList.name : '---'}
+                            </Typography>
+                        </WantedItemInfoBox>
+                        <WantedItemInfoBox>
+                            <Specyfic>
+                                <Typography sx={{ fontSize: '1em', fontStyle: 'italic', fontWeight: '500', mb: 1 }}>
+                                    Cechy zwierzaka:
+                                </Typography>
+                                <Typography sx={{
+                                    maxWidth: '120px',
+                                    maxHeight: '120px',
+                                    overflow: 'scroll',
+                                    "&::-webkit-scrollbar": {
+                                        width: 0
+                                    },
+                                    borderRadius: '5px',
+                                }}>
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                                    standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
+                                </Typography>
+                            </Specyfic>
+                        </WantedItemInfoBox>
+                        <WantedItemInfoBox>
+                            <Typography sx={{ fontSize: '1.1em', fontWeight: '500' }}>
+                                {wantedList.citylost ? wantedList.citylost : '---'}
+                            </Typography>
+                        </WantedItemInfoBox>
+                        <WantedItemInfoBox>
+                            <Button sx={{ color: "#64C2A7" }} variant="text">
+                                {<PlaceIcon fontSize="large" />}
+                                Zobacz na mapie</Button>
+                        </WantedItemInfoBox>
+                        <WantedItemInfoBox>
+                            <ContainerEdit>
+                                <Question>
+                                    Jeśli widziałeś zwierzaka napisz
+                                </Question>
+                                <Circle>
+                                    <EditIcon fontSize='large' />
+                                </Circle>
+                            </ContainerEdit>
+                        </WantedItemInfoBox>
+                    </WantedItem>
+                )
+            })}
         </Container>
-    </>;
+    </>
 };

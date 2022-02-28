@@ -25,7 +25,7 @@ const TextFieldStyled = styled(TextField)`
 export const SearchForm = () => {
     const [cityData, setCityData] = useState([]);
 
-    //fetching data from ./public/city-data.json
+    //fetching data from ./public
     const getCityData = () => {
         fetch('city-data.json'
             , {
@@ -53,7 +53,7 @@ export const SearchForm = () => {
         getCityData()
     }, [])
 
-    //getting only city names to an array
+    //catching only city names
     const arrayOfCityNames = cityData.map(city => city.name)
 
     const [dogsData, setDogsData] = useState([]);
@@ -110,13 +110,8 @@ export const SearchForm = () => {
 
     const navigate = useNavigate()
     const handleButton = (event) => {
-        if (city !== '' && breed !== '' && name !== '') {
-            navigate(`/wanted-page?city=${city}&breed=${breed}&name=${name}`)
+        navigate(`/wanted-page?city=${city}&breed=${breed}&name=${name}`)
 
-        }
-        else if (city === '' || breed === '' || name === '') {
-            setError(true);
-        }
     };
 
     const [errors, setError] = useState(false);

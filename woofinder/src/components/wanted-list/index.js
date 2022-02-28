@@ -1,9 +1,9 @@
 //Bartosz
-import { useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import queryString from 'query-string'
 import { useState, useEffect } from 'react'
 import { db } from '../../firebase-config';
-import { collection, getDocs, query, where } from 'firebase/firestore'
+import { collection, getDocs } from 'firebase/firestore'
 import styled from 'styled-components';
 import { Button, Typography } from '@mui/material';
 import { Avatar } from '@mui/material';
@@ -12,7 +12,6 @@ import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import PlaceIcon from '@mui/icons-material/Place';
 import { Link } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
-import { InsertEmoticonOutlined } from '@mui/icons-material';
 
 const Container = styled.div`
     display: flex;
@@ -76,35 +75,42 @@ const Specyfic = styled.div`
 
 export const WantedList = () => {
 
+    const params = useParams();
+
     const [wantedListData, setWantedListData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const { search } = useLocation();
     const { city, breed, name } = queryString.parse(search);
 
+    const navigate = useNavigate()
+    const handleShowMore = (event) => {
+        navigate(`/wanted-page/${wantedDogId}`)
+    };
+
     const wantedListCollectionRef = collection(db, "Wanted");
 
-    // let nameToUpperCase = ''
-    // let skip = 0;
-    // if (typeof name[0] !== 'undefined' && name[0] !== '') {
-    //     nameToUpperCase = name[0].toUpperCase() + name.substring(1)
-    //     skip = 0;
-    // }
-    // else {
-    //     skip = 1;
-    // }
-    const cityToUpperCase = city[0].toUpperCase() + city.substring(1);
-    const breedToUpperCase = breed[0].toUpperCase() + breed.substring(1);
-    const nameToUpperCase = name[0].toUpperCase() + name.substring(1);
+    let cityToUpperCase = ''
+    let cityToLowerCase = ''
+    if (typeof city[0] !== 'undefined' && city[0] !== '') {
+        cityToUpperCase = city[0].toUpperCase() + city.substring(1);
+        cityToLowerCase = city[0].toLowerCase() + city.substring(1);
+    }
 
-    const cityToLowerCase = city[0].toLowerCase() + city.substring(1);
-    const breedToLowerCase = breed[0].toLowerCase() + breed.substring(1);
-    const nameToLowerCase = name[0].toLowerCase() + name.substring(1);
+    let breedToLowerCase = ''
+    let breedToUpperCase = ''
+    if (typeof breed[0] !== 'undefined' && city[0] !== '') {
+        breedToUpperCase = breed[0].toUpperCase() + breed.substring(1);
+        breedToLowerCase = breed[0].toLowerCase() + breed.substring(1);
+    }
 
-    const q = query(wantedListCollectionRef,
-        where("citylost", "in", [city, cityToUpperCase]),
-    );
-    console.log(wantedListData)
+    let nameToLowerCase = ''
+    let nameToUpperCase = ''
+    if (typeof name[0] !== 'undefined' && city[0] !== '') {
+        nameToLowerCase = name[0].toUpperCase() + name.substring(1);
+        nameToUpperCase = name[0].toLowerCase() + name.substring(1);
+    }
+
 
     useEffect(() => {
         const getWantedList = async () => {
@@ -121,9 +127,17 @@ export const WantedList = () => {
         (item.breed === breed || item.breed === breedToLowerCase || item.breed === breedToUpperCase) &&
         (item.name === name || item.name === nameToLowerCase || item.name === nameToUpperCase)
     );
-    console.log(name, nameToLowerCase, nameToUpperCase)
+    const wantedDogId = filteredWantedList.map(item => item.id)
 
-    console.log(filteredWantedList)
+
+
+    if (city === '' && breed === '' && name === '') {
+        return (
+            <Container >
+                <Typography>Brak Wyników, wypełnij formularz</Typography>
+            </Container>
+        )
+    }
 
     if (!filteredWantedList.length && !isLoading) {
         return (
@@ -197,7 +211,8 @@ export const WantedList = () => {
                                 </ContainerEdit>
                             </WantedItemInfoBox>
                             <WantedItemInfoBox>
-                                <ExpandMoreOutlinedIcon fontSize='large' sx={{ padding: 'none' }}></ExpandMoreOutlinedIcon>
+                                {/* <ExpandMoreOutlinedIcon fontSize='large' sx={{ padding: 'none' }}></ExpandMoreOutlinedIcon> */}
+                                <Button onClick={handleShowMore} sx={{ color: "#64C2A7" }}>Więcej</Button>
                             </WantedItemInfoBox>
                         </WantedItem>
                     )
