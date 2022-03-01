@@ -83,9 +83,10 @@ export const WantedList = () => {
     const { search } = useLocation();
     const { city, breed, name } = queryString.parse(search);
 
-    const navigate = useNavigate()
-    const handleShowMore = (event) => {
-        navigate(`/wanted-page/${wantedDogId}`)
+    const navigate = useNavigate();
+
+    const handleShowMore = (wantedId) => {
+        navigate(`/wanted-page/${wantedId}`)
     };
 
     const wantedListCollectionRef = collection(db, "Wanted");
@@ -118,18 +119,18 @@ export const WantedList = () => {
             setWantedListData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
         };
         setIsLoading(false);
-        getWantedList()
+        getWantedList();
     }, [])
     console.log(isLoading)
+    console.log('WantedListDat', { wantedListData });
 
     const filteredWantedList = wantedListData.filter(item =>
-        (item.citylost === city || item.citylost === cityToLowerCase || item.citylost === cityToUpperCase) &&
-        (item.breed === breed || item.breed === breedToLowerCase || item.breed === breedToUpperCase) &&
+        (item.citylost === city || item.citylost === cityToLowerCase || item.citylost === cityToUpperCase) ||
+        (item.breed === breed || item.breed === breedToLowerCase || item.breed === breedToUpperCase) ||
         (item.name === name || item.name === nameToLowerCase || item.name === nameToUpperCase)
     );
-    const wantedDogId = filteredWantedList.map(item => item.id)
-
-
+    const wantedDogId = filteredWantedList.map(item => item.id);
+    console.log('wanted dog id:', wantedDogId);
 
     if (city === '' && breed === '' && name === '') {
         return (
@@ -212,7 +213,7 @@ export const WantedList = () => {
                             </WantedItemInfoBox>
                             <WantedItemInfoBox>
                                 {/* <ExpandMoreOutlinedIcon fontSize='large' sx={{ padding: 'none' }}></ExpandMoreOutlinedIcon> */}
-                                <Button onClick={handleShowMore} sx={{ color: "#64C2A7" }}>Więcej</Button>
+                                <Button onClick={() => handleShowMore(wantedList.id)} sx={{ color: "#64C2A7" }}>Więcej</Button>
                             </WantedItemInfoBox>
                         </WantedItem>
                     )
