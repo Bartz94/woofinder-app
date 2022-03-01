@@ -109,17 +109,24 @@ export const SearchForm = () => {
     };
 
     const navigate = useNavigate()
-    const handleButton = (event) => {
-        navigate(`/wanted-page?city=${city}&breed=${breed}&name=${name}`)
-
+    const handleSearch = (event) => {
+        if (city) {
+            navigate(`/wanted-page?city=${city}&breed=${breed}&name=${name}`)
+        }
+        else {
+            setError(true);
+        }
     };
 
     const [errors, setError] = useState(false);
+
     //Limiting showed city suggestions in Autocomplete MUI Component
     const OPTIONS_LIMIT = 10;
     const filterOptions = createFilterOptions({
         limit: OPTIONS_LIMIT
     });
+
+
 
     return (
         <Wrapper>
@@ -137,7 +144,7 @@ export const SearchForm = () => {
                     options={arrayOfCityNames}
                     renderInput={(params) => <TextFieldStyled
                         {...params}
-
+                        error={errors}
                         label="Podaj miasto..."
 
                         onChange={handleCityChange}
@@ -169,7 +176,7 @@ export const SearchForm = () => {
                         margin: '2em auto',
                     }}
                     variant='contained'
-                    onClick={handleButton}
+                    onClick={handleSearch}
                 // component={Link}
                 // to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}
                 >
@@ -179,7 +186,7 @@ export const SearchForm = () => {
                     <>
                         <Alert variant="outlined" severity="error">
 
-                            Błąd wyszukiwania — wprowadź wszystkie dane!
+                            Błąd wyszukiwania — musisz wprowadźić nazwę miasta!
                         </Alert>
                     </>
                     : ''
