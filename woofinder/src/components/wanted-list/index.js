@@ -78,7 +78,7 @@ export const WantedList = () => {
     const params = useParams();
 
     const [wantedListData, setWantedListData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     const { search } = useLocation();
     const { city, breed, name } = queryString.parse(search);
@@ -112,15 +112,17 @@ export const WantedList = () => {
         nameToUpperCase = name[0].toLowerCase() + name.substring(1);
     }
 
+    const getWantedList = async () => {
+        setIsLoading(true);
+        const data = await getDocs(wantedListCollectionRef);
+        setWantedListData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        setIsLoading(false)
+    };
 
     useEffect(() => {
-        const getWantedList = async () => {
-            const data = await getDocs(wantedListCollectionRef);
-            setWantedListData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        };
-        setIsLoading(false);
         getWantedList();
-    }, [])
+    }, []);
+
     console.log(isLoading)
     console.log('WantedListDat', { wantedListData });
 
