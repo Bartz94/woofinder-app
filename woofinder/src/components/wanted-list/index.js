@@ -3,7 +3,7 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import queryString from 'query-string'
 import { useState, useEffect } from 'react'
 import { db } from '../../firebase-config';
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, query, where } from 'firebase/firestore'
 import styled from 'styled-components';
 import { Button, Typography } from '@mui/material';
 import { Avatar } from '@mui/material';
@@ -90,6 +90,41 @@ export const WantedList = () => {
     };
 
     const wantedListCollectionRef = collection(db, "Wanted");
+    const q = query(collection(db, "Wanted"),
+        where("citylost", "==", city),
+        where("breed", "==", breed),
+        where("name", "==", name)
+    );
+
+    const getQuery = () => {
+        if (breed && !name) {
+            return query(collection(db, "Wanted"),
+                where("citylost", "==", city),
+                where("breed", "==", breed),
+            )
+        }
+        if (!breed && name) {
+            return query(collection(db, "Wanted"),
+                where("citylost", "==", city),
+                where("name", "==", name),
+            )
+        }
+        if (!breed && !name) {
+            return query(collection(db, "Wanted"),
+                where("citylost", "==", city),
+            )
+        }
+        if (breed && name) {
+            return query(collection(db, "Wanted"),
+                where("citylost", "==", city),
+                where("name", "==", name),
+                where("breed", "==", breed),
+            )
+        }
+    }
+
+
+    console.log('kupa', { wantedListCollectionRef })
 
     let cityToUpperCase = ''
     let cityToLowerCase = ''
@@ -114,7 +149,8 @@ export const WantedList = () => {
 
     const getWantedList = async () => {
         setIsLoading(true);
-        const data = await getDocs(wantedListCollectionRef);
+        const data = await getDocs(getQuery());
+        console.log('kupa2', data.docs)
         setWantedListData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
         setIsLoading(false)
     };
@@ -127,13 +163,18 @@ export const WantedList = () => {
     console.log('WantedListDat', { wantedListData });
 
     const filteredWantedList = wantedListData.filter(item =>
-        (item.citylost === city || item.citylost === cityToLowerCase || item.citylost === cityToUpperCase) ||
-        (item.breed === breed || item.breed === breedToLowerCase || item.breed === breedToUpperCase) ||
-        (item.name === name || item.name === nameToLowerCase || item.name === nameToUpperCase)
+        ((item.citylost === city || item.citylost === cityToLowerCase || item.citylost === cityToUpperCase) && (item.citylost !== '')) ||
+        ((item.breed === breed || item.breed === breedToLowerCase || item.breed === breedToUpperCase) && (item.breed !== '')) ||
+        ((item.name === name || item.name === nameToLowerCase || item.name === nameToUpperCase) && (item.name !== ''))
     );
+
+    // const filteredWantedList = wantedListData.filter(item => {
+
+    // })
     const wantedDogId = filteredWantedList.map(item => item.id);
     console.log('wanted dog id:', wantedDogId);
 
+    console.log('filteredWantedList', { filteredWantedList, city, breed, name })
     if (city === '' && breed === '' && name === '') {
         return (
             <Container >
@@ -172,6 +213,7 @@ export const WantedList = () => {
                             <WantedItemInfoBox>
                                 <Typography sx={{ fontSize: '25px', fontWeight: 'bold' }}>
                                     {wantedList.name ? wantedList.name : '---'}
+                                    {wantedList.breed}
                                 </Typography>
                             </WantedItemInfoBox>
                             <WantedItemInfoBox>
