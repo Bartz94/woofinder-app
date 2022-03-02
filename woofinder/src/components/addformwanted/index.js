@@ -48,12 +48,28 @@ export const AddFormWanted = () => {
   const [file, setFile] = useState(null);
 
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
+  const handleAdd = async (values) => {
+    const { name, address, breed, citylost, local, lost_date, phone, owner, description, details } = values;
+
+    console.log('czy to sie wogole loguje?')
+    const result = await addDoc(collection(db, "Wanted"), {
+      initialValues: {
+        address: address,
+        breed: breed,
+        citylost: citylost,
+        local: local,
+        lost_date: lost_date,
+        name: name,
+        owner: owner,
+        phone: phone,
+        photolink: 'link',
+        description: description,
+        details: details,
+      }
+    });
+   console.log(result)
   }
+
 
   const formik = useFormik({
     initialValues: {
@@ -76,6 +92,7 @@ export const AddFormWanted = () => {
       lost_date: Yup.string().max(50).required('Podaj datę zaginięcia'),
       owner: Yup.string().max(50).required('Podaj imię właściciela'),
       phone: Yup.string().max(9).required('Podaj numer telefonu'),
+      address: Yup.string().max(50).required('Podaj adres'),
       description: Yup.string().max(255),
       details: Yup.string().max(255)
 
@@ -84,14 +101,14 @@ export const AddFormWanted = () => {
     onSubmit: (values, onSubmitProps) => {
       onSubmitProps.setSubmitting(false)
       handleAdd(values)
-       
+
       // onSubmitProps.resetForm()
     }
   })
-  console.log(formik.values);
+  // console.log(formik.values);
 
 
-  const [formData, setFormData] = useState(formik.values);
+
 
   const handleChangePhoto = (e) => {
 
@@ -122,33 +139,6 @@ export const AddFormWanted = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
-
-
-
-
-  const { name, address, breed, citylost, local, lost_date, phone, owner, description, details } = formData;
-
-  const handleAdd = async (values) => {
-
-    await addDoc(collection(db, "Wanted"), {
-      initialValues: {
-        address: address,
-        breed: breed,
-        citylost: citylost,
-        local: local,
-        lost_date: lost_date,
-        name: name,
-        owner: owner,
-        phone: phone,
-        photolink: 'link',
-        description: description,
-        details: details,
-      }
-    });
-    // setOpen(false);
-  }
-
 
   const BootstrapDialogTitle = (props) => {
     const { children, onClose, ...other } = props;
@@ -309,6 +299,20 @@ export const AddFormWanted = () => {
               {formik.touched.phone && formik.errors.phone ? <p className='error'>{formik.errors.phone}<BiErrorCircle
                 style={{ width: "20px", height: "20px" }} /></p> : null}
 
+              <label className='labelform'>Adress właściciela</label>
+              <input className="inputRounded"
+                required
+                type="text"
+                id="address"
+                name="address"
+                placeholder='Adres właściciela'
+                value={formik.values.address}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.address && formik.errors.address ? <p className='error'>{formik.errors.address}<BiErrorCircle
+                style={{ width: "20px", height: "20px" }} /></p> : null}
+
               <label className='labelform'>Opis</label>
               <input className="inputRounded"
                 type="text"
@@ -332,7 +336,7 @@ export const AddFormWanted = () => {
               />
 
 
-              <button className='form-button' type='submit' onClick={handleAdd}>Zapisz
+              <button className='form-button' type='submit'>Zapisz
               </button>
             </div>
           </form>

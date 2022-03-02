@@ -17,10 +17,11 @@ import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import { LoginForm } from '../loginform';
 import { RegisterForm } from '../registerform';
 import { Link } from "react-router-dom"
-import { getAuth, signOut} from 'firebase/auth'
+import { getAuth, signOut } from 'firebase/auth'
 import { Profile } from '../../content/profile';
 import ModeIcon from '@mui/icons-material/Mode';
 import { useUserContext } from "../../services/user-context";
+import { AddFormWanted } from '../../components/addformwanted'
 
 
 
@@ -41,21 +42,24 @@ export const UserPanel = () => {
     setAnchorEl(null);
   };
 
-const handleSignOutClick = () => {
-  const auth = getAuth();
-  signOut(auth);
-}
+  const handleSignOutClick = () => {
+    const auth = getAuth();
+    signOut(auth);
+  }
 
-const handleClickAvatarProfile = () => {
-  Profile()
-}
+  const handleClickAvatarProfile = () => {
+    Profile()
+  }
 
+  const handleClickAddWanted = () => {
+    AddFormWanted()
+  }
 
 
   return (
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        
+
         <Tooltip title="Panel użytkownika">
           <IconButton
             onClick={handleClick}
@@ -65,7 +69,7 @@ const handleClickAvatarProfile = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar src={avatarUrl} alt="avatar"sx={{ width: 56, height: 56 }}  />
+            <Avatar src={avatarUrl} alt="avatar" sx={{ width: 56, height: 56 }} />
           </IconButton>
         </Tooltip>
       </Box>
@@ -106,17 +110,17 @@ const handleClickAvatarProfile = () => {
       >
         <MenuItem>
           <Avatar src={avatarUrl} alt="avatar" sx={{ my: 2, width: 56, height: 56 }} />
-       </MenuItem>
-       <MenuItem>
-       <ModeIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />
-       <Button sx={{color:"#64C2A7"}} component={Link} to='/profile' onClick={handleClickAvatarProfile}>Edytuj dane</Button>
-       </MenuItem>
-        <MenuItem>
-          <ArticleIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />
-          <Button sx={{color:"#64C2A7"}} >Dodaj ogłoszenie</Button>
         </MenuItem>
         <MenuItem>
-          <button className='close-button' variant='text' sx={{ color: 'white', fontSize: '16px', border: 'none ', borderRadius: '45px', padding:'15px',  }}>Zamknij ogłoszenie</button>
+          <ModeIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />
+          <Button sx={{ color: "#64C2A7" }} component={Link} to='/profile' onClick={handleClickAvatarProfile}>Edytuj dane</Button>
+        </MenuItem>
+        <MenuItem>
+          <ArticleIcon sx={{ color: 'rgba(0, 0, 0, 0.54);' }} />
+          <Button sx={{ color: "#64C2A7" }} onClick={handleClickAddWanted}>Dodaj ogłoszenie</Button>
+        </MenuItem>
+        <MenuItem>
+          <button className='close-button' variant='text' sx={{ color: 'white', fontSize: '16px', border: 'none ', borderRadius: '45px', padding: '15px', }}>Zamknij ogłoszenie</button>
 
         </MenuItem>
         <Divider />
@@ -126,7 +130,7 @@ const handleClickAvatarProfile = () => {
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          <Button sx={{color:"#64C2A7"}} onClick={handleSignOutClick}>Wyloguj się</Button>
+          <Button sx={{ color: "#64C2A7" }} onClick={handleSignOutClick}>Wyloguj się</Button>
         </MenuItem>
       </Menu>
     </>

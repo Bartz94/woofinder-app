@@ -18,21 +18,24 @@ export const FormUpdatePassword = () => {
         }
     })
     console.log(formik.errors);
-    
+
+
 
     const handleUpdatePassword = (e) => {
 
-        // const auth = getAuth();
-        // const user = auth.currentUser;
-        // // const newPassword = getASecureRandomPassword();
+        const auth = getAuth();
+        // const newPassword = getASecureRandomPassword(auth);
+    
+     
+        const user = auth.currentUser;
+      
 
 
-        // updatePassword(user, newPassword)
-        //     .then(() => {
+        // user.updatePassword(newPassword).then(() => {
         //         console.log("update password");
         //     }).catch((error) => {
 
-        //     })
+        //     });
 
         }
 
