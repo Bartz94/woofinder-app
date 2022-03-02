@@ -108,6 +108,32 @@ input {
   border-radius:25px;
 }
 
+input[type="date"] {
+  display: -webkit-inline-flex;
+  font-family: monospace;
+  overflow: hidden;
+  padding: 14px 20px;
+}
+
+input::-webkit-datetime-edit-day-field {
+   color: #616161;
+}
+
+input::-webkit-datetime-edit-month-field {
+  color: #616161;
+}
+
+input::-webkit-datetime-edit-year-field {
+  color: #616161;
+}
+
+input::-webkit-datetime-edit-text { 
+  color: #616161; 
+}
+
+input::-webkit-calendar-picker-indicator{
+  color: #616161;
+}
 
 .form-button{
   margin-top: 30px;
@@ -148,6 +174,47 @@ input {
   border: 1px solid white;
 }
 
+.searcher-button{
+  
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color:#E2E2E2;
+  color:black;
+  width: 120px;
+  padding: 15px 20px;
+  height: 50px;
+  font-weight: bold;
+  border-radius:35px;
+  -webkit-border-radius:35px;
+  -moz-border-radius:35px;
+  -ms-border-radius:35px;
+  -o-border-radius:35px;
+  border: none;
+  transition: 1s;
+  -webkit-transition: 1s;
+  -moz-transition: 1s;
+  -ms-transition: 1s;
+  -o-transition: 1s;
+}
+
+.searcher-button:hover{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color:#292929;
+  color:rgb(255, 255, 255);
+  letter-spacing: 1px;
+  font-size: 15px;
+  width: 140px;
+  padding: 15px 20px;
+  height: 50px;
+  font-weight: bold;
+  border-radius:35px;
+  -webkit-border-radius:35px;
+  -moz-border-radius:35px;
+  -ms-border-radius:35px;
+  -o-border-radius:35px;
+  border: 1px solid white;
+}
 
 
 .error {
@@ -189,4 +256,52 @@ input {
 .profile-button:hover{
   margin-top: 30px;
   background-color:#292929;
+}
+
+.button-wrapper{
+  display: flex;
+  justify-content: center;
+}
+
+.wanted-button{
+  
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color:#E2E2E2;
+  color:black;
+  width: 150px;
+  padding: 15px 20px;
+  height: 50px;
+  font-weight: bold;
+  border-radius:35px;
+  -webkit-border-radius:35px;
+  -moz-border-radius:35px;
+  -ms-border-radius:35px;
+  -o-border-radius:35px;
+  border: none;
+  transition: 1s;
+  -webkit-transition: 1s;
+  -moz-transition: 1s;
+  -ms-transition: 1s;
+  -o-transition: 1s;
+}
+
+.wanted-button:hover{
+
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color:#292929;
+  color:rgb(255, 255, 255);
+  letter-spacing: 1px;
+  font-size: 15px;
+  width: 200px;
+  padding: 15px 20px;
+  height: 50px;
+  font-weight: bold;
+  border-radius:35px;
+  -webkit-border-radius:35px;
+  -moz-border-radius:35px;
+  -ms-border-radius:35px;
+  -o-border-radius:35px;
+  border: 1px solid white;
 }

@@ -23,7 +23,7 @@ const TextFieldStyled = styled(TextField)`
 `;
 
 const LinkStyled = styled(Link)`
-    color:black;
+    color:white;
     text-decoration: none;
 `;
 
@@ -151,21 +151,14 @@ export const SearchForm = () => {
                     value={name}
                     label="Podaj imię psa..."
                     onChange={handleDogNameChange} />
-                <Button
-                    sx={{
-                        color: 'black',
-                        fontSize: '16px',
-                        border: 'none ',
-                        borderRadius: '20px',
-                        backgroundColor: '#e2e2e2',
-                        margin: '2em auto'
-                    }}
-                    variant='contained'
-                >
-                    <LinkStyled to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}>
-                        Szukaj
-                    </LinkStyled>
-                </Button>
+                <LinkStyled to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}>
+                    <div className='button-wrapper'>
+                    <button className='searcher-button'>Szukaj
+                    </button>
+                    </div>
+                    
+                </LinkStyled>
+
             </FormControl>
         </Wrapper >
     );

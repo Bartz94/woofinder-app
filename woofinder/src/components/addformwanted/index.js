@@ -47,6 +47,14 @@ export const AddFormWanted = () => {
   const { user, avatarUrl, setAvatarUrl } = useUserContext();
   const [file, setFile] = useState(null);
 
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
+  }
+
   const formik = useFormik({
     initialValues: {
       address: '',
@@ -67,17 +75,23 @@ export const AddFormWanted = () => {
       citylost: Yup.string().max(50).required('Podaj ostatnią lokalizację pobytu psa'),
       lost_date: Yup.string().max(50).required('Podaj datę zaginięcia'),
       owner: Yup.string().max(50).required('Podaj imię właściciela'),
-      phone: Yup.string().max(50).required('Podaj numer telefonu'),
+      phone: Yup.string().max(9).required('Podaj numer telefonu'),
       description: Yup.string().max(255),
       details: Yup.string().max(255)
 
 
     }),
-    onSubmit: (values) => {
-
+    onSubmit: (values, onSubmitProps) => {
+      onSubmitProps.setSubmitting(false)
+      handleAdd(values)
+       
+      // onSubmitProps.resetForm()
     }
   })
-  console.log(formik.errors);
+  console.log(formik.values);
+
+
+  const [formData, setFormData] = useState(formik.values);
 
   const handleChangePhoto = (e) => {
 
@@ -109,19 +123,13 @@ export const AddFormWanted = () => {
     setOpen(false);
   };
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
 
-  const [formData, setFormData] = useState({ formik }
-  );
+
+
 
   const { name, address, breed, citylost, local, lost_date, phone, owner, description, details } = formData;
 
-  const handleAdd = async () => {
+  const handleAdd = async (values) => {
 
     await addDoc(collection(db, "Wanted"), {
       initialValues: {
@@ -137,11 +145,8 @@ export const AddFormWanted = () => {
         description: description,
         details: details,
       }
-
-
-
     });
-    setOpen(false);
+    // setOpen(false);
   }
 
 
@@ -183,9 +188,9 @@ export const AddFormWanted = () => {
 
   return (
     <>
-      <Button variant="contained" sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#e2e2e2', textTransform: 'capitalize', fontWeight: 'bold', mb: 3 }} onClick={handleClickOpen}>
+      <button className='wanted-button' variant="contained" sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#e2e2e2', textTransform: 'capitalize', fontWeight: 'bold', mb: 3 }} onClick={handleClickOpen}>
         Dodaj ogłoszenie
-      </Button>
+      </button>
       <BootstrapDialog
 
         maxWidth="md"
@@ -327,7 +332,7 @@ export const AddFormWanted = () => {
               />
 
 
-              <button className='form-button' type='submit' onClick={handleAdd} >Zapisz
+              <button className='form-button' type='submit' onClick={handleAdd}>Zapisz
               </button>
             </div>
           </form>
