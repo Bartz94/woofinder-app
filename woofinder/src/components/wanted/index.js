@@ -1,5 +1,5 @@
 //Bartosz
-import { useParams } from "react-router-dom";
+import { useParams, } from "react-router-dom";
 import { useState, useEffect } from 'react'
 import { db } from '../../firebase-config';
 import { collection, getDocs } from 'firebase/firestore'
@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import PlaceIcon from '@mui/icons-material/Place';
 import CallIcon from '@mui/icons-material/Call';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import Tooltip from '@mui/material/Tooltip';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const Container = styled.div`
@@ -79,123 +80,157 @@ const WantedDescription = styled.div`
 
 const WantedContact = styled.div`
     display: flex;
+    
     justify-content: space-between;
     width: 100%;
+    margin: auto;
  `;
 
 const ContactWrapper = styled.div`
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     flex-wrap: wrap;
     margin: 30px 30px;
-    width: 40%
+    align-items: center;
  `;
 
 export const Wanted = () => {
     const [wantedListData, setWantedListData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-
+    const [isLoading, setIsLoading] = useState(false);
+    const [copied, setCopied] = useState(false);
 
     const wantedListCollectionRef = collection(db, "Wanted");
     let params = useParams();
     console.log(params)
+
+
+    const getWantedList = async () => {
+        setIsLoading(true);
+        const data = await getDocs(wantedListCollectionRef);
+        console.log('kupa2', data.docs)
+        setWantedListData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        setIsLoading(false)
+    };
+
     useEffect(() => {
-        const getWantedList = async () => {
-            const data = await getDocs(wantedListCollectionRef);
-            setWantedListData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        };
-        setIsLoading(false);
-        getWantedList()
-    }, [])
+        getWantedList();
+    }, []);
 
     const filteredWantedList = wantedListData.filter(item =>
         item.id === params.id
     );
 
-    return <>
-        <Typography variant='h6' sx={{ margin: '20px 0 20px 250px' }}>Liczba zaginięć zwierząt: {wantedListData.length}</Typography>
-        <Container >
-            {filteredWantedList.map((wantedList) => {
-                return (
-                    <Container key={wantedList.id}>
-                        <DetailsWrapper>
-                            <WantedItem key={wantedList.id} style={{ minWidth: '20px' }}>
-                                <WantedItemInfoBox>
-                                    <Avatar src="https://picsum.photos/100/100" alt="dog" sx={{ width: '6em', height: '6em', marginLeft: "15px" }} />
-                                </WantedItemInfoBox>
-                                <WantedItemInfoBox>
-                                    <Typography sx={{ fontSize: '25px', fontWeight: 'bold' }}>
-                                        {wantedList.name ? wantedList.name : '---'}
-                                    </Typography>
-                                </WantedItemInfoBox>
-                                <WantedItemInfoBox>
-                                    <Specyfic>
-                                        <Typography sx={{ fontSize: '1em', fontStyle: 'italic', fontWeight: '500', mb: 1 }}>
-                                            Szczegóły zwierzaka:
-                                        </Typography>
-                                        <Typography sx={{
-                                            maxWidth: '180px',
-                                            minHeight: '100px',
-                                            overflow: 'scroll',
-                                            "&::-webkit-scrollbar": {
-                                                width: 0
-                                            },
-                                            borderRadius: '5px',
-                                        }}>
-                                            {wantedList.details}
-                                        </Typography>
-                                    </Specyfic>
-                                </WantedItemInfoBox>
-                                <WantedItemInfoBox>
-                                    <Typography sx={{ fontSize: '1.1em', fontWeight: '500' }}>
-                                        {wantedList.citylost ? wantedList.citylost : '---'}
-                                    </Typography>
-                                </WantedItemInfoBox>
-                                <WantedItemInfoBox>
-                                    <Button sx={{ color: "#64C2A7" }} variant="text">
-                                        {<PlaceIcon fontSize="large" />}
-                                        Zobacz na mapie</Button>
-                                </WantedItemInfoBox>
-                                <WantedItemInfoBox>
-                                    <ContainerEdit>
-                                        <Question>
-                                            Jeśli widziałeś zwierzaka napisz
-                                        </Question>
-                                        <Circle>
-                                            <EditIcon fontSize='large' />
-                                        </Circle>
-                                    </ContainerEdit>
-                                </WantedItemInfoBox>
-                            </WantedItem>
-                            <WantedDescription>
-                                <Typography sx={{
-                                    margin: '20px 20px',
-                                    padding: '10px',
-                                    backgroundColor: 'white',
-                                    borderRadius: '15px',
-                                    minHeight: '120px',
-                                }}>
-                                    {wantedList.description}
+    function copy() {
+        const el = document.createElement("input");
+        el.value = window.location.href;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand("copy");
+        document.body.removeChild(el);
+        setCopied(true);
+    }
 
-                                </Typography>
-                            </WantedDescription>
-                            <WantedContact>
-                                <ContactWrapper>
-                                    <Typography>Skontaktuj się z właścicielem</Typography>
-                                    <CallIcon></CallIcon>
-                                    <Typography sx={{ marginLeft: '1em', fontWeight: '600' }}>{wantedList.phone}
+    if (isLoading && filteredWantedList.length) {
+        return (
+            <Container>
+                <CircularProgress></CircularProgress>
+            </Container>
+        )
+    }
+    else {
+        return <>
+            <Typography variant='h6' sx={{ margin: '20px 0 20px 250px' }}>Liczba zaginięć zwierząt: {filteredWantedList.length}</Typography>
+            <Container >
+                {filteredWantedList.map((wantedList) => {
+                    return (
+                        <Container key={wantedList.id}>
+                            <DetailsWrapper>
+                                <WantedItem key={wantedList.id} style={{ minWidth: '20px' }}>
+                                    <WantedItemInfoBox>
+                                        <Avatar src="https://picsum.photos/100/100" alt="dog" sx={{ width: '6em', height: '6em', marginLeft: "15px" }} />
+                                    </WantedItemInfoBox>
+                                    <WantedItemInfoBox>
+                                        <Typography sx={{ fontSize: '25px', fontWeight: 'bold' }}>
+                                            {wantedList.name ? wantedList.name : '---'}
+                                        </Typography>
+                                        <Typography sx={{ fontSize: '20px', fontWeight: 'bold' }}>
+                                            {wantedList.breed ? wantedList.breed : '---'}
+                                        </Typography>
+                                    </WantedItemInfoBox>
+                                    <WantedItemInfoBox>
+                                        <Specyfic>
+                                            <Typography sx={{ fontSize: '1em', fontStyle: 'italic', fontWeight: '500', mb: 1 }}>
+                                                Szczegóły zwierzaka:
+                                            </Typography>
+                                            <Typography sx={{
+                                                maxWidth: '160px',
+                                                minHeight: '100px',
+                                                overflow: 'scroll',
+                                                padding: '0 2px',
+                                                "&::-webkit-scrollbar": {
+                                                    width: 0
+                                                },
+                                            }}>
+                                                {wantedList.details}
+                                            </Typography>
+                                        </Specyfic>
+                                    </WantedItemInfoBox>
+                                    <WantedItemInfoBox>
+                                        <Typography sx={{ fontSize: '1.1em', fontWeight: '500' }}>
+                                            {wantedList.citylost ? wantedList.citylost : '---'}
+                                        </Typography>
+                                    </WantedItemInfoBox>
+                                    <WantedItemInfoBox>
+                                        <Button sx={{ color: "#64C2A7" }} variant="text">
+                                            {<PlaceIcon fontSize="large" />}
+                                            Zobacz na mapie</Button>
+                                    </WantedItemInfoBox>
+                                    <WantedItemInfoBox>
+                                        <ContainerEdit>
+                                            <Question>
+                                                Jeśli widziałeś zwierzaka napisz
+                                            </Question>
+                                            <Circle>
+                                                <EditIcon fontSize='large' />
+                                            </Circle>
+                                        </ContainerEdit>
+                                    </WantedItemInfoBox>
+                                </WantedItem>
+                                <WantedDescription>
+                                    <Typography sx={{
+                                        margin: '20px 20px',
+                                        padding: '10px',
+                                        backgroundColor: 'white',
+                                        borderRadius: '15px',
+                                        minHeight: '120px',
+                                    }}>
+                                        {wantedList.description ? wantedList.description : 'brak opisu'}
+
                                     </Typography>
-                                </ContactWrapper>
-                                <ContactWrapper>
-                                    <Typography>link do ogłoszenia:</Typography>
-                                    <ContentCopyIcon></ContentCopyIcon>
-                                    <Typography sx={{ marginLeft: '1em' }}>kopiuj</Typography>
-                                </ContactWrapper>
-                            </WantedContact>
-                        </DetailsWrapper>
-                    </Container>
-                )
-            })}
-        </Container>
-    </>
+                                </WantedDescription>
+                                <WantedContact>
+                                    <ContactWrapper>
+                                        <Typography>Skontaktuj się z właścicielem:</Typography>
+                                        <CallIcon sx={{ marginLeft: '1.8em' }} />
+                                        <Typography sx={{ fontWeight: '500' }}>
+                                            {wantedList.phone ? wantedList.phone : '---'}
+                                        </Typography>
+                                    </ContactWrapper>
+                                    <ContactWrapper >
+                                        <Typography sx={{ marginRight: '0.2em' }}>Link do ogłoszenia:</Typography>
+                                        <Typography sx={{ fontStyle: 'italic' }}>{window.location.href}</Typography>
+                                        <Button sx={{ color: "#64C2A7", fontSize: '30px' }} variant="text" onClick={copy}>
+                                            <Tooltip disableFocusListener disableTouchListener title="Kopiuj">
+                                                <ContentCopyIcon sx={{ color: "#64C2A7", fontSize: '30px' }} />
+                                            </Tooltip>
+                                        </Button>
+                                    </ContactWrapper>
+                                </WantedContact>
+                            </DetailsWrapper>
+                        </Container>
+                    )
+                })}
+            </Container>
+        </>
+    }
 };
