@@ -213,7 +213,9 @@ export const WantedList = () => {
                             <WantedItemInfoBox>
                                 <Typography sx={{ fontSize: '25px', fontWeight: 'bold' }}>
                                     {wantedList.name ? wantedList.name : '---'}
-                                    {wantedList.breed}
+                                </Typography>
+                                <Typography sx={{ fontSize: '20px', fontWeight: 'bold' }}>
+                                    {wantedList.breed ? wantedList.breed : '---'}
                                 </Typography>
                             </WantedItemInfoBox>
                             <WantedItemInfoBox>
@@ -222,13 +224,13 @@ export const WantedList = () => {
                                         Szczegóły zwierzaka:
                                     </Typography>
                                     <Typography sx={{
-                                        maxWidth: '180px',
+                                        maxWidth: '160px',
                                         minHeight: '100px',
                                         overflow: 'scroll',
+                                        padding: '0 2px',
                                         "&::-webkit-scrollbar": {
                                             width: 0
                                         },
-                                        borderRadius: '5px',
                                     }}>
                                         {wantedList.details}
                                     </Typography>
