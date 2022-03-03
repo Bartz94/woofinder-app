@@ -124,7 +124,6 @@ export const WantedList = () => {
     }
 
 
-    console.log('kupa', { wantedListCollectionRef })
 
     let cityToUpperCase = ''
     let cityToLowerCase = ''
@@ -150,7 +149,6 @@ export const WantedList = () => {
     const getWantedList = async () => {
         setIsLoading(true);
         const data = await getDocs(getQuery());
-        console.log('kupa2', data.docs)
         setWantedListData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
         setIsLoading(false)
     };
@@ -159,8 +157,6 @@ export const WantedList = () => {
         getWantedList();
     }, []);
 
-    console.log(isLoading)
-    console.log('WantedListDat', { wantedListData });
 
     const filteredWantedList = wantedListData.filter(item =>
         ((item.citylost === city || item.citylost === cityToLowerCase || item.citylost === cityToUpperCase) && (item.citylost !== '')) ||
@@ -172,9 +168,7 @@ export const WantedList = () => {
 
     // })
     const wantedDogId = filteredWantedList.map(item => item.id);
-    console.log('wanted dog id:', wantedDogId);
 
-    console.log('filteredWantedList', { filteredWantedList, city, breed, name })
     if (city === '' && breed === '' && name === '') {
         return (
             <Container >
@@ -205,6 +199,11 @@ export const WantedList = () => {
             <Typography variant='h6' sx={{ marginLeft: '300px', mt: 2 }}>Liczba zaginięć zwierząt: {wantedListData.length}</Typography>
             <Container >
                 {filteredWantedList.map((wantedList) => {
+                    const name = wantedList.name[0].toUpperCase() + wantedList.name.substring(1);
+                    const breed = wantedList.breed[0].toUpperCase() + wantedList.breed.substring(1);
+                    const city = wantedList.citylost[0].toUpperCase() + wantedList.citylost.substring(1);
+
+                    console.log(name)
                     return (
                         <WantedItem key={wantedList.id} style={{ minWidth: '20px' }}>
                             <WantedItemInfoBox>
@@ -212,10 +211,10 @@ export const WantedList = () => {
                             </WantedItemInfoBox>
                             <WantedItemInfoBox>
                                 <Typography sx={{ fontSize: '25px', fontWeight: 'bold' }}>
-                                    {wantedList.name ? wantedList.name : '---'}
+                                    {name ? name : '---'}
                                 </Typography>
                                 <Typography sx={{ fontSize: '20px', fontWeight: 'bold' }}>
-                                    {wantedList.breed ? wantedList.breed : '---'}
+                                    {breed ? breed : '---'}
                                 </Typography>
                             </WantedItemInfoBox>
                             <WantedItemInfoBox>
@@ -238,7 +237,7 @@ export const WantedList = () => {
                             </WantedItemInfoBox>
                             <WantedItemInfoBox>
                                 <Typography sx={{ fontSize: '1.1em', fontWeight: '500' }}>
-                                    {wantedList.citylost ? wantedList.citylost : '---'}
+                                    {city ? city : '---'}
                                 </Typography>
                             </WantedItemInfoBox>
                             <WantedItemInfoBox>

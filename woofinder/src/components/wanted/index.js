@@ -99,6 +99,7 @@ export const Wanted = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [copied, setCopied] = useState(false);
 
+
     const wantedListCollectionRef = collection(db, "Wanted");
     let params = useParams();
     console.log(params)
@@ -142,6 +143,10 @@ export const Wanted = () => {
             <Typography variant='h6' sx={{ margin: '20px 0 20px 250px' }}>Liczba zaginięć zwierząt: {filteredWantedList.length}</Typography>
             <Container >
                 {filteredWantedList.map((wantedList) => {
+                    const name = wantedList.name[0].toUpperCase() + wantedList.name.substring(1);
+                    const breed = wantedList.breed[0].toUpperCase() + wantedList.breed.substring(1);
+                    const city = wantedList.citylost[0].toUpperCase() + wantedList.citylost.substring(1);
+
                     return (
                         <Container key={wantedList.id}>
                             <DetailsWrapper>
@@ -151,10 +156,10 @@ export const Wanted = () => {
                                     </WantedItemInfoBox>
                                     <WantedItemInfoBox>
                                         <Typography sx={{ fontSize: '25px', fontWeight: 'bold' }}>
-                                            {wantedList.name ? wantedList.name : '---'}
+                                            {name ? name : '---'}
                                         </Typography>
                                         <Typography sx={{ fontSize: '20px', fontWeight: 'bold' }}>
-                                            {wantedList.breed ? wantedList.breed : '---'}
+                                            {breed ? breed : '---'}
                                         </Typography>
                                     </WantedItemInfoBox>
                                     <WantedItemInfoBox>
@@ -177,7 +182,7 @@ export const Wanted = () => {
                                     </WantedItemInfoBox>
                                     <WantedItemInfoBox>
                                         <Typography sx={{ fontSize: '1.1em', fontWeight: '500' }}>
-                                            {wantedList.citylost ? wantedList.citylost : '---'}
+                                            {city ? city : '---'}
                                         </Typography>
                                     </WantedItemInfoBox>
                                     <WantedItemInfoBox>
