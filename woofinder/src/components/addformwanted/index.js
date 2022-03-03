@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
+import { Typography } from '@mui/material';
 import DialogTitle from '@mui/material/DialogTitle';
 import styled from 'styled-components';
 import Avatar from '@mui/material/Avatar';
@@ -12,11 +13,16 @@ import CloseIcon from '@mui/icons-material/Close';
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
 import { firebaseConfig } from "../../firebase-config";
-import { FormInput } from '../Input';
 import Snackbar from '@mui/material/Snackbar';
 import AlertTitle from '@mui/material/AlertTitle';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import AddAPhoto from "@mui/icons-material/AddAPhoto";
+import { ButtonGroup } from "@mui/material";
+import Button from '@mui/material/Button';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { useUserContext } from "../../services/user-context";
+
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
@@ -24,37 +30,14 @@ const db = getFirestore();
 
 const BootstrapDialog = styled(Dialog)`
   background-color: rgba(210, 210, 210, 0.18);
-  
 `;
 
-const ContainerForm = styled.div`
-display:flex;
-flex-direction:column;
-justify-content:space-evenly;
-align-items:center;
+const DialogContentStyle = styled(DialogContent)`
+background-image: linear-gradient(90deg, rgba(89, 252, 170, 1) 0%, rgba(41, 86, 78, 1) 100%);
+width:700px;
+height:900px;
+overflow-x:hidden;
 `;
-
-const FormWrapper = styled.form`
-display:flex;
-flex-direction:column;
-
-
-`;
-
-const SpecLabel = styled.label`
-margin-bottom:15px;
-margin-top:15px;
-font-weight:bold;
-color:black;
-
-
-`;
-
-const Comunicate = styled.p`
-color:red;
-`;
-
-
 
 
 export const AddFormWanted = () => {
@@ -72,15 +55,17 @@ export const AddFormWanted = () => {
     details: ''
   };
 
- const [formData, setFormData] = useState(initialValues)
+  const [formData, setFormData] = useState(initialValues)
   const [formErrors, setFormErrors] = useState({})
   const [isSubmit, setIsSubmit] = useState(false);
 
-  
-  
+
+
 
   const [open, setOpen] = React.useState(false);
-  
+  const { user, avatarUrl, setAvatarUrl } = useUserContext();
+  const [file, setFile] = useState(null);
+
 
 
   const handleClickOpen = () => {
@@ -96,6 +81,28 @@ export const AddFormWanted = () => {
     console.log(formData);
   }
 
+  const handleChangePhoto = (e) => {
+
+    setFile(e.target.files[0]);
+  }
+
+  const handleCancelPhoto = (e) => {
+    setFile(null)
+  }
+
+  const handleSavePhoto = (e) => {
+    const storage = getStorage();
+    const storageRef = ref(storage, `dogs/${user.uid}`);
+
+    uploadBytes(storageRef, file).then((snapshot) => {
+      getDownloadURL(storageRef).then((url) => {
+        setAvatarUrl(url);
+        setFile(null);
+      })
+    });
+
+  }
+
 
   const { name, address, breed, citylost, local, lost_date,
     phone, owner, description, details } = formData;
@@ -104,10 +111,6 @@ export const AddFormWanted = () => {
     e.preventDefault();
     setFormErrors(validate(formData));
     setIsSubmit(true);
-    
-   
- 
-  
 
     await addDoc(collection(db, "Wanted"), {
       address: address,
@@ -123,7 +126,7 @@ export const AddFormWanted = () => {
       details: details
     });
     setOpen(true);
-   
+
 
   }
   useEffect(() => {
@@ -211,99 +214,167 @@ export const AddFormWanted = () => {
 
   return (
 
-    <div>
-      <button className="search-button" onClick={handleClickOpen}>
+    <>
+      <button className="wanted-button" onClick={handleClickOpen}>
         Dodaj ogłoszenie
       </button>
       <BootstrapDialog
-
-        onClose={handleClose} maxWidth="lg"
+        maxWidth="md"
+        onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <ContainerForm>
+        <BootstrapDialogTitle variant="h4" sx={{ mt: 1, ml: 3, fontFamily: 'Segoe UI', fontWeight: 'bold', textTransform: "uppercase" }} id="customized-dialog-title" onClose={handleClose}>
+          <Typography sx={{ fontSize: "26px", fontWeight: "bold", textTransform: 'capitalize' }}>Formularz zgłoszeniowy</Typography>
 
-          {Object.keys(formErrors).length === 0 && isSubmit ?
-            (
-              <Stack sx={{ width: '100%' }} spacing={2}>
-                <Snackbar open={open}
-                >
-                  <Alert
-                    onClose={() => { handleClose() }}
-                    severity="success"
-                    sx={{ width: '100%' }}><AlertTitle>Success</AlertTitle>Ogłoszenie zostało dodane</Alert>
-                </Snackbar>
-              </Stack>
-            ) : (
-              <Alert severity="info"><p>Aby dodać ogłoszenie musisz uzupełnić formularz</p></Alert>
-            )}
+        </BootstrapDialogTitle>
 
-          <BootstrapDialogTitle variant="h4" sx={{ fontFamily: 'Segoe UI', fontWeight: 'bold', textTransform: "uppercase" }} id="customized-dialog-title" onClose={handleClose}>
-            Formularz zgłoszeniowy
-          </BootstrapDialogTitle>
-
-          <DialogContent>
+        {Object.keys(formErrors).length === 0 && isSubmit ?
+          (
+            <Stack sx={{ width: '100%' }} spacing={2}>
+              <Snackbar open={open}
+              >
+                <Alert
+                  onClose={() => { handleClose() }}
+                  severity="success"
+                  sx={{ width: '100%' }}><AlertTitle>Success</AlertTitle>Ogłoszenie zostało dodane</Alert>
+              </Snackbar>
+            </Stack>
+          ) : (
+            <Alert severity="info"><p>Aby dodać ogłoszenie musisz uzupełnić formularz</p></Alert>
+          )}
 
 
+        <DialogContentStyle>
+          <form>
 
-            <ContainerForm>
-              <Avatar sx={{ width: "186px", height: "186px" }} />
-              <FormWrapper noValidate onSubmit={handleAdd}>
-
-                <SpecLabel>Imię psa</SpecLabel>
-                <FormInput type="text" name="name" placeholder="Imię psa" required value={formData.name} 
-                  onChange={handleChange}
+            <div className="input-content">
+              <Avatar src={avatarUrl} alt="profile" sx={{ width: "186px", height: "186px" }} />
+              <Button sx={{ mt: 2, backgroundColor: "#e2e2e2", color: "black" }}
+                component="label"
+              >
+                <AddAPhoto />
+                <input
+                  onChange={handleChangePhoto}
+                  type="file"
+                  hidden
                 />
-                <Comunicate>{formErrors.name}</Comunicate>
+              </Button>
 
-                <SpecLabel>Rasa psa</SpecLabel>
-
-                <FormInput type="text" name="breed" placeholder="Rasa psa" value={formData.breed}
-                  onChange={handleChange} />
-                <Comunicate>{formErrors.breed}</Comunicate>
-
-                <SpecLabel>Data zaginięcia</SpecLabel>
-
-                <FormInput type="date" name="lost_date" value={formData.lost_date} onChange={handleChange}
-                />
-                <Comunicate>{formErrors.lost_date}</Comunicate>
-
-                <SpecLabel>Ostatnia lokalizacja psa</SpecLabel>
-                <FormInput type="text" name="citylost" placeholder="Ostatnia lokalizacja psa" value={formData.citylost} onChange={handleChange} />
-                <Comunicate>{formErrors.citylost}</Comunicate>
+              {file && file.name}
+              {file && (
+                <ButtonGroup>
+                  <Button sx={{ mt: 2 }} variant="contained" onClick={handleSavePhoto}>Zapisz</Button>
+                  <Button sx={{ mt: 2 }} variant="contained" color="inherit" onClick={handleCancelPhoto}>Nie zapisuj</Button>
+                </ButtonGroup>
+              )}
 
 
-                <SpecLabel>Imię właściciela</SpecLabel>
-                <FormInput type="text" name="owner" placeholder="Imię właściciela" value={formData.owner} onChange={handleChange} />
-                <Comunicate>{formErrors.owner}</Comunicate>
-
-                <SpecLabel>Telefon</SpecLabel>
-                <FormInput type="number" name="phone" placeholder="Telefon" value={formData.phone} onChange={handleChange} />
-                <Comunicate>{formErrors.phone}</Comunicate>
-
-                <SpecLabel>Adres</SpecLabel>
-                <FormInput type="text" name="address" placeholder="Adres" value={formData.address}
-                  onChange={handleChange} />
-                <Comunicate>{formErrors.address}</Comunicate>
-
-                <SpecLabel>Opis</SpecLabel>
-                <FormInput type="text" name="description" placeholder="Opis" value={formData.description} onChange={handleChange} />
-
-                <SpecLabel>Znaki szczególne</SpecLabel>
-                <FormInput type="text" name="details" placeholder="Znaki szczególne" value={formData.details}
-                  onChange={handleChange} />
+              <label className='labelform'>Imię psa</label>
+              <input className="inputRounded"
+                type="text"
+                id="name"
+                name="name"
+                placeholder='Imię psa'
+                required
+                value={formData.name}
+                onChange={handleChange}
+              />
 
 
-                <button onClick={handleAdd} className="search-button">Dodaj ogłoszenie</button>
-              </FormWrapper>
+              <label className='labelform'>Rasa psa</label>
+              <input className="inputRounded"
+                type="text"
+                id="breed"
+                name="breed"
+                placeholder="Rasa psa"
+                value={formData.breed}
+                onChange={handleChange}
+              />
 
 
-            </ContainerForm>
+              <label className='labelform'>Data zaginięcia</label>
+              <input className='inputRounded'
+                type="date"
+                id="lost_date"
+                name="lost_date"
+                value={formData.lost_date}
+                onChange={handleChange}
+              />
 
-          </DialogContent>
-        </ContainerForm>
+
+              <label className='labelform'>Ostatnia lokalizacja psa</label>
+              <input className='inputRounded'
+                type="text"
+                id="citylost"
+                name="citylost"
+                placeholder="Ostatnia lokalizacja psa"
+                value={formData.citylost}
+                onChange={handleChange}
+              />
+
+
+
+              <label className='labelform'>Imię właściciela</label>
+              <input className='inputRounded'
+                type="text"
+                id="owner"
+                name="owner"
+                placeholder="Imię właściciela"
+                value={formData.owner}
+                onChange={handleChange}
+              />
+
+
+              <label className='labelform'>Telefon właściciela</label>
+              <input className='inputRounded'
+                type="number"
+                id="phone"
+                name="phone"
+                placeholder="Telefon"
+                value={formData.phone}
+                onChange={handleChange}
+              />
+
+
+              <label className='labelform'>Adres właściciela</label>
+              <input className='inputRounded'
+                type="text"
+                id="address"
+                name="address"
+                placeholder="Adres"
+                value={formData.address}
+                onChange={handleChange}
+              />
+
+              <label className='labelform'>Opis</label>
+              <input className='inputRounded'
+                type="text"
+                id="description"
+                name="description"
+                placeholder="Opis"
+                value={formData.description}
+                onChange={handleChange}
+              />
+
+              <label className='labelform'>Znaki szczególne</label>
+              <input className='inputRounded'
+              type="text"
+              id="details"
+               name="details" 
+               placeholder="Znaki szczególne" 
+               value={formData.details}
+                onChange={handleChange} />
+
+
+              <button className="form-button" onClick={handleAdd} >Dodaj ogłoszenie</button>
+
+            </div>
+          </form>
+
+        </DialogContentStyle>
       </BootstrapDialog>
-    </div >
+    </>
   );
 }
 

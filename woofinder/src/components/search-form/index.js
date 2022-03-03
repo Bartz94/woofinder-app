@@ -17,6 +17,11 @@ const Wrapper = styled.section`
   margin-top: 50px;
 `;
 
+const LinkStyled = styled(Link)`
+    color:white;
+    text-decoration: none;
+`;
+
 export const SearchForm = () => {
     const cities = [
         { name: 'Wrocław' },
@@ -106,12 +111,13 @@ export const SearchForm = () => {
                 <InputLabel >Podaj imię psa...</InputLabel>
                 <Input value={name} onChange={handleDogNameChange} sx={{ fontSize: '16px', m: 2 }}></Input>
             </FormControl>
-            <button className='search-button'
-                >
-                <Link to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`} style={{color:"black", textTransform:"capitalize", textDecoration:"none", fontWeight:"bold", fontSize:"16px"}}>
-                    Szukaj
-                </Link>
-            </button>
+             <LinkStyled to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}>
+                    <div className='button-wrapper'>
+                    <button className='searcher-button'>Szukaj
+                    </button>
+                    </div>
+                    
+                </LinkStyled>
 
         </Wrapper >
     );

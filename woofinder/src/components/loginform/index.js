@@ -26,10 +26,12 @@ const BootstrapDialog = styled(Dialog)`
 `;
 
 const DialogContentStyle = styled(DialogContent)`
-width:1200px;
+background-image: linear-gradient(90deg, rgba(89, 252, 170, 1) 0%, rgba(41, 86, 78, 1) 100%);
+width:500px;
 height:500px;
-overlay: hidden;
 `;
+
+
 
 
 
@@ -45,8 +47,8 @@ const BootstrapDialogTitle = (props) => {
           onClick={onClose}
           sx={{
             position: 'absolute',
-            right: 8,
-            top: 8,
+            left: 475,
+            bottom: 545,
             color: 'black',
             width: '36px',
             height: '36px',
@@ -110,44 +112,47 @@ export const LoginForm = (isSignup) => {
         Zaloguj
       </Button>
       <BootstrapDialog
-        maxWidth="xl"
+        maxWidth="sm"
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
         <BootstrapDialogTitle variant="h4" sx={{ mt: 1, ml: 3, fontFamily: 'Segoe UI', fontWeight: 'bold', textTransform: "uppercase" }} id="customized-dialog-title" onClose={handleClose}>
-          <Typography> Zaloguj się.</Typography>
+          <Typography sx={{ fontSize: "26px", fontWeight: "bold", textTransform: 'capitalize' }}> Zaloguj się.</Typography>
         </BootstrapDialogTitle>
         <DialogContentStyle>
-          <Avatar sx={{ width: "186px", height: "186px", ml: 22, mt: 10 }} />
           <form onSubmit={handleSubmit}>
-            <TextField className="inputRounded"
-              type="email"
-              required
-              id="email"
-              sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -20, }} label='Nazwa użytkownika oraz email'
-              value={email}
-              autoComplete='email'
-              onChange={handleEmailChange}
-            />
-            <TextField className="inputRounded"
-              required
-              type="password"
-              sx={{ fontSize: '0.6em', borderRadius: '25px', border: '1px solid silver', ml: 65, mt: -14 }}
-              id="password"
-              label='Hasło'
-              value={password}
-              autoComplete='current-password'
-              onChange={handlePasswordChange}
-            />
+            <div className="input-content">
+              <label className='labelform'>Email</label>
+              <input className="inputRounded"
+                type="email"
+                id="email"
+                name="email"
+                placeholder='email'
+                value={email}
+                autoComplete='email'
+                onChange={handleEmailChange}
+                required
+              />
+              <label className='labelform'>Hasło</label>
+              <input className="inputRounded"
+                type="password"
+                id="password"
+                name="password"
+                placeholder='hasło'
+                value={password}
+                autoComplete='current-password'
+                onChange={handlePasswordChange}
+                required
+              />
 
+
+              <button className='form-button' type='submit'onClick={handleSubmit}>
+                Zaloguj się
+              </button>
+            </div>
           </form>
         </DialogContentStyle>
-        <DialogActions>
-          <Button type='submit' variant="contained" sx={{ color: 'black', fontSize: '0.8em', borderRadius: '20px', backgroundColor: '#E2E2E2', mt: -66, mr: 12, textTransform: 'capitalize', fontWeight: 'bold' }} autoFocus onClick={handleSubmit}>
-            Zaloguj się
-          </Button>
-        </DialogActions>
       </BootstrapDialog>
     </>
   );
