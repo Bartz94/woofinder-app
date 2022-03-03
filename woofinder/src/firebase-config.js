@@ -3,12 +3,12 @@ import { initializeApp } from 'firebase/app'
 import { getFirestore } from '@firebase/firestore'
 
 export const firebaseConfig = {
-    apiKey: "AIzaSyBcBvRIR4ox95483Pc07ypo8smOb2Ph_RY",
-    authDomain: "woofinder-82555.firebaseapp.com",
-    projectId: "woofinder-82555",
-    storageBucket: "woofinder-82555.appspot.com",
-    messagingSenderId: "127640692355",
-    appId: "1:127640692355:web:40b760db4eb6a6d57f9db6"
+    apiKey: "AIzaSyDi-nTvrEcCGTGoLWTXo0XnWRoQJObi-bs",
+    authDomain: "woofinder-53a38.firebaseapp.com",
+    projectId: "woofinder-53a38",
+    storageBucket: "woofinder-53a38.appspot.com",
+    messagingSenderId: "582591290081",
+    appId: "1:582591290081:web:c739514fb91c4e997f75a0"
 };
 
 const app = initializeApp(firebaseConfig)
