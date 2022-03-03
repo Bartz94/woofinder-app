@@ -219,19 +219,18 @@ export const WantedList = () => {
                             <WantedItemInfoBox>
                                 <Specyfic>
                                     <Typography sx={{ fontSize: '1em', fontStyle: 'italic', fontWeight: '500', mb: 1 }}>
-                                        Cechy zwierzaka:
+                                        Szczegóły zwierzaka:
                                     </Typography>
                                     <Typography sx={{
-                                        maxWidth: '120px',
-                                        maxHeight: '120px',
+                                        maxWidth: '180px',
+                                        minHeight: '100px',
                                         overflow: 'scroll',
                                         "&::-webkit-scrollbar": {
                                             width: 0
                                         },
                                         borderRadius: '5px',
                                     }}>
-                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                                        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
+                                        {wantedList.details}
                                     </Typography>
                                 </Specyfic>
                             </WantedItemInfoBox>
