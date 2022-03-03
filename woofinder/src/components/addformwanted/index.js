@@ -72,15 +72,15 @@ export const AddFormWanted = () => {
     details: ''
   };
 
- const [formData, setFormData] = useState(initialValues)
+  const [formData, setFormData] = useState(initialValues)
   const [formErrors, setFormErrors] = useState({})
   const [isSubmit, setIsSubmit] = useState(false);
 
-  
-  
+
+
 
   const [open, setOpen] = React.useState(false);
-  
+
 
 
   const handleClickOpen = () => {
@@ -104,18 +104,18 @@ export const AddFormWanted = () => {
     e.preventDefault();
     setFormErrors(validate(formData));
     setIsSubmit(true);
-    
-   
- 
-  
+
+
+
+
 
     await addDoc(collection(db, "Wanted"), {
       address: address,
-      breed: breed,
-      citylost: citylost,
+      breed: breed.toLocaleLowerCase(),
+      citylost: citylost.toLocaleLowerCase(),
       coordinates: local,
       dateofmissing: lost_date,
-      name: name,
+      name: name.toLocaleLowerCase(),
       ownername: owner,
       phone: phone,
       photolink: "link",
@@ -123,7 +123,7 @@ export const AddFormWanted = () => {
       details: details
     });
     setOpen(true);
-   
+
 
   }
   useEffect(() => {
@@ -251,7 +251,7 @@ export const AddFormWanted = () => {
               <FormWrapper noValidate onSubmit={handleAdd}>
 
                 <SpecLabel>Imię psa</SpecLabel>
-                <FormInput type="text" name="name" placeholder="Imię psa" required value={formData.name} 
+                <FormInput type="text" name="name" placeholder="Imię psa" required value={formData.name}
                   onChange={handleChange}
                 />
                 <Comunicate>{formErrors.name}</Comunicate>
