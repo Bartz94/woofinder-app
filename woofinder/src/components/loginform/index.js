@@ -7,13 +7,15 @@ import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
 import CloseIcon from '@mui/icons-material/Close';
-import { Avatar, styled, Typography } from '@mui/material';
-import { TextField } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { firebaseConfig } from '../../firebase-config';
+import { Typography } from '@mui/material';
+import styled from 'styled-components';
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { BiErrorCircle } from 'react-icons/bi';
 
 
 
@@ -69,11 +71,42 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export const LoginForm = (isSignup) => {
+const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}$/;
+
+const validationSchema = yup.object({
+  email: yup.string().email("Podaj email").required("Email jest wymagany"),
+  password: yup.string().required("Podaj hasło"),
+})
+
+export const LoginForm = (props) => {
   const [open, setOpen] = React.useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+
   const navigate = useNavigate();
+
+
+
+  const onSubmit = (values) => {
+    const auth = getAuth();
+    console.log(values);
+
+    signInWithEmailAndPassword(auth, formik.values.email, formik.values.password)
+      .then(() => {
+
+        navigate('/');
+
+      })
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      email: "", password: ""
+    },
+    validateOnBlur: true,
+    onSubmit,
+    validationSchema: validationSchema,
+  });
+
+  console.log("Error: ", formik.errors);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -82,31 +115,7 @@ export const LoginForm = (isSignup) => {
     setOpen(false);
   };
 
-
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  }
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const auth = getAuth();
-    console.log(email)
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-
-        navigate('/');
-
-      })
-  }
-
-
-  return (
+return (
     <>
       <Button variant="text" sx={{ color: 'black', textTransform: 'capitalize' }} onClick={handleClickOpen}>
         Zaloguj
@@ -121,33 +130,41 @@ export const LoginForm = (isSignup) => {
           <Typography sx={{ fontSize: "26px", fontWeight: "bold", textTransform: 'capitalize' }}> Zaloguj się.</Typography>
         </BootstrapDialogTitle>
         <DialogContentStyle>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={formik.handleSubmit}>
             <div className="input-content">
               <label className='labelform'>Email</label>
               <input className="inputRounded"
                 type="email"
                 id="email"
                 name="email"
-                placeholder='email'
-                value={email}
+                placeholder='Email'
+                value={formik.values.email}
+                onChange={formik.handleChange}
                 autoComplete='email'
-                onChange={handleEmailChange}
+                onBlur={formik.handleBlur}
                 required
               />
+              {formik.touched.email && formik.errors.email ? <p className='error'>{formik.errors.email}<BiErrorCircle
+                style={{ width: "20px", height: "20px" }} /></p> : null}
+
               <label className='labelform'>Hasło</label>
               <input className="inputRounded"
                 type="password"
                 id="password"
                 name="password"
-                placeholder='hasło'
-                value={password}
+                placeholder='Hasło'
+                value={formik.values.password}
+                onChange={formik.handleChange}
                 autoComplete='current-password'
-                onChange={handlePasswordChange}
+                onBlur={formik.handleBlur}
                 required
               />
+              {formik.touched.password && formik.errors.password ? <p className='error'>{formik.errors.password}<BiErrorCircle
+                style={{ width: "20px", height: "20px" }} /></p> : null}
 
 
-              <button className='form-button' type='submit'onClick={handleSubmit}>
+
+              <button type='submit' className='wanted-button' onClick={formik.handleSubmit}>
                 Zaloguj się
               </button>
             </div>

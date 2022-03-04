@@ -367,7 +367,7 @@ export const AddFormWanted = () => {
                 onChange={handleChange} />
 
 
-              <button className="form-button" onClick={handleAdd} >Dodaj ogłoszenie</button>
+              <button className="wanted-button" onClick={handleAdd} >Dodaj ogłoszenie</button>
 
             </div>
           </form>
