@@ -22,6 +22,9 @@ import { ButtonGroup } from "@mui/material";
 import Button from '@mui/material/Button';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useUserContext } from "../../services/user-context";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { BiErrorCircle } from 'react-icons/bi';
 
 
 const app = initializeApp(firebaseConfig);
@@ -39,34 +42,73 @@ height:900px;
 overflow-x:hidden;
 `;
 
+const validationSchema = yup.object({
+  address: yup.string("Podaj adres").required("Pole jest wymagane"),
+  breed: yup.string("Podaj rasę").required("Pole jest wymagane"),
+  citylost: yup.string("Podaj Miasto zaginięcia").required("Pole jest wymagane"),
+  lost_date: yup.string("Podaj datę zaginięcia").required("Pole jest wymagane"),
+  name: yup.string("Podaj Imię psa").required("Pole jest wymagane"),
+  owner: yup.string("Podaj imię właściciela").required("Pole jest wymagane"),
+  phone: yup.string("Podaj numer telefonu").max(9, "Numer telefonu musi składać się z 9 cyfr").required("Pole jest wymagane")
+})
 
 export const AddFormWanted = () => {
-  const initialValues = {
-    address: '',
-    breed: '',
-    citylost: '',
-    local: '',
-    lost_date: '',
-    name: '',
-    owner: '',
-    phone: '',
-    photolink: '',
-    description: '',
-    details: ''
-  };
 
-  const [formData, setFormData] = useState(initialValues)
-  const [formErrors, setFormErrors] = useState({})
+
   const [isSubmit, setIsSubmit] = useState(false);
-
-
-
-
   const [open, setOpen] = React.useState(false);
+  const [openSnack, setOpenSnack] = React.useState(false);
   const { user, avatarUrl, setAvatarUrl } = useUserContext();
   const [file, setFile] = useState(null);
 
+  const onSubmit = async (values, onSubmitProps) => {
+    const { name, address, breed, citylost, lost_date, phone, owner, description, details } = values;
 
+    console.log(values);
+    setIsSubmit(true);
+
+
+
+
+    await addDoc(collection(db, "Wanted"), {
+
+      address: address,
+      breed: breed,
+      citylost: citylost,
+      lost_date: lost_date,
+      name: name,
+      owner: owner,
+      phone: phone,
+      photolink: "link",
+      description: description,
+      details: details
+
+    });
+    setOpen(true);
+    setOpenSnack(true);
+    onSubmitProps.resetForm()
+
+  }
+
+  const formik = useFormik({
+    initialValues: {
+      address: '',
+      breed: '',
+      citylost: '',
+      lost_date: '',
+      name: '',
+      owner: '',
+      phone: '',
+      photolink: '',
+      description: '',
+      details: ''
+    },
+    validateOnBlur: true,
+    onSubmit,
+    validationSchema: validationSchema,
+  });
+
+  console.log("Error: ", formik.errors);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -76,10 +118,13 @@ export const AddFormWanted = () => {
     setOpen(false);
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-    console.log(formData);
-  }
+  const handleClickOpenS = () => {
+    setOpenSnack(true);
+  };
+
+  const handleCloseS = () => {
+    setOpenSnack(false);
+  };
 
   const handleChangePhoto = (e) => {
 
@@ -102,78 +147,6 @@ export const AddFormWanted = () => {
     });
 
   }
-
-
-  const { name, address, breed, citylost, local, lost_date,
-    phone, owner, description, details } = formData;
-
-  const handleAdd = async (e) => {
-    e.preventDefault();
-    setFormErrors(validate(formData));
-    setIsSubmit(true);
-
-    await addDoc(collection(db, "Wanted"), {
-      address: address,
-      breed: breed,
-      citylost: citylost,
-      coordinates: local,
-      dateofmissing: lost_date,
-      name: name,
-      ownername: owner,
-      phone: phone,
-      photolink: "link",
-      description: description,
-      details: details
-    });
-    setOpen(true);
-
-
-  }
-  useEffect(() => {
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(formData);
-    }
-  }, [formErrors])
-  const validate = (values) => {
-    const errors = {};
-
-
-
-    if (!values.name) {
-      errors.name = "Imię psa jest wymagane";
-
-    }
-    if (!values.breed) {
-      errors.breed = "Rasa psa jest wymagana";
-
-    }
-    if (!values.lost_date) {
-      errors.lost_date = "Data jest wymagana";
-
-    }
-    if (!values.citylost) {
-      errors.citylost = "Miejscowość jest wymagana";
-
-    }
-    if (!values.owner) {
-      errors.owner = "Imię właściciela jest wymagane";
-
-    }
-    if (!values.phone) {
-      errors.phone = "Telefon jest wymagany";
-
-    }
-    if (!values.address) {
-      errors.address = "Adres jest wymagany";
-
-    }
-    return errors;
-
-
-  };
-
-
-
 
 
 
@@ -229,13 +202,13 @@ export const AddFormWanted = () => {
 
         </BootstrapDialogTitle>
 
-        {Object.keys(formErrors).length === 0 && isSubmit ?
+        {Object.keys(formik.errors).length === 0 && isSubmit ?
           (
             <Stack sx={{ width: '100%' }} spacing={2}>
-              <Snackbar open={open}
-              >
+              <Snackbar open={openSnack} onClose={handleCloseS}>
+
                 <Alert
-                  onClose={() => { handleClose() }}
+                  onClose={() => { handleCloseS() }}
                   severity="success"
                   sx={{ width: '100%' }}><AlertTitle>Success</AlertTitle>Ogłoszenie zostało dodane</Alert>
               </Snackbar>
@@ -246,7 +219,7 @@ export const AddFormWanted = () => {
 
 
         <DialogContentStyle>
-          <form>
+          <form onSubmit={formik.handleSubmit}>
 
             <div className="input-content">
               <Avatar src={avatarUrl} alt="profile" sx={{ width: "186px", height: "186px" }} />
@@ -277,9 +250,11 @@ export const AddFormWanted = () => {
                 name="name"
                 placeholder='Imię psa'
                 required
-                value={formData.name}
-                onChange={handleChange}
+                value={formik.values.name}
+                onChange={formik.handleChange}
               />
+              {formik.touched.name && formik.errors.name ? <p className='error'>{formik.errors.name}<BiErrorCircle
+                style={{ width: "20px", height: "20px" }} /></p> : null}
 
 
               <label className='labelform'>Rasa psa</label>
@@ -288,9 +263,12 @@ export const AddFormWanted = () => {
                 id="breed"
                 name="breed"
                 placeholder="Rasa psa"
-                value={formData.breed}
-                onChange={handleChange}
+                value={formik.values.breed}
+                onChange={formik.handleChange}
               />
+              {formik.touched.breed && formik.errors.breed ? <p className='error'>{formik.errors.breed}<BiErrorCircle
+                style={{ width: "20px", height: "20px" }} /></p> : null}
+
 
 
               <label className='labelform'>Data zaginięcia</label>
@@ -298,9 +276,12 @@ export const AddFormWanted = () => {
                 type="date"
                 id="lost_date"
                 name="lost_date"
-                value={formData.lost_date}
-                onChange={handleChange}
+                value={formik.values.lost_date}
+                onChange={formik.handleChange}
               />
+              {formik.touched.lost_date && formik.errors.lost_date ? <p className='error'>{formik.errors.lost_date}<BiErrorCircle
+                style={{ width: "20px", height: "20px" }} /></p> : null}
+
 
 
               <label className='labelform'>Ostatnia lokalizacja psa</label>
@@ -309,9 +290,12 @@ export const AddFormWanted = () => {
                 id="citylost"
                 name="citylost"
                 placeholder="Ostatnia lokalizacja psa"
-                value={formData.citylost}
-                onChange={handleChange}
+                value={formik.values.citylost}
+                onChange={formik.handleChange}
               />
+              {formik.touched.citylost && formik.errors.citylost ? <p className='error'>{formik.errors.citylost}<BiErrorCircle
+                style={{ width: "20px", height: "20px" }} /></p> : null}
+
 
 
 
@@ -321,9 +305,12 @@ export const AddFormWanted = () => {
                 id="owner"
                 name="owner"
                 placeholder="Imię właściciela"
-                value={formData.owner}
-                onChange={handleChange}
+                value={formik.values.owner}
+                onChange={formik.handleChange}
               />
+              {formik.touched.owner && formik.errors.owner ? <p className='error'>{formik.errors.owner}<BiErrorCircle
+                style={{ width: "20px", height: "20px" }} /></p> : null}
+
 
 
               <label className='labelform'>Telefon właściciela</label>
@@ -332,9 +319,12 @@ export const AddFormWanted = () => {
                 id="phone"
                 name="phone"
                 placeholder="Telefon"
-                value={formData.phone}
-                onChange={handleChange}
+                value={formik.values.phone}
+                onChange={formik.handleChange}
               />
+              {formik.touched.phone && formik.errors.phone ? <p className='error'>{formik.errors.phone}<BiErrorCircle
+                style={{ width: "20px", height: "20px" }} /></p> : null}
+
 
 
               <label className='labelform'>Adres właściciela</label>
@@ -343,9 +333,12 @@ export const AddFormWanted = () => {
                 id="address"
                 name="address"
                 placeholder="Adres"
-                value={formData.address}
-                onChange={handleChange}
+                value={formik.values.address}
+                onChange={formik.handleChange}
               />
+              {formik.touched.address && formik.errors.address ? <p className='error'>{formik.errors.address}<BiErrorCircle
+                style={{ width: "20px", height: "20px" }} /></p> : null}
+
 
               <label className='labelform'>Opis</label>
               <input className='inputRounded'
@@ -353,21 +346,22 @@ export const AddFormWanted = () => {
                 id="description"
                 name="description"
                 placeholder="Opis"
-                value={formData.description}
-                onChange={handleChange}
+                value={formik.values.description}
+                onChange={formik.handleChange}
               />
+
 
               <label className='labelform'>Znaki szczególne</label>
               <input className='inputRounded'
-              type="text"
-              id="details"
-               name="details" 
-               placeholder="Znaki szczególne" 
-               value={formData.details}
-                onChange={handleChange} />
+                type="text"
+                id="details"
+                name="details"
+                placeholder="Znaki szczególne"
+                value={formik.values.details}
+                onChange={formik.handleChange} />
 
 
-              <button className="wanted-button" onClick={handleAdd} >Dodaj ogłoszenie</button>
+              <button type='submit' className="wanted-button" onClick={formik.handleSubmit} >Dodaj ogłoszenie</button>
 
             </div>
           </form>

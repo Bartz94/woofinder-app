@@ -66,7 +66,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}$/;
+// const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}$/;
 
 const validationSchema = yup.object({
   email: yup.string().email("Podaj email").required("Email jest wymagany"),
@@ -175,7 +175,7 @@ export const RegisterForm = () => {
                 style={{ width: "20px", height: "20px" }} /></p> : null}
 
 
-              <button className='form-button' type='submit' onClick={formik.handleSubmit}>
+              <button  type='submit'className='form-button' onClick={formik.handleSubmit}>
                 Zarejestruj
               </button>
             </div>
