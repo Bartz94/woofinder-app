@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { createFilterOptions } from '@mui/material/Autocomplete';
-import { InputLabel } from '@mui/material/InputLabel';
-import { Input } from '@mui/material/Input';
+import { InputLabel } from '@mui/material';
+import { Input } from '@mui/material';
 
 
 
@@ -155,27 +155,10 @@ export const SearchForm = () => {
                         onChange={handleBreedChange}
                     />}
                 />
-                <TextFieldStyled
-                    value={name}
-                    label="Podaj imię psa..."
-                    onChange={handleDogNameChange} />
-                <Button
-                    sx={{
-                        color: 'black',
-                        fontSize: '16px',
-                        border: 'none ',
-                        borderRadius: '20px',
-                        backgroundColor: '#e2e2e2',
-                        margin: '2em auto'
-                    }}
-                    variant='contained'
-                >
-                    <LinkStyled to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}>
-                        Szukaj
-                    </LinkStyled>
-                </Button>
+                
+                
             </FormControl>
-            <FormControl fullWidth sx={{ width: '40%', mb: 5 }}>
+            <FormControl fullWidth sx={{ width: '42%', mb: 5 }}>
                 <InputLabel >Podaj imię psa...</InputLabel>
                 <Input value={name} onChange={handleDogNameChange} sx={{ fontSize: '16px', m: 2 }}></Input>
             </FormControl>
