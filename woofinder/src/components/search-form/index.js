@@ -6,8 +6,12 @@ import { useState, useEffect } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { createFilterOptions } from '@mui/material/Autocomplete';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Alert from '@mui/material/Alert';
+import { InputLabel } from '@mui/material';
+import { Input } from '@mui/material';
+
+
 
 const Wrapper = styled.section`
   display: flex;
@@ -20,6 +24,52 @@ const TextFieldStyled = styled(TextField)`
   fieldset {
     border-radius: 25px;
   }
+`;
+
+const LinkStyled = styled(Link)`
+    color:black;
+    text-decoration: none;
+`;
+
+const SearchButton = styled('button')`
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color:#E2E2E2;
+    text-transform: capitalize;
+    color:black;
+    width: 120px;
+    padding: 15px 20px;
+    height: 45px;
+    font-weight: bold;
+    border-radius:35px;
+    -webkit-border-radius:35px;
+    -moz-border-radius:35px;
+    -ms-border-radius:35px;
+    -o-border-radius:35px;
+    border: none;
+    transition: 1s;
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    -ms-transition: 1s;
+    -o-transition: 1s;
+    &:hover {
+        margin-top: 20px;
+            margin-bottom: 20px;
+            background-color:#292929;
+            color:rgb(255, 255, 255);
+            letter-spacing: 1px;
+            font-size: 15px;
+            width: 140px;
+            padding: 15px 20px;
+            height: 50px;
+            font-weight: bold;
+            border-radius:35px;
+            -webkit-border-radius:35px;
+            -moz-border-radius:35px;
+            -ms-border-radius:35px;
+            -o-border-radius:35px;
+            border: 1px solid white;
+    }
 `;
 
 export const SearchForm = () => {
@@ -166,32 +216,27 @@ export const SearchForm = () => {
                     value={name}
                     label="Podaj imię psa..."
                     onChange={handleDogNameChange} />
-                <Button
-                    sx={{
-                        color: 'black',
-                        fontSize: '16px',
-                        border: 'none ',
-                        borderRadius: '20px',
-                        backgroundColor: '#e2e2e2',
-                        margin: '2em auto',
-                    }}
-                    variant='contained'
+                <SearchButton
+                    style={{ textTransform: 'capitalize', margin: '20px auto' }}
                     onClick={handleSearch}
                 // component={Link}
                 // to={`/wanted-page?city=${city}&breed=${breed}&name=${name}`}
                 >
-                    SZUKAJ
-                </Button>
+                    Szukaj
+                </SearchButton>
                 {errors ?
                     <>
                         <Alert variant="outlined" severity="error">
-
                             Błąd wyszukiwania — musisz wprowadźić nazwę miasta!
                         </Alert>
                     </>
                     : ''
                 }
+
+
             </FormControl>
+
+
         </Wrapper >
     );
 };

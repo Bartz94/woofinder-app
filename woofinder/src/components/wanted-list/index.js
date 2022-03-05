@@ -192,7 +192,6 @@ export const WantedList = () => {
                 <CircularProgress></CircularProgress>
             </Container>
         )
-
     }
     else {
         return <>
@@ -203,7 +202,6 @@ export const WantedList = () => {
                     const breed = wantedList.breed[0].toUpperCase() + wantedList.breed.substring(1);
                     const city = wantedList.citylost[0].toUpperCase() + wantedList.citylost.substring(1);
 
-                    console.log(name)
                     return (
                         <WantedItem key={wantedList.id} style={{ minWidth: '20px' }}>
                             <WantedItemInfoBox>
