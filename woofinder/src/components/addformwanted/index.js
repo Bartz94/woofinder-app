@@ -54,7 +54,6 @@ const validationSchema = yup.object({
 
 export const AddFormWanted = () => {
 
-
   const [isSubmit, setIsSubmit] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [openSnack, setOpenSnack] = React.useState(false);
@@ -73,10 +72,10 @@ export const AddFormWanted = () => {
     await addDoc(collection(db, "Wanted"), {
 
       address: address,
-      breed: breed,
-      citylost: citylost,
+      breed: breed.toLowerCase(),
+      citylost: citylost.toLowerCase(),
       lost_date: lost_date,
-      name: name,
+      name: name.toLowerCase(),
       owner: owner,
       phone: phone,
       photolink: "link",
