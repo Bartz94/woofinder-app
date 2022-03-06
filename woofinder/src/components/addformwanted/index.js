@@ -189,7 +189,6 @@ export const AddFormWanted = () => {
   return (
 
     <>
-    <AddDogContextProvider>
       <button className="wanted-button" onClick={handleClickOpen}>
         Dodaj ogłoszenie
       </button>
@@ -370,7 +369,6 @@ export const AddFormWanted = () => {
 
         </DialogContentStyle>
       </BootstrapDialog>
-      </AddDogContextProvider>
     </>
   );
 }
