@@ -10,7 +10,7 @@ export const Content = () => (
     <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/wanted-page" element={<WantedPage />} />
-        <Route path="/wanted-page/:id" element={<WantedDetails />} />
+        <Route path="/wanted-page/:name/:id" element={<WantedDetails />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/profile" element={<Profile />} />

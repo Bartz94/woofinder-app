@@ -85,8 +85,8 @@ export const WantedList = () => {
 
     const navigate = useNavigate();
 
-    const handleShowMore = (wantedId) => {
-        navigate(`/wanted-page/${wantedId}`)
+    const handleShowMore = (name, id) => {
+        navigate(`/wanted-page/${name}/${id}`)
     };
 
     const wantedListCollectionRef = collection(db, "Wanted");
@@ -164,11 +164,6 @@ export const WantedList = () => {
         ((item.name === name || item.name === nameToLowerCase || item.name === nameToUpperCase) && (item.name !== ''))
     );
 
-    // const filteredWantedList = wantedListData.filter(item => {
-
-    // })
-    const wantedDogId = filteredWantedList.map(item => item.id);
-
     if (city === '' && breed === '' && name === '') {
         return (
             <Container >
@@ -229,7 +224,7 @@ export const WantedList = () => {
                                             width: 0
                                         },
                                     }}>
-                                        {wantedList.details}
+                                        {wantedList.details ? wantedList.details : 'brak szczegółów'}
                                     </Typography>
                                 </Specyfic>
                             </WantedItemInfoBox>
@@ -255,7 +250,7 @@ export const WantedList = () => {
                             </WantedItemInfoBox>
                             <WantedItemInfoBox>
                                 {/* <ExpandMoreOutlinedIcon fontSize='large' sx={{ padding: 'none' }}></ExpandMoreOutlinedIcon> */}
-                                <Button onClick={() => handleShowMore(wantedList.id)} sx={{ color: "#64C2A7" }}>Więcej</Button>
+                                <Button onClick={() => handleShowMore(wantedList.name, wantedList.id)} sx={{ color: "#64C2A7" }}>Więcej</Button>
                             </WantedItemInfoBox>
                         </WantedItem>
                     )

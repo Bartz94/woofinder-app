@@ -118,9 +118,11 @@ export const Wanted = () => {
     }, []);
 
     const filteredWantedList = wantedListData.filter(item =>
+        item.name === params.name &&
         item.id === params.id
     );
 
+    console.log(filteredWantedList)
     function copy() {
         const el = document.createElement("input");
         el.value = window.location.href;
@@ -148,9 +150,9 @@ export const Wanted = () => {
                     const city = wantedList.citylost[0].toUpperCase() + wantedList.citylost.substring(1);
 
                     return (
-                        <Container key={wantedList.id}>
+                        <Container key={wantedList.name}>
                             <DetailsWrapper>
-                                <WantedItem key={wantedList.id} style={{ minWidth: '20px' }}>
+                                <WantedItem key={wantedList.name} style={{ minWidth: '20px' }}>
                                     <WantedItemInfoBox>
                                         <Avatar src="https://picsum.photos/100/100" alt="dog" sx={{ width: '6em', height: '6em', marginLeft: "15px" }} />
                                     </WantedItemInfoBox>
