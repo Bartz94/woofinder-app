@@ -29,7 +29,7 @@ text-transform:uppercase;
 const userNamesById = { '1': 'John' }
 
 const DynamicUserBreadcrumb = ({ match }) => (
-    <span>{userNamesById[match.params.userId]}</span>
+    <span>{userNamesById[match.params.name]}</span>
 );
 
 
@@ -53,7 +53,7 @@ export const Breadcrumbs = () => {
                 }) => (
                     <span key={match.pathname}>
                         <LinkElem
-                            to={match.pathname}>{breadcrumb}<span>  </span><ArrowForwardIosIcon sx={{fontSize:"small"}}/></LinkElem>
+                            to={match.pathname}>{breadcrumb}<span>  </span><ArrowForwardIosIcon sx={{ fontSize: "small" }} /></LinkElem>
                     </span>
                 ))}
             </BreadContainer>
