@@ -25,6 +25,7 @@ import { useUserContext } from "../../services/user-context";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { BiErrorCircle } from 'react-icons/bi';
+import { AddDogContextProvider, useAddDogContext } from '../../services/add-dog-context';
 
 
 const app = initializeApp(firebaseConfig);
@@ -57,7 +58,8 @@ export const AddFormWanted = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [openSnack, setOpenSnack] = React.useState(false);
-  const { user, avatarUrl, setAvatarUrl } = useUserContext();
+  const { dogPhotoUrl, setDogPhotoUrl } = useAddDogContext();
+  const { user } = useUserContext();
   const [file, setFile] = useState(null);
 
   const onSubmit = async (values, onSubmitProps) => {
@@ -140,7 +142,7 @@ export const AddFormWanted = () => {
 
     uploadBytes(storageRef, file).then((snapshot) => {
       getDownloadURL(storageRef).then((url) => {
-        setAvatarUrl(url);
+        setDogPhotoUrl(url);
         setFile(null);
       })
     });
@@ -221,7 +223,7 @@ export const AddFormWanted = () => {
           <form onSubmit={formik.handleSubmit}>
 
             <div className="input-content">
-              <Avatar src={avatarUrl} alt="profile" sx={{ width: "186px", height: "186px" }} />
+              <Avatar src={dogPhotoUrl} alt="profile" sx={{ width: "186px", height: "186px" }} />
               <Button sx={{ mt: 2, backgroundColor: "#e2e2e2", color: "black" }}
                 component="label"
               >
