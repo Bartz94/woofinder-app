@@ -32,6 +32,7 @@ const LinkStyled = styled(Link)`
 `;
 
 const SearchButton = styled('button')`
+    cursor: pointer;    
     margin-top: 20px;
     margin-bottom: 20px;
     background-color:#E2E2E2;
@@ -53,7 +54,8 @@ const SearchButton = styled('button')`
     -ms-transition: 1s;
     -o-transition: 1s;
     &:hover {
-        margin-top: 20px;
+            cursor: pointer;
+            margin-top: 20px;
             margin-bottom: 20px;
             background-color:#292929;
             color:rgb(255, 255, 255);
@@ -161,7 +163,7 @@ export const SearchForm = () => {
     const navigate = useNavigate()
     const handleSearch = (event) => {
         if (city) {
-            navigate(`/wanted-page?city=${city}&breed=${breed}&name=${name}`)
+            navigate(`/wanted-page?city=${city.toLowerCase()}&breed=${breed.toLowerCase()}&name=${name.toLowerCase()}`)
         }
         else {
             setError(true);
