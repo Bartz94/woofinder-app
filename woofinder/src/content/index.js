@@ -5,7 +5,7 @@ import WantedDetails from './wanted-details';
 import { RegisterForm } from '../components/registerform';
 import { LoginForm } from './../components/loginform';
 import { Profile } from './profile';
-import { Map } from './map';
+import  MapView  from './map-view';
 
 export const Content = () => (
     <Routes>
@@ -15,6 +15,6 @@ export const Content = () => (
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/map" element={<Map />} />
+        <Route path="/map-view" element={<MapView />} />
     </Routes>
 );

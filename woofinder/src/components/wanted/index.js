@@ -12,6 +12,7 @@ import CallIcon from '@mui/icons-material/Call';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Tooltip from '@mui/material/Tooltip';
 import CircularProgress from '@mui/material/CircularProgress';
+import { Link } from "react-router-dom"
 
 const Container = styled.div`
     max-width: 1300px;
@@ -131,6 +132,11 @@ export const Wanted = () => {
         setCopied(true);
     }
 
+    const handleClickCircle = () => {
+        console.log("mapa");
+        Map()
+      }
+
     if (isLoading && filteredWantedList.length) {
         return (
             <Container>
@@ -195,8 +201,9 @@ export const Wanted = () => {
                                             <Question>
                                                 Jeśli widziałeś zwierzaka napisz
                                             </Question>
-                                            <Circle>
+                                            <Circle sx={{color:"#64C2A7"}} component={Link} to='/map'>
                                                 <EditIcon fontSize='large' />
+                                               
                                             </Circle>
                                         </ContainerEdit>
                                     </WantedItemInfoBox>

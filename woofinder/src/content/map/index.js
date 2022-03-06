@@ -14,7 +14,7 @@ var center = {     //cenetr of poland lodz
 };
 
 
-export const MyComponent = () => {
+export const Map = () => {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: "AIzaSyCC9T95yfw2zAwTleyYAGMqCSAVnZDkttQ"

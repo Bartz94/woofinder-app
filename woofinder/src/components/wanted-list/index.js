@@ -13,6 +13,7 @@ import PlaceIcon from '@mui/icons-material/Place';
 import { Link } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 
+
 const Container = styled.div`
     display: flex;
     flex-direction: column;
@@ -73,6 +74,8 @@ const Specyfic = styled.div`
     margin-top:25px;
 `;
 
+
+
 export const WantedList = () => {
 
     const params = useParams();
@@ -88,6 +91,12 @@ export const WantedList = () => {
     const handleShowMore = (wantedId) => {
         navigate(`/wanted-page/${wantedId}`)
     };
+
+    const handleClickCircle = () => {
+        console.log("mapalalla");
+        navigate(`/map-view`);
+        
+      }
 
     const wantedListCollectionRef = collection(db, "Wanted");
     const q = query(collection(db, "Wanted"),
@@ -248,7 +257,7 @@ export const WantedList = () => {
                                     <Question>
                                         Jeśli widziałeś zwierzaka napisz
                                     </Question>
-                                    <Circle>
+                                    <Circle sx={{color:"#64C2A7"}}  onClick={handleClickCircle}>
                                         <EditIcon fontSize='large' />
                                     </Circle>
                                 </ContainerEdit>
