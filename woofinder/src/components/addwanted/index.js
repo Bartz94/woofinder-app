@@ -2,8 +2,7 @@
 import styled from 'styled-components';
 import Typography from "@mui/material/Typography";
 import { AddFormWanted } from '../addformwanted';
-
-
+import {AddDogContextProvider} from "../../services/add-dog-context"
 
 const Container = styled.div`
     display: flex;
@@ -17,13 +16,14 @@ const Container = styled.div`
 
 export const AddWanted = () => {
 
-
     return (
         <>
             <hr></hr>
             <Container>
                 <Typography variant="h4" sx={{ mb: 2, fontFamily: 'Segoe UI', fontWeight: 'bold' }}>CHCESZ ZGŁOSIĆ ZAGINIĘCIE ZWIERZAKA ?</Typography>
-                <AddFormWanted></AddFormWanted>
+                <AddDogContextProvider>
+                    <AddFormWanted></AddFormWanted>
+                </AddDogContextProvider>
             </Container>
             <hr></hr>
 
