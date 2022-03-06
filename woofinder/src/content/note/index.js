@@ -106,7 +106,7 @@ export const Note = () => {
     return (
       <div>
         <Button variant="contained" sx={{ color: 'black', fontSize: '16px', border: 'none ', borderRadius: '20px', backgroundColor: '#e2e2e2', textTransform: 'capitalize', fontWeight: 'bold', mb: 3 }} onClick={handleClickOpen}>
-          DODAJ NOTKĘ
+          DODAJ NOTATKĘ
         </Button>
         <BootstrapDialog
           

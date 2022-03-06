@@ -3,7 +3,7 @@ import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 
 
 const containerStyle = {
-  width: '700px',
+  width: '1300px',
   height: '700px'
 };
 
@@ -60,6 +60,7 @@ export const Map = () => {
       <GoogleMap  onClick={ev => {
         const m = createMarker({ lat: ev.latLng.lat(), lng: ev.latLng.lng() }, map);
         clearMarkers(prevMarkersRef.current); //clear prev markers
+        console.log("Pan Pieseł ostatnio był widziany w lokalizacji (szerokość i długość geograficzna)");
         console.log(ev.latLng.lat());
         console.log(ev.latLng.lng());
         prevMarkersRef.current.push(m);
